@@ -1,0 +1,6 @@
+<div class="dashboard">
+  <h2>Bienvenido, {{ perfil?.nombre }}</h2>
+  <button (click)="verMiPerfil()">Ver mi perfil</button>
+  <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">Registrar nuevo perfil</button>
+  <button (click)="logout()">Cerrar sesión</button>
+</div>

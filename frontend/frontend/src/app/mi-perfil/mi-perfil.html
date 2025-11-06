@@ -1,0 +1,10 @@
+<div class="mi-perfil" *ngIf="perfil">
+  <h2>Mi perfil</h2>
+  <ul>
+    <li>Nombre: {{ perfil.nombre }}</li>
+    <li>Cédula: {{ perfil.cedula }}</li>
+    <li>Correo: {{ perfil.correo }}</li>
+    <li>Rol: {{ perfil.rol }}</li>
+    <li>Fecha de creación: {{ perfil.fechaCreacion | date }}</li>
+  </ul>
+</div>

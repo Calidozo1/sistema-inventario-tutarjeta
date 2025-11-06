@@ -1,0 +1,14 @@
+<div class="registrar-perfil">
+  <h2>Registrar nuevo usuario</h2>
+  <form (ngSubmit)="registrar()">
+    <input placeholder="Nombre" [(ngModel)]="perfil.nombre" name="nombre" required>
+    <input placeholder="Cédula" [(ngModel)]="perfil.cedula" name="cedula" required>
+    <input placeholder="Correo" [(ngModel)]="perfil.correo" name="correo" required>
+    <input placeholder="Rol" [(ngModel)]="perfil.rol" name="rol" required>
+    <input placeholder="Contraseña" type="password" [(ngModel)]="perfil.contrasena" name="contrasena" required>
+    <input placeholder="Confirmar contraseña" type="password" [(ngModel)]="perfil.confirmacionContrasena" name="confirmacionContrasena" required>
+    <button type="submit">Registrar</button>
+  </form>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="exitoMsg" class="ok">{{ exitoMsg }}</div>
+</div>
