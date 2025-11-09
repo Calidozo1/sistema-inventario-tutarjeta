@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
   perfil: any = JSON.parse(localStorage.getItem('perfilActivo') || '{}');
