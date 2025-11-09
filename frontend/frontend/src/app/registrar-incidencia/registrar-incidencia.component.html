@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="registrar-incidencia.component.css">
+
+<div class="registrar-incidencia-container">
+  <div class="form-card">
+    <h2>Registrar Incidencia</h2>
+
+    <form (ngSubmit)="onSubmit()" #incidenciaForm="ngForm">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" [(ngModel)]="incidencia.titulo" required />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" [(ngModel)]="incidencia.descripcion" rows="3" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="categoria">Categoría</label>
+        <select id="categoria" name="categoria" [(ngModel)]="incidencia.categoria">
+          <option>Robo</option>
+          <option>Pérdida</option>
+          <option>Falla técnica</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="prioridad">Prioridad</label>
+        <select id="prioridad" name="prioridad" [(ngModel)]="incidencia.prioridad">
+          <option>Baja</option>
+          <option>Media</option>
+          <option>Alta</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reportadoPor">Reportado por</label>
+        <input type="text" id="reportadoPor" name="reportadoPor" [(ngModel)]="incidencia.reportadoPor" required />
+      </div>
+
+      <button type="submit">Registrar Incidencia</button>
+
+
+    </form>
+  </div>
+</div>

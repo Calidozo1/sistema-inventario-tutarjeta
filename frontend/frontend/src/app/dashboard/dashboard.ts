@@ -26,4 +26,8 @@ export class Dashboard {
     localStorage.removeItem('perfilActivo');
     this.router.navigate(['/login']);
   }
+
+  registrarIncidencia(): void {
+    this.router.navigate(['/incidencias/registrar']);
+  }
 }

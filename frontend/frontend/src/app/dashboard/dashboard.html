@@ -3,6 +3,7 @@
   <div class="button-group">
     <button (click)="verMiPerfil()">Ver mi perfil</button>
     <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">Registrar nuevo perfil</button>
+    <button class="incidencia" (click)="registrarIncidencia()">Registrar incidencia</button>
     <button (click)="logout()" class="logout">Cerrar sesión</button>
   </div>
 </div>

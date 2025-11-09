@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css']
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
   perfil: any = JSON.parse(localStorage.getItem('perfilActivo') || '{}');
@@ -25,5 +22,9 @@ export class DashboardComponent {
   logout() {
     localStorage.removeItem('perfilActivo');
     this.router.navigate(['/login']);
+  }
+
+  registrarIncidencia(): void {
+    this.router.navigate(['/incidencias/registrar']);
   }
 }
