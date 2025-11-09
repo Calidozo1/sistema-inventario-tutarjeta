@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class Dashboard {
   perfil: any = JSON.parse(localStorage.getItem('perfilActivo') || '{}');
 
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   verMiPerfil() {
     this.router.navigate(['/mi-perfil']);

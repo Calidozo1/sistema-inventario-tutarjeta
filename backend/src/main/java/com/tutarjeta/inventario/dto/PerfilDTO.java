@@ -11,6 +11,7 @@ public class PerfilDTO {
     private String correo;
     private String rol;
     private LocalDateTime fechaCreacion;
+    private boolean gestionarEmpleados; // nuevo campo
 
     public PerfilDTO() {}
 
@@ -22,6 +23,7 @@ public class PerfilDTO {
         this.correo = correo;
         this.rol = rol;
         this.fechaCreacion = fechaCreacion;
+        // Por defecto no habilitamos gestionar empleados; se establece en el servicio según rol
     }
 
     // Getters y Setters
@@ -45,4 +47,7 @@ public class PerfilDTO {
 
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+
+    public boolean isGestionarEmpleados() { return gestionarEmpleados; }
+    public void setGestionarEmpleados(boolean gestionarEmpleados) { this.gestionarEmpleados = gestionarEmpleados; }
 }

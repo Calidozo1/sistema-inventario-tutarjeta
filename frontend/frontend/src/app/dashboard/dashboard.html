@@ -3,6 +3,11 @@
   <div class="button-group">
     <button (click)="verMiPerfil()">Ver mi perfil</button>
     <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">Registrar nuevo perfil</button>
+    <button *ngIf="perfil?.gestionarEmpleados" (click)="router.navigate(['/gestionar-empleados'])">Gestionar empleados</button>
     <button (click)="logout()" class="logout">Cerrar sesión</button>
+  </div>
+  <div class="empleado-links" *ngIf="perfil?.gestionarEmpleados">
+    <a routerLink="/gestionar-empleados/registrar">Registrar empleado</a> |
+    <a routerLink="/gestionar-empleados/listar">Consultar empleados</a>
   </div>
 </div>

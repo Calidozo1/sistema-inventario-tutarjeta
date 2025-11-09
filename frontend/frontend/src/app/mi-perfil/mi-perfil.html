@@ -1,4 +1,5 @@
 <div class="mi-perfil" *ngIf="perfil">
+  <a class="back-arrow" routerLink="/dashboard">←</a>
   <h2>Mi perfil</h2>
   <div class="perfil-info">
     <div class="info-item">
@@ -16,5 +17,8 @@
     <div class="info-item" *ngIf="perfil.fechaCreacion">
       <strong>Fecha de creación:</strong> {{ perfil.fechaCreacion | date:'medium' }}
     </div>
+  </div>
+  <div class="actions">
+    <button *ngIf="perfil?.gestionarEmpleados" routerLink="/gestionar-empleados">Gestionar empleados</button>
   </div>
 </div>

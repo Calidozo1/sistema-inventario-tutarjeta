@@ -49,6 +49,8 @@ public class PerfilController {
                 response.put("contrasena", perfil.getContrasena());
                 response.put("telefono", perfil.getTelefono());
                 response.put("fechaCreacion", perfil.getFechaCreacion());
+                boolean puedeGestionar = perfil.getRol() != null && perfil.getRol().equalsIgnoreCase("admin");
+                response.put("gestionarEmpleados", puedeGestionar);
                 return ResponseEntity.ok(response);
             }
             Map<String, String> error = new HashMap<>();
@@ -62,4 +64,3 @@ public class PerfilController {
     }
 
 }
-

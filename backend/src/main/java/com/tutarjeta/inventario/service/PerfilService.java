@@ -55,6 +55,8 @@ public class PerfilService {
         dto.setCorreo(perfil.getCorreo());
         dto.setRol(perfil.getRol());
         dto.setFechaCreacion(perfil.getFechaCreacion());
+        // Solo permitir gestionar empleados si el rol es ADMIN
+        dto.setGestionarEmpleados(perfil.getRol() != null && perfil.getRol().equalsIgnoreCase("admin"));
         return dto;
     }
 }

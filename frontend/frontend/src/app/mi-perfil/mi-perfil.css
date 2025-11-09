@@ -1,0 +1,6 @@
+.mi-perfil { position: relative; padding: 1rem; }
+.perfil-info { margin-top: 1rem; }
+.info-item { margin-bottom: 6px; }
+.actions { margin-top: 12px; }
+.back-arrow { position: absolute; top: 12px; right: 12px; font-size: 20px; text-decoration: none; color: #444; }
+
