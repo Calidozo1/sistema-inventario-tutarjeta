@@ -21,12 +21,10 @@ export class PerfilService {
       );
   }
 
-  consultarPerfilPorCedula(cedula: string): Observable<Perfil> {
-    return this.http.get<Perfil>(`${this.apiUrl}/${cedula}`)
-      .pipe(
-        catchError((error) => this.handleError(error))
-      );
+  consultarPerfilPorCedula(cedula: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/perfiles/cedula/${cedula}`);
   }
+
 
   obtenerTodosLosPerfiles(): Observable<Perfil[]> {
     return this.http.get<Perfil[]>(`${this.apiUrl}/`);

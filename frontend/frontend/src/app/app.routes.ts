@@ -1,14 +1,13 @@
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RegistrarPerfilComponent } from './registrar-perfil/registrar-perfil.component';
-import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
-import {Routes} from '@angular/router';
-
+import { Routes } from '@angular/router';
+import { Login } from './login/login';
+import { Dashboard } from './dashboard/dashboard';
+import { RegistrarPerfil } from './registrar-perfil/registrar-perfil';
+import { MiPerfil } from './mi-perfil/mi-perfil';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'registrar', component: RegistrarPerfilComponent },
-  { path: 'mi-perfil', component: MiPerfilComponent },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: 'login', component: Login },
+  { path: 'dashboard', component: Dashboard },
+  { path: 'registrar-perfil', component: RegistrarPerfil },
+  { path: 'mi-perfil', component: MiPerfil },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

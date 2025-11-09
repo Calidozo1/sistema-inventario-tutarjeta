@@ -35,6 +35,11 @@ public class PerfilService {
         return convertirADTO(perfilGuardado);
     }
 
+    public Perfil obtenerPorCedula(String cedula) {
+        return perfilRepository.findByCedula(cedula).orElse(null);
+    }
+
+
     public PerfilDTO consultarPerfilPorCedula(String cedula) throws Exception {
         Perfil perfil = perfilRepository.findByCedula(cedula)
                 .orElseThrow(() -> new Exception("No se encontró un perfil con la cédula: " + cedula));

@@ -1,12 +1,27 @@
 <div class="registrar-perfil">
   <h2>Registrar nuevo usuario</h2>
   <form (ngSubmit)="registrar()">
-    <input placeholder="Nombre" [(ngModel)]="perfil.nombre" name="nombre" required>
-    <input placeholder="Cédula" [(ngModel)]="perfil.cedula" name="cedula" required>
-    <input placeholder="Correo" [(ngModel)]="perfil.correo" name="correo" required>
-    <input placeholder="Rol" [(ngModel)]="perfil.rol" name="rol" required>
-    <input placeholder="Contraseña" type="password" [(ngModel)]="perfil.contrasena" name="contrasena" required>
-    <input placeholder="Confirmar contraseña" type="password" [(ngModel)]="perfil.confirmacionContrasena" name="confirmacionContrasena" required>
+    <div class="form-group">
+      <input placeholder="Nombre completo" [(ngModel)]="perfil.nombre" name="nombre" required>
+    </div>
+    <div class="form-group">
+      <input placeholder="Cédula" [(ngModel)]="perfil.cedula" name="cedula" required>
+    </div>
+    <div class="form-group">
+      <input placeholder="Correo electrónico" [(ngModel)]="perfil.correo" name="correo" required>
+    </div>
+    <div class="form-group">
+      <select [(ngModel)]="perfil.rol" name="rol" required>
+        <option value="usuario">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input placeholder="Contraseña" type="password" [(ngModel)]="perfil.contrasena" name="contrasena" required>
+    </div>
+    <div class="form-group">
+      <input placeholder="Confirmar contraseña" type="password" [(ngModel)]="perfil.confirmacionContrasena" name="confirmacionContrasena" required>
+    </div>
     <button type="submit">Registrar</button>
   </form>
   <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>

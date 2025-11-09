@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-mi-perfil',
-  templateUrl: './mi-perfil.component.html',
   standalone: true,
-  imports: []
+  imports: [CommonModule, DatePipe],
+  templateUrl: './mi-perfil.html',
+  styleUrls: ['./mi-perfil.css']
 })
 export class MiPerfilComponent {
   perfil: any = JSON.parse(localStorage.getItem('perfilActivo') || '{}');

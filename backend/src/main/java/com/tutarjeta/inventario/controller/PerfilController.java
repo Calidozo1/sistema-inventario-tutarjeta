@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.controller;
 
+import com.tutarjeta.inventario.model.Perfil;
 import com.tutarjeta.inventario.service.PerfilService;
 import com.tutarjeta.inventario.dto.PerfilDTO;
 import com.tutarjeta.inventario.dto.PerfilRegistroDTO;
@@ -33,15 +34,32 @@ public class PerfilController {
         }
     }
 
-    @GetMapping("/{cedula}")
-    public ResponseEntity<?> consultarPerfil(@PathVariable String cedula) {
-        Map<String, Object> response = new HashMap<>();
+    @GetMapping("/cedula/{cedula}")
+    public ResponseEntity<?> obtenerPerfilPorCedula(@PathVariable String cedula) {
         try {
-            PerfilDTO perfil = perfilService.consultarPerfilPorCedula(cedula);
-            return new ResponseEntity<>(perfil, HttpStatus.OK);
+            Perfil perfil = perfilService.obtenerPorCedula(cedula);
+            if (perfil != null) {
+                // Retorna el perfil completo con la contraseña para validación del frontend
+                Map<String, Object> response = new HashMap<>();
+                response.put("id", perfil.getId());
+                response.put("nombre", perfil.getNombre());
+                response.put("cedula", perfil.getCedula());
+                response.put("correo", perfil.getCorreo());
+                response.put("rol", perfil.getRol());
+                response.put("contrasena", perfil.getContrasena());
+                response.put("telefono", perfil.getTelefono());
+                response.put("fechaCreacion", perfil.getFechaCreacion());
+                return ResponseEntity.ok(response);
+            }
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Perfil no encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
-            response.put("error", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
+
 }
+
