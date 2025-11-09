@@ -1,0 +1,64 @@
+<div class="filter-container">
+  <h3>Filtrar Tarjetas</h3>
+
+  <div class="filter-grid">
+    <div class="filter-group">
+      <label for="codigoUnico">Código Único</label>
+      <input
+        type="text"
+        id="codigoUnico"
+        name="codigoUnico"
+        [(ngModel)]="filtros.codigoUnico"
+        class="filter-input"
+        placeholder="Buscar por código"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="tipo">Tipo</label>
+      <input
+        type="text"
+        id="tipo"
+        name="tipo"
+        [(ngModel)]="filtros.tipo"
+        class="filter-input"
+        placeholder="Buscar por tipo"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="estado">Estado</label>
+      <select
+        id="estado"
+        name="estado"
+        [(ngModel)]="filtros.estado"
+        class="filter-input"
+      >
+        <option *ngFor="let estado of estados" [value]="estado.value">
+          {{ estado.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="usuarioAsignado">Usuario Asignado</label>
+      <input
+        type="text"
+        id="usuarioAsignado"
+        name="usuarioAsignado"
+        [(ngModel)]="filtros.usuarioAsignado"
+        class="filter-input"
+        placeholder="Buscar por usuario"
+      />
+    </div>
+  </div>
+
+  <div class="filter-actions">
+    <button type="button" class="btn btn-primary" (click)="aplicarFiltros()">
+      Buscar
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="limpiarFiltros()">
+      Limpiar Filtros
+    </button>
+  </div>
+</div>

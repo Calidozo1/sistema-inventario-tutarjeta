@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="header">
+    <h1>Sistema de Gestión de Tarjetas</h1>
+    <button class="btn btn-primary" (click)="nuevaTarjeta()" *ngIf="!mostrarFormulario">
+      + Nueva Tarjeta
+    </button>
+  </div>
+
+  <div *ngIf="mensaje" class="alert alert-success">{{ mensaje }}</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <div *ngIf="mostrarFormulario">
+    <app-tarjeta-form
+      [tarjetaId]="tarjetaSeleccionadaId"
+      (onSubmitSuccess)="onFormularioSuccess()"
+      (onCancel)="onFormularioCancel()"
+    ></app-tarjeta-form>
+  </div>
+
+  <div *ngIf="!mostrarFormulario">
+    <app-tarjeta-filter (onFilter)="aplicarFiltros($event)"></app-tarjeta-filter>
+
+    <div class="loading" *ngIf="isLoading">Cargando...</div>
+
+    <div *ngIf="!isLoading && tarjetas.length === 0" class="empty-state">
+      <p>No hay tarjetas registradas</p>
+      <button class="btn btn-primary" (click)="nuevaTarjeta()">
+        Registrar primera tarjeta
+      </button>
+    </div>
+
+    <div class="table-container" *ngIf="!isLoading && tarjetas.length > 0">
+      <table class="tarjetas-table">
+        <thead>
+          <tr>
+            <th>Código Único</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Usuario Asignado</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tarjeta of tarjetas">
+            <td class="codigo">{{ tarjeta.codigoUnico }}</td>
+            <td>{{ tarjeta.tipo }}</td>
+            <td>
+              <span [class]="'estado-badge ' + getEstadoClass(tarjeta.estado)">
+                {{ tarjeta.estado }}
+              </span>
+            </td>
+            <td>{{ tarjeta.usuarioAsignado || '-' }}</td>
+            <td>{{ formatFecha(tarjeta.fechaRegistro) }}</td>
+            <td class="acciones">
+              <button
+                class="btn-action btn-edit"
+                (click)="editarTarjeta(tarjeta.id)"
+                title="Editar"
+              >
+                ✏️
+              </button>
+              <button
+                class="btn-action btn-delete"
+                (click)="eliminarTarjeta(tarjeta.id)"
+                title="Eliminar"
+              >
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box" *ngIf="!isLoading && tarjetas.length > 0">
+      <p><strong>Total de tarjetas:</strong> {{ tarjetas.length }}</p>
+    </div>
+  </div>
+</div>
