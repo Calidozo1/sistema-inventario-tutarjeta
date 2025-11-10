@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AgentMigrationStateService">
+    <option name="migrationStatus" value="IN_PROGRESS" />
+    <option name="pendingSessionIds">
+      <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
+      <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
+    </option>
+    <option name="pendingTurns">
+      <map>
+        <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99">
+          <value>
+            <set>
+              <option value="04510c55-068a-45f4-969c-cb16e4736b61" />
+              <option value="1a72a040-8897-4f56-811a-9f97cfab780d" />
+              <option value="1d20ec78-1926-45b0-b602-094521c8f2bf" />
+              <option value="495a40a2-e092-4dbb-81f1-0a6a8249b9c0" />
+              <option value="53b9fc4f-3b68-4f8e-92b5-ae875901bb42" />
+              <option value="577669e4-0f50-4d37-b851-ce672e153cd6" />
+              <option value="675020d1-5c15-46d4-8ba0-7f82eefdb0ad" />
+              <option value="868a82a6-b444-4299-9248-a8b0300f6dec" />
+              <option value="8c205195-5f24-49c7-b63e-931f21dbb809" />
+              <option value="9df5a073-c0ea-4072-b98a-f578d82cd2db" />
+              <option value="a907203a-687f-4df3-9d12-ded621636539" />
+              <option value="b3f198bf-64f1-4f79-986d-61963b23db9c" />
+              <option value="b6eaee56-8a21-459d-8d0f-e1fa5796790b" />
+              <option value="c297b95a-9b8a-4723-9eb9-4a6c72fae062" />
+              <option value="ca975073-87e2-4b04-9eb5-183e1d95631f" />
+              <option value="cd438199-d507-4f6d-aacb-111c7b9c8279" />
+              <option value="cd6b0b03-e8a0-4ada-abf8-79015d70bac5" />
+              <option value="e10332ca-4630-48d4-b9ea-9cf6546edf83" />
+              <option value="e5b81d47-db8d-4d36-a6c9-b6200f28c06b" />
+              <option value="e7883e9c-d9e7-4ea9-aef9-e53bd3446ea5" />
+              <option value="f3ea8fdc-69df-4861-886e-d9d5a205fa76" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <pendingWorkingSetItems>
+      <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
+    </pendingWorkingSetItems>
+  </component>
+</project>

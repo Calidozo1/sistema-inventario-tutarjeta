@@ -1,0 +1,213 @@
+
+> frontend@0.0.0 start
+> ng serve
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 276.89 kB | 
+main.js             | main          |  37.34 kB | 
+polyfills.js        | polyfills     |  95 bytes | 
+
+                    | Initial total | 314.33 kB
+
+Application bundle generation complete. [1.121 seconds] - 2025-11-09T02:48:56.014Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.525 seconds] - 2025-11-09T03:23:34.906Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2341: Property 'router' is private and only accessible within class 'Dashboard'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/dashboard/dashboard.html:6:53:
+[37m      6 │ ...l?.rol === 'admin'" (click)="[32mrouter[37m.navigate(['/gestionar-emplea...
+        ╵                                 [32m~~~~~~[0m
+
+  Error occurs in the template of component Dashboard.
+
+    src/app/dashboard/dashboard.ts:9:15:
+[37m      9 │   templateUrl: [32m'./dashboard.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './listar-empleados.css'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/listar-empleados/listar-empleados.ts:12:12:
+[37m      12 │   styleUrl: [32m'./listar-empleados.css'[37m
+         ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './registrar-empleado.css'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/registrar-empleado/registrar-empleado.ts:13:12:
+[37m      13 │   styleUrl: [32m'./registrar-empleado.css'[37m
+         ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 276.89 kB | 
+main.js             | main          |  61.13 kB | 
+polyfills.js        | polyfills     |  95 bytes | 
+
+                    | Initial total | 338.12 kB
+
+Application bundle generation complete. [0.287 seconds] - 2025-11-09T03:24:35.386Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 61.59 kB | 
+
+Application bundle generation complete. [0.210 seconds] - 2025-11-09T03:29:07.077Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Component update sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 66.17 kB | 
+
+Application bundle generation complete. [0.301 seconds] - 2025-11-09T03:34:06.758Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 68.22 kB | 
+
+Application bundle generation complete. [0.324 seconds] - 2025-11-09T03:39:07.177Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Component update sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 66.92 kB | 
+
+Application bundle generation complete. [0.188 seconds] - 2025-11-09T03:52:16.622Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Component update sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 68.20 kB | 
+
+Application bundle generation complete. [0.246 seconds] - 2025-11-09T04:17:54.863Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:26:
+[37m      8 │   imports: [RouterOutlet, [32mRouterLink[37m, RouterLinkActive, CommonModule],
+        ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLinkActive is not used within the template of AppComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:38:
+[37m      8 │   imports: [RouterOutlet, RouterLink, [32mRouterLinkActive[37m, CommonModule],
+        ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+
+Component update sent to client(s).

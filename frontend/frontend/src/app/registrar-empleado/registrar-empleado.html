@@ -1,0 +1,18 @@
+<div class="registrar-empleado">
+  <a class="back-arrow" routerLink="/gestionar-empleados">←</a>
+  <h2>Registrar Empleado</h2>
+  <form (ngSubmit)="registrar()">
+    <input placeholder="Nombre" [(ngModel)]="empleado.nombre" name="nombre" required />
+    <input placeholder="Apellido" [(ngModel)]="empleado.apellido" name="apellido" required />
+    <input placeholder="Cédula" [(ngModel)]="empleado.cedula" name="cedula" required />
+    <input placeholder="Correo" [(ngModel)]="empleado.correo" name="correo" required />
+    <input placeholder="Teléfono" [(ngModel)]="empleado.telefono" name="telefono" />
+    <input placeholder="Dirección" [(ngModel)]="empleado.direccion" name="direccion" />
+    <select [(ngModel)]="empleado.rol" name="rol">
+      <option value="empleado">Empleado</option>
+    </select>
+    <button type="submit">Registrar</button>
+  </form>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="exitoMsg" class="ok">{{ exitoMsg }}</div>
+</div>

@@ -1,0 +1,34 @@
+<div class="listar-empleados">
+  <a class="back-arrow" routerLink="/gestionar-empleados">←</a>
+  <h2>Empleados</h2>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <table *ngIf="empleados.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cédula</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th>Rol</th>
+        <th>Fecha creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of empleados">
+        <td>{{ e.id }}</td>
+        <td>{{ e.nombre }}</td>
+        <td>{{ e.apellido }}</td>
+        <td>{{ e.cedula }}</td>
+        <td>{{ e.correo }}</td>
+        <td>{{ e.telefono }}</td>
+        <td>{{ e.direccion }}</td>
+        <td>{{ e.rol }}</td>
+        <td>{{ e.fechaCreacion }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="empleados.length === 0">No hay empleados registrados aún.</div>
+</div>

@@ -1,0 +1,15 @@
+/* estilos mínimos para registrar empleado */
+.registrar-empleado { position: relative; padding: 1rem; }
+.registrar-empleado input, .registrar-empleado select { display:block; margin:6px 0; padding:6px; }
+.error { color: red; }
+.ok { color: green; }
+
+/* flechita arriba derecha */
+.back-arrow {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #444;
+}
