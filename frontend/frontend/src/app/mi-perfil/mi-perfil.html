@@ -19,9 +19,7 @@
       <strong>Fecha de creación:</strong> {{ perfil.fechaCreacion | date:'medium' }}
     </div>
   </div>
-  <div class="actions">
-    <button *ngIf="perfil?.gestionarEmpleados" routerLink="/gestionar-empleados">Gestionar empleados</button>
-  </div>
+
   <button class="volver-btn" routerLink="/dashboard">
     Volver
   </button>

@@ -26,4 +26,8 @@ export class Dashboard {
     localStorage.removeItem('perfilActivo');
     this.router.navigate(['/login']);
   }
+
+  gestionarEmpleados() {
+    this.router.navigate(['/gestionar-empleados']);
+  }
 }

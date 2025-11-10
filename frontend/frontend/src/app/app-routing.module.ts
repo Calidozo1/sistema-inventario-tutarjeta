@@ -1,32 +1,80 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
-import { VentasListComponent } from './ventas/ventas-list/ventas-list.component';
-import { VentasFormComponent } from './ventas/ventas-form/ventas-form.component';
+import { ListarEmpleados } from './listar-empleados/listar-empleados';
 
 const routes: Routes = [
   // TARJETAS
-  { path: 'tarjetas', loadComponent: () => import('./tarjetas/tarjetas-list/tarjetas-list.component').then(m => m.TarjetasListComponent) },
-  { path: 'tarjetas/nueva', loadComponent: () => import('./tarjetas/tarjetas-form/tarjetas-form.component').then(m => m.TarjetasFormComponent) },
+  {
+    path: 'tarjetas',
+    loadComponent: () =>
+      import('./tarjetas/tarjetas-list/tarjetas-list.component').then(m => m.TarjetasListComponent),
+  },
+  {
+    path: 'tarjetas/nueva',
+    loadComponent: () =>
+      import('./tarjetas/tarjetas-form/tarjetas-form.component').then(m => m.TarjetasFormComponent),
+  },
 
   // VENTAS
-  { path: 'ventas', loadComponent: () => import('./ventas/ventas-list/ventas-list.component').then(m => m.VentasListComponent) },   // LISTA DE VENTAS
-  { path: 'ventas/nueva', loadComponent: () => import('./ventas/ventas-form/ventas-form.component').then(m => m.VentasFormComponent) }, // FORMULARIO DE NUEVA VENTA
+  {
+    path: 'ventas',
+    loadComponent: () =>
+      import('./ventas/ventas-list/ventas-list.component').then(m => m.VentasListComponent),
+  },
+  {
+    path: 'ventas/nueva',
+    loadComponent: () =>
+      import('./ventas/ventas-form/ventas-form.component').then(m => m.VentasFormComponent),
+  },
+
+  // EMPLEADOS
+  {
+    path: 'gestionar-empleados',
+    loadComponent: () =>
+      import('./gestionar-empleados/gestionar-empleados').then(m => m.GestionarEmpleados),
+    children: [
+      {
+        path: 'registrar',
+        loadComponent: () =>
+          import('./registrar-empleado/registrar-empleado').then(m => m.RegistrarEmpleado),
+      },
+      {
+        path: 'listar',
+        loadComponent: () =>
+          import('./listar-empleados/listar-empleados').then(m => m.ListarEmpleados),
+      },
+      { path: '', redirectTo: 'listar', pathMatch: 'full' },
+    ],
+  },
+
+  // PERFIL
+  { path: 'mi-perfil', component: MiPerfilComponent },
+
+  // ADMIN - REGISTRAR PERFIL
+  {
+    path: 'registrar-perfil',
+    loadComponent: () =>
+      import('./registrar-perfil/registrar-perfil.component').then(m => m.RegistrarPerfilComponent),
+  },
 
   // LOGIN / DASHBOARD
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', loadComponent: () => import('./login/login.component').then(m => m.LoginComponent) },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then(m => m.LoginComponent),
+  },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'mi-perfil', component: MiPerfilComponent },
 
-  // RUTA POR DEFECTO PARA VENTAS (alternativa, por si cargas componentes directos)
-  { path: '**', redirectTo: '/dashboard' }
+  // CUALQUIER RUTA DESCONOCIDA
+  { path: '**', redirectTo: '/dashboard' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

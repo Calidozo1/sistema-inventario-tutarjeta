@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
@@ -12,8 +13,13 @@ export const routes: Routes = [
   { path: 'dashboard', component: Dashboard },
   { path: 'registrar-perfil', component: RegistrarPerfil },
   { path: 'mi-perfil', component: MiPerfil },
-  { path: 'gestionar-empleados', component: GestionarEmpleados },
-  { path: 'gestionar-empleados/registrar', component: RegistrarEmpleado },
-  { path: 'gestionar-empleados/listar', component: ListarEmpleados },
+  {
+    path: 'gestionar-empleados',
+    component: GestionarEmpleados,
+    children: [
+      { path: 'registrar', component: RegistrarEmpleado },
+      { path: 'listar', component: ListarEmpleados }
+    ]
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

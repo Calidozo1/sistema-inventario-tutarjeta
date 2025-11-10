@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +10,22 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent {
-  perfil: any = JSON.parse(localStorage.getItem('perfilActivo') || '{}');
+  perfil: any = {}; // Inicializa vacío
 
-  constructor(public router: Router) {}
+  constructor(private router: Router) {
+    // Simulamos la carga desde BD o desde tu servicio de login
+    this.cargarPerfil();
+  }
+
+  cargarPerfil() {
+    // Esto debe venir de tu servicio que hace login
+    // Aquí solo un ejemplo temporal
+    this.perfil = {
+      nombre: 'Admin',
+      rol: 'admin',
+      gestionarEmpleados: true
+    };
+  }
 
   verMiPerfil() {
     this.router.navigate(['/mi-perfil']);
@@ -23,8 +35,21 @@ export class DashboardComponent {
     this.router.navigate(['/registrar-perfil']);
   }
 
+  gestionarEmpleados() {
+    this.router.navigate(['/gestionar-empleados']);
+  }
+
+  gestionarTarjetas() {
+    this.router.navigate(['/tarjetas']);
+  }
+
+  gestionarVentas() {
+    this.router.navigate(['/ventas']);
+  }
+
   logout() {
-    localStorage.removeItem('perfilActivo');
+    // Lógica real de logout
+    console.log('Cerrando sesión');
     this.router.navigate(['/login']);
   }
 }

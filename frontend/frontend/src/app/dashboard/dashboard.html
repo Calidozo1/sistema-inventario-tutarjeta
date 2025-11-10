@@ -1,25 +1,17 @@
-<div class="dashboard">
+<div class="dashboard" *ngIf="perfil">
   <h2>Bienvenido, {{ perfil?.nombre }}</h2>
+
   <div class="button-group">
-    <button (click)="verMiPerfil()">Ver mi perfil</button>
-    <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">Registrar nuevo perfil</button>
-    <button *ngIf="perfil?.gestionarEmpleados" (click)="router.navigate(['/gestionar-empleados'])">Gestionar empleados</button>
-    <button (click)="logout()" class="logout">Cerrar sesión</button>
+    <button (click)="verMiPerfil()">👤 Ver mi perfil</button>
+    <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">➕ Registrar nuevo perfil</button>
+    <button *ngIf="perfil?.gestionarEmpleados" routerLink="/gestionar-empleados/registrar" class="btn btn-primary">
+      🧑‍💼 Gestionar Empleados
+    </button>
+    <button (click)="logout()" class="logout">🚪 Cerrar sesión</button>
   </div>
 
   <div class="button-group">
-    <a routerLink="/tarjetas" class="btn btn-primary">
-      💳 Gestionar Tarjetas
-    </a>
-    <a routerLink="/ventas" class="btn btn-primary">
-      🧾 Gestionar Ventas
-    </a>
-  </div>
-
-
-
-  <div class="empleado-links" *ngIf="perfil?.gestionarEmpleados">
-    <a routerLink="/gestionar-empleados/registrar"></a>
-    <a routerLink="/gestionar-empleados/listar"></a>
+    <a routerLink="/tarjetas" class="btn btn-primary">💳 Gestionar Tarjetas</a>
+    <a routerLink="/ventas" class="btn btn-primary">🧾 Gestionar Ventas</a>
   </div>
 </div>
