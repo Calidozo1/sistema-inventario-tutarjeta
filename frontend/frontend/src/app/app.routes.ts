@@ -3,7 +3,8 @@ import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { RegistrarPerfil } from './registrar-perfil/registrar-perfil';
 import { MiPerfil } from './mi-perfil/mi-perfil';
-import { RegistrarIncidenciaComponent } from './registrar-incidencia/registrar-incidencia.component';
+import { RegistrarIncidenciaComponent } from './registrar-incidencia/registrar-incidencia.component'
+import { ConsultarIncidenciaComponent } from './consultar-incidencia/consultar-incidencia.component';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'registrar-perfil', component: RegistrarPerfil },
   { path: 'mi-perfil', component: MiPerfil },
   { path: 'registrar-incidencia', component: RegistrarIncidenciaComponent },
+  {path: 'consultar-incidencia', component: ConsultarIncidenciaComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

@@ -7,6 +7,6 @@ import { provideRouter } from '@angular/router';
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    provideHttpClient()  // ← AGREGA ESTA LÍNEA
+    provideHttpClient()
   ]
 });

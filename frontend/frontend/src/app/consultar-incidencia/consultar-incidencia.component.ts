@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { IncidenciaService } from '../services/incidencia.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { Incidencia } from '../models/incidencia.model';
+import {compileNgModule} from '@angular/compiler';
+import {CommonModule, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-consultar-incidencia',
   templateUrl: './consultar-incidencia.component.html',
+  styleUrls: ['./consultar-incidencia.component.css'],
+  standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
-  styleUrls: ['./consultar-incidencia.component.css']
+
 })
 export class ConsultarIncidenciaComponent implements OnInit {
   incidencias: Incidencia[] = [];
