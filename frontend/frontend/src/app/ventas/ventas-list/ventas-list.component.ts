@@ -1,20 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
-// ⭐ MATERIAL MODULES
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableDataSource } from '@angular/material/table';
 
-// ⭐ SERVICIOS Y MODELOS
 import { VentaService } from '../../core/services/venta.service';
 import { Venta } from '../../core/models/venta.model';
-
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-ventas-list',
@@ -22,7 +17,6 @@ import { MatTableDataSource } from '@angular/material/table';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
@@ -34,11 +28,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class VentasListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombreCliente', 'codigoTarjeta', 'nombreEmpleado', 'fechaVenta'];
-  dataSource: MatTableDataSource<Venta>;
+  dataSource: MatTableDataSource<Venta> = new MatTableDataSource<Venta>([]);
 
-  constructor(private ventaService: VentaService) {
-    this.dataSource = new MatTableDataSource<Venta>([]);
-  }
+  constructor(private ventaService: VentaService) {}
 
   ngOnInit(): void {
     this.cargarVentas();
@@ -46,9 +38,8 @@ export class VentasListComponent implements OnInit {
 
   cargarVentas(): void {
     this.ventaService.listarVentas().subscribe(
-      (data) => {
-        console.log('Ventas cargadas:', data);
-        this.dataSource.data = data;
+      (ventas) => {
+        this.dataSource.data = ventas;
       },
       (error) => {
         console.error('Error al cargar ventas:', error);

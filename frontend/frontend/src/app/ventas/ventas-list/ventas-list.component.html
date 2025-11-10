@@ -7,6 +7,7 @@
       <input matInput (keyup)="filtrar($event)" placeholder="Cliente, tarjeta, empleado...">
     </mat-form-field>
 
+    <!-- Botón para registrar nueva venta -->
     <button mat-raised-button color="primary" routerLink="/ventas/nueva">
       ➕ Registrar Nueva Venta
     </button>
@@ -17,27 +18,27 @@
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let venta">{{venta.id}}</td>
+        <td mat-cell *matCellDef="let venta">{{ venta.id }}</td>
       </ng-container>
 
       <ng-container matColumnDef="nombreCliente">
         <th mat-header-cell *matHeaderCellDef>Cliente</th>
-        <td mat-cell *matCellDef="let venta"><strong>{{venta.nombreCliente}}</strong></td>
+        <td mat-cell *matCellDef="let venta"><strong>{{ venta.nombreCliente }}</strong></td>
       </ng-container>
 
       <ng-container matColumnDef="codigoTarjeta">
         <th mat-header-cell *matHeaderCellDef>Tarjeta</th>
-        <td mat-cell *matCellDef="let venta">{{venta.codigoTarjeta}}</td>
+        <td mat-cell *matCellDef="let venta">{{ venta.codigoTarjeta }}</td>
       </ng-container>
 
       <ng-container matColumnDef="nombreEmpleado">
         <th mat-header-cell *matHeaderCellDef>Empleado</th>
-        <td mat-cell *matCellDef="let venta">{{venta.nombreEmpleado}}</td>
+        <td mat-cell *matCellDef="let venta">{{ venta.nombreEmpleado }}</td>
       </ng-container>
 
       <ng-container matColumnDef="fechaVenta">
         <th mat-header-cell *matHeaderCellDef>Fecha Venta</th>
-        <td mat-cell *matCellDef="let venta">{{venta.fechaVenta | date:'dd/MM/yyyy'}}</td>
+        <td mat-cell *matCellDef="let venta">{{ venta.fechaVenta | date:'dd/MM/yyyy' }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 // ⭐ MATERIAL MODULES
 import { MatTableModule } from '@angular/material/table';
@@ -13,7 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 // ⭐ SERVICIOS Y MODELOS
 import { TarjetaService } from '../../core/services/tarjeta.service';
 import { Tarjeta } from '../../core/models/tarjeta.model';
-
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -34,11 +33,12 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class TarjetasListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'codigoUnico', 'tipoTarjeta', 'estado'];
-  dataSource: MatTableDataSource<Tarjeta>;
+  dataSource: MatTableDataSource<Tarjeta> = new MatTableDataSource<Tarjeta>([]);
 
-  constructor(private tarjetaService: TarjetaService) {
-    this.dataSource = new MatTableDataSource<Tarjeta>([]);
-  }
+  constructor(
+    private tarjetaService: TarjetaService,
+    private router: Router // ✅ inyectado correctamente
+  ) {}
 
   ngOnInit(): void {
     this.cargarTarjetas();
@@ -59,5 +59,18 @@ export class TarjetasListComponent implements OnInit {
   filtrar(event: Event): void {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
+  async cancelar(): Promise<void> {
+    try {
+      const result = await this.router.navigate(['/dashboard']);
+      if (result) {
+        console.log('Navegación a dashboard exitosa');
+      } else {
+        console.warn('No se navegó a dashboard');
+      }
+    } catch (error: any) {
+      console.error('Error al navegar a dashboard:', error);
+    }
   }
 }

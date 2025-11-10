@@ -16,13 +16,13 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Seleccionar Tarjeta Asignada ⭐</mat-label>
+      <mat-label>Seleccionar Tarjeta Disponibles ⭐</mat-label>
       <mat-select formControlName="tarjetaId" required [disabled]="cargandoTarjetas">
         <mat-option *ngIf="cargandoTarjetas" disabled>
           ⏳ Cargando tarjetas...
         </mat-option>
         <mat-option
-          *ngFor="let tarjeta of tarjetasAsignadas"
+          *ngFor="let tarjeta of tarjetasDisponibles"
           [value]="tarjeta.id">
           {{tarjeta.codigoUnico}} - {{tarjeta.tipoTarjeta}}
         </mat-option>
@@ -31,8 +31,8 @@
       <mat-error *ngIf="ventaForm.get('tarjetaId')?.hasError('required')">
         Debe seleccionar una tarjeta
       </mat-error>
-      <mat-hint *ngIf="tarjetasAsignadas.length === 0" class="warning">
-        ⚠️ No hay tarjetas asignadas disponibles
+      <mat-hint *ngIf="tarjetasDisponibles.length === 0" class="warning">
+        ⚠️ No hay tarjetas disponibles
       </mat-hint>
     </mat-form-field>
 
@@ -54,12 +54,7 @@
         [disabled]="!ventaForm.valid || cargando || cargandoTarjetas">
         💾 Guardar Venta
       </button>
-      <button
-        mat-raised-button
-        type="button"
-        routerLink="/ventas">
-        ❌ Cancelar
-      </button>
+      <button (click)="volver()" class="btn btn-secondary">⬅️ Volver</button>
     </div>
   </form>
 </div>

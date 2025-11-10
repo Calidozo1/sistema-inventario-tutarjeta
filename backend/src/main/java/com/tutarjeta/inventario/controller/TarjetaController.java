@@ -55,4 +55,7 @@ public class TarjetaController {
     public ResponseEntity<List<TarjetaResponseDTO>> obtenerTarjetasAsignadas() {
         return ResponseEntity.ok(tarjetaService.obtenerTarjetasAsignadas());
     }
+
+
+
 }

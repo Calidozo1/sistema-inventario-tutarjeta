@@ -7,6 +7,11 @@
       <input matInput (keyup)="filtrar($event)" placeholder="Código, tipo o estado...">
     </mat-form-field>
 
+    <div class="actions">
+      <a routerLink="/tarjetas/nueva" class="btn btn-success">➕ Registrar nueva tarjeta</a>
+      <button (click)="cancelar()" class="btn btn-secondary">⬅️ Volver</button>
+    </div>
+
     <button mat-raised-button color="primary" routerLink="/tarjetas/nueva">
       ➕ Registrar Nueva Tarjeta
     </button>

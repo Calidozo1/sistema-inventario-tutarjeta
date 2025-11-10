@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-// ⭐ MATERIAL MODULES (Requerido para Material Table)
+import { FormsModule } from '@angular/forms';
+
+// ⭐ MATERIAL MODULES
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     // ⭐ MATERIAL MODULES
     MatTableModule,
     MatFormFieldModule,
@@ -33,6 +37,7 @@ import { AppComponent } from './app.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
+    DashboardComponent,
     AppComponent
   ],
   providers: [],

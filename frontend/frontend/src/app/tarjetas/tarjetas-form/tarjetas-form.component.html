@@ -24,20 +24,10 @@
       </mat-error>
     </mat-form-field>
 
-    <div class="button-group">
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="!tarjetaForm.valid || cargando">
-        💾 Guardar Tarjeta
-      </button>
-      <button
-        mat-raised-button
-        type="button"
-        routerLink="/tarjetas">
-        ❌ Cancelar
-      </button>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
+
   </form>
 </div>
