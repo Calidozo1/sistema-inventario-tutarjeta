@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +30,10 @@ export class VentasListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombreCliente', 'codigoTarjeta', 'nombreEmpleado', 'fechaVenta'];
   dataSource: MatTableDataSource<Venta> = new MatTableDataSource<Venta>([]);
 
-  constructor(private ventaService: VentaService) {}
+  constructor(
+    private ventaService: VentaService,
+    private router: Router // ✅ Aquí inyectamos correctamente el Router
+  ) {}
 
   ngOnInit(): void {
     this.cargarVentas();
@@ -42,7 +45,7 @@ export class VentasListComponent implements OnInit {
         this.dataSource.data = ventas;
       },
       (error) => {
-        console.error('Error al cargar ventas:', error);
+        console.error('❌ Error al cargar ventas:', error);
       }
     );
   }
@@ -50,5 +53,9 @@ export class VentasListComponent implements OnInit {
   filtrar(event: Event): void {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
+  cancelar(): void {
+    this.router.navigate(['/dashboard']); // ✅ Navega correctamente al dashboard
   }
 }

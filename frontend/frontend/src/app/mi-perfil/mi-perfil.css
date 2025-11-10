@@ -1,6 +1,100 @@
-.mi-perfil { position: relative; padding: 1rem; }
-.perfil-info { margin-top: 1rem; }
-.info-item { margin-bottom: 6px; }
-.actions { margin-top: 12px; }
-.back-arrow { position: absolute; top: 12px; right: 12px; font-size: 20px; text-decoration: none; color: #444; }
+.mi-perfil {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mi-perfil h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.back-arrow {
+  text-decoration: none;
+  font-size: 24px;
+  color: #3498db;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  transition: color 0.2s ease;
+}
+
+.back-arrow:hover {
+  color: #1d6fa5;
+}
+
+.perfil-info {
+  background: #f8f9fb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.info-item {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #34495e;
+}
+
+.info-item strong {
+  color: #2c3e50;
+  width: 160px;
+  display: inline-block;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.actions button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+}
+
+.actions button:hover {
+  background: #1d6fa5;
+  transform: translateY(-1px);
+}
+
+.volver-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #5dade2, #2e86c1);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(46, 134, 193, 0.3);
+  transition: all 0.25s ease-in-out;
+}
+
+.volver-btn:hover {
+  background: linear-gradient(135deg, #2e86c1, #1b4f72);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(46, 134, 193, 0.4);
+}
+
+.volver-btn .icon {
+  font-size: 18px;
+}
 

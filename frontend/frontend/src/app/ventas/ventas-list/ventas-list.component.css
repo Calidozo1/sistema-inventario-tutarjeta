@@ -1,13 +1,19 @@
 .container {
-  padding: 20px;
+  padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 h2 {
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 24px;
+  margin-bottom: 24px;
+  color: #2c3e50;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
 }
 
 .controls {
@@ -19,36 +25,56 @@ h2 {
 }
 
 .filter-field {
-  min-width: 300px;
+  min-width: 280px;
 }
 
 button {
-  margin-left: auto;
+  background-color: #4caf50 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #125aa0 !important;
 }
 
 .table-container {
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .ventas-table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 th {
-  background-color: #f5f5f5;
-  font-weight: 600;
-  color: #333;
+  background-color: #f8f9fb;
+  color: #37474f;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 12px;
+  text-align: center;
 }
 
 td {
   padding: 12px;
+  text-align: center;
+  color: #333;
+  border-top: 1px solid #eee;
 }
 
 tr:hover {
-  background-color: #f9f9f9;
+  background-color: #f5faff;
+  transition: background-color 0.2s ease;
 }
 
 strong {
-  color: #1976d2;
+  color: #1565c0;
 }
