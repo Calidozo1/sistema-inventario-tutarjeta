@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>📝 Registrar Nueva Tarjeta</h2>
+
+  <form [formGroup]="tarjetaForm" (ngSubmit)="onSubmit()" class="form-container">
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Código Único</mat-label>
+      <input matInput formControlName="codigoUnico" required>
+      <mat-icon matSuffix>card_giftcard</mat-icon>
+      <mat-error *ngIf="tarjetaForm.get('codigoUnico')?.hasError('required')">
+        El código único es <strong>requerido</strong>
+      </mat-error>
+      <mat-error *ngIf="tarjetaForm.get('codigoUnico')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Tipo de Tarjeta</mat-label>
+      <input matInput formControlName="tipoTarjeta" required>
+      <mat-icon matSuffix>category</mat-icon>
+      <mat-error *ngIf="tarjetaForm.get('tipoTarjeta')?.hasError('required')">
+        El tipo de tarjeta es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-group">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!tarjetaForm.valid || cargando">
+        💾 Guardar Tarjeta
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        routerLink="/tarjetas">
+        ❌ Cancelar
+      </button>
+    </div>
+  </form>
+</div>

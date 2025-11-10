@@ -1,0 +1,46 @@
+<div class="container">
+  <h2>📦 Gestión de Tarjetas</h2>
+
+  <div class="controls">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>🔍 Buscar Tarjeta</mat-label>
+      <input matInput (keyup)="filtrar($event)" placeholder="Código, tipo o estado...">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" routerLink="/tarjetas/nueva">
+      ➕ Registrar Nueva Tarjeta
+    </button>
+  </div>
+
+  <div class="mat-elevation-z8 table-container">
+    <table mat-table [dataSource]="dataSource" class="tarjetas-table">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let tarjeta">{{tarjeta.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="codigoUnico">
+        <th mat-header-cell *matHeaderCellDef>Código Único</th>
+        <td mat-cell *matCellDef="let tarjeta"><strong>{{tarjeta.codigoUnico}}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoTarjeta">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let tarjeta">{{tarjeta.tipoTarjeta}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let tarjeta">
+          <span [ngClass]="'badge estado-' + tarjeta.estado.toLowerCase()">
+            {{tarjeta.estado}}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

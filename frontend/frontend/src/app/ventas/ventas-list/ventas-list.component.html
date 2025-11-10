@@ -1,0 +1,47 @@
+<div class="container">
+  <h2>💰 Gestión de Ventas</h2>
+
+  <div class="controls">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>🔍 Buscar Venta</mat-label>
+      <input matInput (keyup)="filtrar($event)" placeholder="Cliente, tarjeta, empleado...">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" routerLink="/ventas/nueva">
+      ➕ Registrar Nueva Venta
+    </button>
+  </div>
+
+  <div class="mat-elevation-z8 table-container">
+    <table mat-table [dataSource]="dataSource" class="ventas-table">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let venta">{{venta.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreCliente">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let venta"><strong>{{venta.nombreCliente}}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="codigoTarjeta">
+        <th mat-header-cell *matHeaderCellDef>Tarjeta</th>
+        <td mat-cell *matCellDef="let venta">{{venta.codigoTarjeta}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreEmpleado">
+        <th mat-header-cell *matHeaderCellDef>Empleado</th>
+        <td mat-cell *matCellDef="let venta">{{venta.nombreEmpleado}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaVenta">
+        <th mat-header-cell *matHeaderCellDef>Fecha Venta</th>
+        <td mat-cell *matCellDef="let venta">{{venta.fechaVenta | date:'dd/MM/yyyy'}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container">
+  <h2>📝 Registrar Nueva Venta</h2>
+
+  <form [formGroup]="ventaForm" (ngSubmit)="onSubmit()" class="form-container">
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nombre del Cliente</mat-label>
+      <input matInput formControlName="nombreCliente" required>
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="ventaForm.get('nombreCliente')?.hasError('required')">
+        El nombre del cliente es <strong>requerido</strong>
+      </mat-error>
+      <mat-error *ngIf="ventaForm.get('nombreCliente')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Seleccionar Tarjeta Asignada ⭐</mat-label>
+      <mat-select formControlName="tarjetaId" required [disabled]="cargandoTarjetas">
+        <mat-option *ngIf="cargandoTarjetas" disabled>
+          ⏳ Cargando tarjetas...
+        </mat-option>
+        <mat-option
+          *ngFor="let tarjeta of tarjetasAsignadas"
+          [value]="tarjeta.id">
+          {{tarjeta.codigoUnico}} - {{tarjeta.tipoTarjeta}}
+        </mat-option>
+      </mat-select>
+      <mat-icon matSuffix>credit_card</mat-icon>
+      <mat-error *ngIf="ventaForm.get('tarjetaId')?.hasError('required')">
+        Debe seleccionar una tarjeta
+      </mat-error>
+      <mat-hint *ngIf="tarjetasAsignadas.length === 0" class="warning">
+        ⚠️ No hay tarjetas asignadas disponibles
+      </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Fecha de Venta</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaVenta" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="ventaForm.get('fechaVenta')?.hasError('required')">
+        La fecha es <strong>requerida</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-group">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!ventaForm.valid || cargando || cargandoTarjetas">
+        💾 Guardar Venta
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        routerLink="/ventas">
+        ❌ Cancelar
+      </button>
+    </div>
+  </form>
+</div>

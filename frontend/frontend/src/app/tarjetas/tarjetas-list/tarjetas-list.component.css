@@ -1,0 +1,76 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 24px;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-field {
+  min-width: 300px;
+}
+
+button {
+  margin-left: auto;
+}
+
+.table-container {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tarjetas-table {
+  width: 100%;
+}
+
+th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+td {
+  padding: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.estado-disponible {
+  background-color: #4caf50;
+}
+
+.estado-asignada {
+  background-color: #2196f3;
+}
+
+.estado-vendida {
+  background-color: #ff9800;
+}
+
+.estado-bloqueada {
+  background-color: #f44336;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
