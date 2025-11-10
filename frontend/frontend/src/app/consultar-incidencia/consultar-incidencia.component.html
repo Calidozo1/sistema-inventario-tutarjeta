@@ -1,0 +1,32 @@
+<h2>Consultar Incidencias</h2>
+<form [formGroup]="filtrosForm" (ngSubmit)="listarIncidencias()">
+  <label>Tipo:</label>
+  <select formControlName="tipoIncidencia">
+    <option value="">Todos</option>
+    <option value="robada">Robada</option>
+    <option value="perdida">Perdida</option>
+    <option value="mal funcionamiento">Mal funcionamiento</option>
+  </select>
+  <label>Desde:</label>
+  <input type="date" formControlName="fechaDesde">
+  <label>Hasta:</label>
+  <input type="date" formControlName="fechaHasta">
+  <button type="submit">Filtrar</button>
+</form>
+<table *ngIf="incidencias.length > 0">
+  <tr>
+    <th>Código</th><th>Fecha</th><th>Tipo</th><th>Estado</th>
+    <th>Cédula</th><th>Usuario</th><th>Registro</th><th>Comentarios</th>
+  </tr>
+  <tr *ngFor="let incidencia of incidencias">
+    <td>{{incidencia.codigoIncidencia}}</td>
+    <td>{{incidencia.fechaIncidencia}}</td>
+    <td>{{incidencia.tipoIncidencia}}</td>
+    <td>{{incidencia.estadoIncidencia}}</td>
+    <td>{{incidencia.cedulaCliente}}</td>
+    <td>{{incidencia.usuarioRegistro}}</td>
+    <td>{{incidencia.fechaRegistro}}</td>
+    <td>{{incidencia.comentarios}}</td>
+  </tr>
+</table>
+<p *ngIf="incidencias.length === 0">No se encontraron incidencias.</p>

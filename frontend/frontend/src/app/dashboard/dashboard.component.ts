@@ -25,6 +25,9 @@ export class DashboardComponent {
   }
 
   registrarIncidencia(): void {
-    this.router.navigate(['/incidencias/registrar']);
+    this.router.navigate(['/registrar-incidencia']);
+  }
+  consultarIncidencia(): void {
+    this.router.navigate(['/consultar-incidencia']);
   }
 }

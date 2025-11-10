@@ -1,47 +1,27 @@
-<link rel="stylesheet" href="registrar-incidencia.component.css">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>Fecha de incidencia:</label>
+  <input type="date" formControlName="fechaIncidencia" required>
+  <div *ngIf="form.get('fechaIncidencia')?.invalid && form.get('fechaIncidencia')?.touched">Campo obligatorio.</div>
 
-<div class="registrar-incidencia-container">
-  <div class="form-card">
-    <h2>Registrar Incidencia</h2>
+  <label>Tipo de incidencia:</label>
+  <select formControlName="tipoIncidencia" required>
+    <option value="">Seleccione...</option>
+    <option value="robada">Robada</option>
+    <option value="perdida">Perdida</option>
+    <option value="mal funcionamiento">Mal funcionamiento</option>
+  </select>
+  <div *ngIf="form.get('tipoIncidencia')?.invalid && form.get('tipoIncidencia')?.touched">Campo obligatorio.</div>
 
-    <form (ngSubmit)="onSubmit()" #incidenciaForm="ngForm">
-      <div class="form-group">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" name="titulo" [(ngModel)]="incidencia.titulo" required />
-      </div>
+  <label>Estado incidencia:</label>
+  <input formControlName="estadoIncidencia" required>
+  <div *ngIf="form.get('estadoIncidencia')?.invalid && form.get('estadoIncidencia')?.touched">Campo obligatorio.</div>
 
-      <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" name="descripcion" [(ngModel)]="incidencia.descripcion" rows="3" required></textarea>
-      </div>
+  <label>Cédula del cliente:</label>
+  <input formControlName="cedulaCliente" required>
+  <div *ngIf="form.get('cedulaCliente')?.invalid && form.get('cedulaCliente')?.touched">Campo obligatorio.</div>
 
-      <div class="form-group">
-        <label for="categoria">Categoría</label>
-        <select id="categoria" name="categoria" [(ngModel)]="incidencia.categoria">
-          <option>Robo</option>
-          <option>Pérdida</option>
-          <option>Falla técnica</option>
-          <option>Otro</option>
-        </select>
-      </div>
+  <label>Comentarios:</label>
+  <textarea formControlName="comentarios"></textarea>
 
-      <div class="form-group">
-        <label for="prioridad">Prioridad</label>
-        <select id="prioridad" name="prioridad" [(ngModel)]="incidencia.prioridad">
-          <option>Baja</option>
-          <option>Media</option>
-          <option>Alta</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="reportadoPor">Reportado por</label>
-        <input type="text" id="reportadoPor" name="reportadoPor" [(ngModel)]="incidencia.reportadoPor" required />
-      </div>
-
-      <button type="submit">Registrar Incidencia</button>
-
-
-    </form>
-  </div>
-</div>
+  <button type="submit">Registrar incidencia</button>
+</form>

@@ -1,23 +1,22 @@
 // typescript
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { IncidenciaService } from '../services/incidencia.service';
 
 @Component({
   selector: 'app-registrar-incidencia',
-  imports: [
-    ReactiveFormsModule,
-    FormsModule
-  ],
-  templateUrl: './registrar-incidencia.component.html'
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './registrar-incidencia.component.html',
+  styleUrls: ['./registrar-incidencia.component.css']
 })
 export class RegistrarIncidenciaComponent {
-  mensaje = '';
-  formulario: FormGroup;
-  incidencia: any;
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder, private servicio: IncidenciaService) {
-    this.formulario = this.fb.group({
+  constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService) {
+    this.form = this.fb.group({
       fechaIncidencia: ['', Validators.required],
       tipoIncidencia: ['', Validators.required],
       estadoIncidencia: ['', Validators.required],
@@ -26,19 +25,16 @@ export class RegistrarIncidenciaComponent {
     });
   }
 
-  registrar() {
-    if (this.formulario.invalid) {
-      this.mensaje = 'Por favor completa todos los campos obligatorios.';
-      return;
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.incidenciaService.registrarIncidencia(this.form.value).subscribe({
+        next: () => alert('Incidencia registrada exitosamente'),
+        error: (err: any) => alert('Error: ' + (err?.error?.message ?? err?.message ?? JSON.stringify(err)))
+      });
+    } else {
+      alert('Complete los campos obligatorios');
     }
-
-    this.servicio.registrarIncidencia(this.formulario.value).subscribe({
-      next: () => this.mensaje = 'Incidencia registrada exitosamente ✅',
-      error: err => this.mensaje = 'Error: ' + err.error
-    });
-  }
-
-  onSubmit() {
-
   }
 }
+
+

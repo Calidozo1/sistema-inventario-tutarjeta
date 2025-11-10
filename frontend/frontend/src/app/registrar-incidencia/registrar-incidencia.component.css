@@ -1,4 +1,4 @@
-/* Contenedor principal */
+
 .registrar-incidencia-container {
   display: flex;
   flex-direction: column;
@@ -61,6 +61,12 @@
   outline: none;
 }
 
+.error {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: #e74c3c;
+}
+
 /* Botón */
 button {
   width: 100%;
@@ -74,8 +80,13 @@ button {
   transition: background 0.3s ease;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: #2980b9;
+}
+
+button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
 }
 
 /* Mensajes de éxito / error */

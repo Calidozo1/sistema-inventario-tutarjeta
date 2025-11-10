@@ -1,13 +1,15 @@
 // java
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.IncidenciaDTO;
 import com.tutarjeta.inventario.model.Incidencia;
 import com.tutarjeta.inventario.repository.IncidenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class IncidenciaService {
@@ -15,48 +17,31 @@ public class IncidenciaService {
     @Autowired
     private IncidenciaRepository incidenciaRepository;
 
-    @Transactional
-    public Incidencia registrarIncidencia(Incidencia incidencia) throws Exception {
-        validarCampos(incidencia);
-
-        if (incidenciaRepository.existsByCedulaCliente(incidencia.getCedulaCliente())) {
-            throw new Exception("Ya existe una incidencia para esa cédula de cliente");
+    public Incidencia registrarIncidencia(IncidenciaDTO dto, String usuario) {
+        if (dto.fechaIncidencia == null || dto.tipoIncidencia == null ||
+                dto.estadoIncidencia == null || dto.cedulaCliente == null) {
+            throw new IllegalArgumentException("Campos obligatorios faltantes");
         }
-
+        if (incidenciaRepository.existsByCedulaClienteAndTipoIncidencia(dto.cedulaCliente, dto.tipoIncidencia)) {
+            throw new IllegalArgumentException("Ya existe una incidencia para este cliente y tipo");
+        }
+        Incidencia incidencia = new Incidencia();
+        incidencia.setCodigoIncidencia(String.format("%06d", new Random().nextInt(999999)));
+        incidencia.setFechaIncidencia(dto.fechaIncidencia);
+        incidencia.setTipoIncidencia(dto.tipoIncidencia);
+        incidencia.setEstadoIncidencia(dto.estadoIncidencia);
+        incidencia.setCedulaCliente(dto.cedulaCliente);
+        incidencia.setComentarios(dto.comentarios);
+        incidencia.setUsuarioRegistro(usuario);
+        incidencia.setFechaRegistro(LocalDateTime.now());
         return incidenciaRepository.save(incidencia);
     }
 
-    public Incidencia obtenerPorId(Long id) {
-        return incidenciaRepository.findById(id).orElse(null);
-    }
-
-    public List<Incidencia> listarIncidencias() {
+    public List<Incidencia> listarTodas() {
         return incidenciaRepository.findAll();
     }
 
-    public Incidencia consultarPorCedula(String cedula) throws Exception {
-        return incidenciaRepository.findAll()
-                .stream()
-                .filter(i -> i.getCedulaCliente() != null && i.getCedulaCliente().equals(cedula))
-                .findFirst()
-                .orElseThrow(() -> new Exception("No se encontró una incidencia con la cédula: " + cedula));
-    }
-
-    private void validarCampos(Incidencia incidencia) throws Exception {
-        if (incidencia == null) {
-            throw new Exception("Incidencia es obligatoria");
-        }
-        if (incidencia.getCedulaCliente() == null || incidencia.getCedulaCliente().trim().isEmpty()) {
-            throw new Exception("cedulaCliente es obligatorio");
-        }
-        if (incidencia.getFechaIncidencia() == null) {
-            throw new Exception("fechaIncidencia es obligatoria");
-        }
-        if (incidencia.getTipoIncidencia() == null || incidencia.getTipoIncidencia().trim().isEmpty()) {
-            throw new Exception("tipoIncidencia es obligatorio");
-        }
-        if (incidencia.getEstadoIncidencia() == null || incidencia.getEstadoIncidencia().trim().isEmpty()) {
-            throw new Exception("estadoIncidencia es obligatorio");
-        }
+    public List<Incidencia> listarPorTipo(String tipoIncidencia) {
+        return incidenciaRepository.findByTipoIncidencia(tipoIncidencia);
     }
 }
