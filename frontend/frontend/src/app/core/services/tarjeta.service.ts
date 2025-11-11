@@ -42,6 +42,7 @@ export class TarjetaService {
 
   // ✅ Obtener solo tarjetas disponibles (no asignadas) usando filtrar
   obtenerTarjetasDisponibles(): Observable<Tarjeta[]> {
-    return this.filtrarTarjetas({ estado: 'DISPONIBLE' });
+    // El backend guarda el estado como "Disponible" (capital D en español)
+    return this.filtrarTarjetas({ estado: 'Disponible' });
   }
 }

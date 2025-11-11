@@ -57,7 +57,10 @@ export class TarjetasFormComponent implements OnInit {
         },
         error: (err) => {
           console.error('❌ Error al registrar tarjeta:', err);
-          alert('Error al registrar la tarjeta');
+          // Mostrar detalles del error si los hay
+          const status = err?.status;
+          const body = err?.error ?? JSON.stringify(err);
+          alert(`Error al registrar la tarjeta (status: ${status})\n${typeof body === 'string' ? body : JSON.stringify(body)}`);
         }
       });
     }
