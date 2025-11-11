@@ -16,6 +16,14 @@ export class DashboardComponent implements OnDestroy {
   perfil: any = null; // Inicializa a null
   private sub: Subscription | null = null;
 
+  // permisos derivados
+  isAdmin = false;
+  isEmpleado = false;
+  canManageEmpleados = false;
+  canManageTarjetas = false;
+  canManageVentas = false;
+  canManageIncidencias = false;
+
   constructor(private router: Router, private perfilService: PerfilService, private authService: AuthService) {
     // Dejar la carga para ngOnInit
   }
@@ -24,10 +32,35 @@ export class DashboardComponent implements OnDestroy {
     // Suscribirse al perfil desde AuthService (que consulta la BD)
     this.sub = this.authService.perfil$().subscribe(perfil => {
       this.perfil = perfil;
+      this.computePermissions();
       if (!this.perfil) {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  private normalizeRole(r: any): string {
+    return (r || '').toString().trim().toLowerCase();
+  }
+
+  private hasRoleAlias(role: any, aliases: string[]): boolean {
+    const r = this.normalizeRole(role);
+    return aliases.some(a => a.toLowerCase() === r);
+  }
+
+  private computePermissions() {
+    const rol = this.perfil?.rol;
+    // Aceptar variantes comunes de nombre de rol
+    this.isAdmin = this.hasRoleAlias(rol, ['admin', 'administrador', 'administrator']);
+    this.isEmpleado = this.hasRoleAlias(rol, ['empleado', 'employee', 'usuario', 'user']);
+
+    // gestionarEmpleados también permite ciertas acciones (según backend)
+    this.canManageEmpleados = this.isAdmin || !!this.perfil?.gestionarEmpleados;
+
+    // Las acciones de ventas, tarjetas e incidencias las pueden hacer admin y empleado
+    this.canManageTarjetas = this.isAdmin || this.isEmpleado;
+    this.canManageVentas = this.isAdmin || this.isEmpleado;
+    this.canManageIncidencias = this.isAdmin || this.isEmpleado;
   }
 
   ngOnDestroy() {

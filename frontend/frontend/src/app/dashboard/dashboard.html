@@ -3,18 +3,18 @@
 
   <div class="button-group">
     <button (click)="verMiPerfil()">👤 Ver mi perfil</button>
-    <button *ngIf="perfil?.rol === 'admin'" (click)="registrarPerfil()">➕ Registrar nuevo perfil</button>
-    <button *ngIf="perfil?.rol === 'admin' || perfil?.gestionarEmpleados" routerLink="/gestionar-empleados/registrar" class="btn btn-primary">
+    <button *ngIf="isAdmin" (click)="registrarPerfil()">➕ Registrar nuevo perfil</button>
+    <button *ngIf="isAdmin || canManageEmpleados" routerLink="/gestionar-empleados/registrar" class="btn btn-primary">
       🧑‍💼 Gestionar Empleados
     </button>
     <button (click)="logout()" class="logout">🚪 Cerrar sesión</button>
   </div>
 
   <div class="button-group">
-    <a *ngIf="perfil?.rol === 'admin' || perfil?.rol === 'empleado'" routerLink="/tarjetas" class="btn btn-primary">💳 Gestionar Tarjetas</a>
-    <a *ngIf="perfil?.rol === 'admin' || perfil?.rol === 'empleado'" routerLink="/ventas" class="btn btn-primary">🧾 Gestionar Ventas</a>
+    <a *ngIf="canManageTarjetas" routerLink="/tarjetas" class="btn btn-primary">💳 Gestionar Tarjetas</a>
+    <a *ngIf="canManageVentas" routerLink="/ventas" class="btn btn-primary">🧾 Gestionar Ventas</a>
     <!-- INCIDENCIAS: empleado y admin pueden ver estas opciones -->
-    <a *ngIf="perfil?.rol === 'admin' || perfil?.rol === 'empleado'" routerLink="/registrar-incidencia" class="btn btn-warning">📝 Registrar Incidencia</a>
-    <a *ngIf="perfil?.rol === 'admin' || perfil?.rol === 'empleado'" routerLink="/consultar-incidencia" class="btn btn-info">🔎 Consultar Incidencias</a>
+    <a *ngIf="canManageIncidencias" routerLink="/registrar-incidencia" class="btn btn-warning">📝 Registrar Incidencia</a>
+    <a *ngIf="canManageIncidencias" routerLink="/consultar-incidencia" class="btn btn-info">🔎 Consultar Incidencias</a>
   </div>
 </div>
