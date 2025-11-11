@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>Fecha de incidencia:</label>
+  <input type="date" formControlName="fechaIncidencia" required>
+  <div *ngIf="form.get('fechaIncidencia')?.invalid && form.get('fechaIncidencia')?.touched">Campo obligatorio.</div>
+
+  <label>Tipo de incidencia:</label>
+  <select formControlName="tipoIncidencia" required>
+    <option value="">Seleccione...</option>
+    <option value="robada">Robada</option>
+    <option value="perdida">Perdida</option>
+    <option value="mal funcionamiento">Mal funcionamiento</option>
+  </select>
+  <div *ngIf="form.get('tipoIncidencia')?.invalid && form.get('tipoIncidencia')?.touched">Campo obligatorio.</div>
+
+  <label>Estado incidencia:</label>
+  <input formControlName="estadoIncidencia" required>
+  <div *ngIf="form.get('estadoIncidencia')?.invalid && form.get('estadoIncidencia')?.touched">Campo obligatorio.</div>
+
+  <label>Cédula del cliente:</label>
+  <input formControlName="cedulaCliente" required>
+  <div *ngIf="form.get('cedulaCliente')?.invalid && form.get('cedulaCliente')?.touched">Campo obligatorio.</div>
+
+  <label>Comentarios:</label>
+  <textarea formControlName="comentarios"></textarea>
+
+  <button type="submit">Registrar incidencia</button>
+</form>

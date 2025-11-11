@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css']
+  styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
   perfil: any = {}; // Inicializa vacío
@@ -51,5 +51,12 @@ export class DashboardComponent {
     // Lógica real de logout
     console.log('Cerrando sesión');
     this.router.navigate(['/login']);
+  }
+
+  registrarIncidencia(): void {
+    this.router.navigate(['/registrar-incidencia']);
+  }
+  consultarIncidencia(): void {
+    this.router.navigate(['/consultar-incidencia']);
   }
 }
