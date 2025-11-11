@@ -9,7 +9,7 @@ import { Perfil, PerfilRegistro } from '../models/perfil.model';
 })
 export class PerfilService {
 
-  private apiUrl = 'http://localhost:8080/api/perfiles';
+  private apiUrl = '/api/perfiles';
 
   constructor(private http: HttpClient) {
   }
@@ -46,4 +46,3 @@ export class PerfilService {
     return throwError(() => new Error(errorMessage));
   }
 }
-

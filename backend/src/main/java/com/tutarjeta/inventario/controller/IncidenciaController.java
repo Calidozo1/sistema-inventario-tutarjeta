@@ -19,8 +19,12 @@ public class IncidenciaController {
     private IncidenciaService incidenciaService;
 
     @PostMapping
-    public Incidencia registrar(@RequestBody IncidenciaDTO dto, Principal principal) {
-        String usuario = (principal != null) ? principal.getName() : "anonymous";
+    public Incidencia registrar(@RequestBody IncidenciaDTO dto) {
+        String usuario = "sistema"; // Valor por defecto
+        // Si el usuario está autenticado, obtener su nombre
+        if (dto.getUsuario() != null && !dto.getUsuario().isEmpty()) {
+            usuario = dto.getUsuario();
+        }
         return incidenciaService.registrarIncidencia(dto, usuario);
     }
 

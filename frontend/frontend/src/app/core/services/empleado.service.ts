@@ -8,7 +8,7 @@ import { Empleado, EmpleadoRegistro } from '../models/empleado.model';
   providedIn: 'root'
 })
 export class EmpleadoService {
-  private apiUrl = 'http://localhost:8080/api/empleados';
+  private apiUrl = '/api/empleados';
 
   constructor(private http: HttpClient) {}
 
@@ -24,4 +24,3 @@ export class EmpleadoService {
     return this.http.get<Empleado[]>(`${this.apiUrl}/`);
   }
 }
-

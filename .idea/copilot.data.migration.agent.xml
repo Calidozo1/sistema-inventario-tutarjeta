@@ -20,6 +20,15 @@
               <option value="338e092c-ec75-4bd4-aaa3-5ed344632daa" />
               <option value="d849af68-696f-416c-bc75-1b554c54fda7" />
               <option value="2bd6be63-39b5-4568-8ea4-1873b8144b43" />
+              <option value="c9dc95be-94ae-4108-9878-ddaa77fde39c" />
+              <option value="5a7cfa1e-1345-4a69-a519-8001505bf8b2" />
+              <option value="9a424e14-2f11-41cc-85ab-96345ba04b9a" />
+              <option value="63b00102-4166-42a6-98e2-09d5ae728ef9" />
+              <option value="e4d29889-b1f2-4f4f-8947-8e73b03848a2" />
+              <option value="b4d27f36-a975-4426-b940-2400fa2e36f9" />
+              <option value="85d16ad8-495e-4dac-b9c8-1d1418862400" />
+              <option value="d1296469-c759-42b4-beaa-2d5f1643f94a" />
+              <option value="f23fd5fe-e24c-4a17-8c6f-421ea215f8fa" />
             </set>
           </value>
         </entry>
@@ -65,6 +74,14 @@
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.component.ts" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/auth.service.ts" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/login/login.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/mi-perfil/mi-perfil.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/tarjeta.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/tarjetas/tarjetas-form/tarjetas-form.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/proxy.conf.json" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/venta.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/perfil.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/empleado.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/services/incidencia.service.ts" />
         </set>
       </entry>
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />

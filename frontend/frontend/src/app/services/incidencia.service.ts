@@ -6,7 +6,7 @@ import {Incidencia} from '../models/incidencia.model';
 
 @Injectable({ providedIn: 'root' })
 export class IncidenciaService {
-  private baseUrl = 'http://localhost:8080/api/incidencias';
+  private baseUrl = '/api/incidencias';
 
   constructor(private http: HttpClient) {
   }

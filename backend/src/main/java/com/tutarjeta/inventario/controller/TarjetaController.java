@@ -18,30 +18,36 @@ public class TarjetaController {
     @Autowired
     private TarjetaService tarjetaService;
 
-    // GET: Listar todas las tarjetas
+    // ✅ Listar todas las tarjetas
     @GetMapping
     public ResponseEntity<List<TarjetaResponseDTO>> listarTarjetas() {
         return ResponseEntity.ok(tarjetaService.listarTarjetas());
     }
 
-    // GET: Obtener una tarjeta por ID
+    // ✅ Obtener una tarjeta por ID
     @GetMapping("/{id}")
     public ResponseEntity<TarjetaResponseDTO> obtenerTarjeta(@PathVariable Long id) {
         return ResponseEntity.ok(tarjetaService.obtenerTarjetaPorId(id));
     }
 
-    // POST: Registrar nueva tarjeta
+    // ✅ Registrar nueva tarjeta (ahora muestra el error real)
     @PostMapping
-    public ResponseEntity<TarjetaResponseDTO> registrarTarjeta(@RequestBody TarjetaRequestDTO request) {
+    public ResponseEntity<?> registrarTarjeta(@RequestBody TarjetaRequestDTO request) {
         try {
             TarjetaResponseDTO tarjeta = tarjetaService.registrarTarjeta(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(tarjeta);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            e.printStackTrace(); // ✅ mostrará el error real en consola
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al registrar tarjeta: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error inesperado: " + e.getMessage());
         }
     }
 
-    // GET: Filtrar tarjetas
+    // ✅ Filtrar tarjetas
     @GetMapping("/filtrar")
     public ResponseEntity<List<TarjetaResponseDTO>> filtrarTarjetas(
             @RequestParam(required = false) String codigo,
@@ -50,12 +56,9 @@ public class TarjetaController {
         return ResponseEntity.ok(tarjetaService.filtrarTarjetas(codigo, tipo, estado));
     }
 
-    // GET: Obtener solo tarjetas asignadas (para dropdown en ventas)
+    // ✅ Obtener solo tarjetas asignadas
     @GetMapping("/asignadas")
     public ResponseEntity<List<TarjetaResponseDTO>> obtenerTarjetasAsignadas() {
         return ResponseEntity.ok(tarjetaService.obtenerTarjetasAsignadas());
     }
-
-
-
 }
