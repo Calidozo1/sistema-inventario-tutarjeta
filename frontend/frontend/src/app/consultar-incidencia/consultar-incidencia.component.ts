@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { IncidenciaService } from '../services/incidencia.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { Incidencia } from '../models/incidencia.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-consultar-incidencia',
+  standalone: true,
   templateUrl: './consultar-incidencia.component.html',
   imports: [
+    CommonModule,
     ReactiveFormsModule
   ],
   styleUrls: ['./consultar-incidencia.component.css']

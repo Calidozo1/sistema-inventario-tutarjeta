@@ -20,7 +20,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -37,8 +37,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    DashboardComponent,
-    AppComponent
+    DashboardComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
