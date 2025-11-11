@@ -22,7 +22,8 @@ export class PerfilService {
   }
 
   consultarPerfilPorCedula(cedula: string): Observable<any> {
-    return this.http.get(`http://localhost:8080/api/perfiles/cedula/${cedula}`);
+    // Usar URL relativa para respetar proxy.conf.json y entornos
+    return this.http.get(`${this.apiUrl}/cedula/${cedula}`);
   }
 
 

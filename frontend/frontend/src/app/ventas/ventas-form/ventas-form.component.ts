@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { VentaService } from '../../core/services/venta.service';
 import { TarjetaService } from '../../core/services/tarjeta.service';
 import { Tarjeta } from '../../core/models/tarjeta.model';
+import { AuthService } from '../../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ventas-form',
@@ -33,19 +36,21 @@ import { Tarjeta } from '../../core/models/tarjeta.model';
   templateUrl: './ventas-form.component.html',
   styleUrls: ['./ventas-form.component.css']
 })
-export class VentasFormComponent implements OnInit {
+export class VentasFormComponent implements OnInit, OnDestroy {
   ventaForm: FormGroup;
   tarjetasDisponibles: Tarjeta[] = [];
   tarjetasAsignadas: Tarjeta[] = [];
   cargando = false;
   cargandoTarjetas = true;
-  empleadoId: number = 1; // TODO: reemplazar por el empleado logueado
+  empleadoId: number | null = null; // se establecerá con el empleado logueado
+  private perfilSub: Subscription | null = null;
 
   constructor(
     private fb: FormBuilder,
     private ventaService: VentaService,
     private tarjetaService: TarjetaService,
-    private router: Router // ✅ inyectado correctamente
+    private router: Router, // ✅ inyectado correctamente
+    private authService: AuthService
   ) {
     this.ventaForm = this.fb.group({
       nombreCliente: ['', [Validators.required, Validators.minLength(3)]],
@@ -58,6 +63,15 @@ export class VentasFormComponent implements OnInit {
     console.log('🔄 Cargando tarjetas disponibles...');
     this.cargarTarjetasDisponibles();
     this.cargarTarjetasAsignadas();
+    // Suscribirse al perfil actual desde AuthService en lugar de usar un ID fijo
+    this.perfilSub = this.authService.perfil$().subscribe((perfil: any) => {
+      if (perfil && perfil.id) {
+        this.empleadoId = Number(perfil.id);
+        console.log('Usuario logueado (empleadoId):', this.empleadoId, perfil);
+      } else {
+        console.warn('No hay perfil de empleado disponible en AuthService');
+      }
+    });
   }
 
   cargarTarjetasAsignadas(): void {
@@ -89,10 +103,15 @@ export class VentasFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.ventaForm.valid) {
+      if (!this.empleadoId) {
+        alert('No se ha identificado el empleado. Por favor inicie sesión de nuevo.');
+        return;
+      }
+
       this.cargando = true;
       const ventaRequest = {
         nombreCliente: this.ventaForm.value.nombreCliente,
-        tarjetaId: this.ventaForm.value.tarjetaId,
+        tarjetaId: Number(this.ventaForm.value.tarjetaId),
         empleadoId: this.empleadoId,
         fechaVenta: this.ventaForm.value.fechaVenta
       };
@@ -127,5 +146,9 @@ export class VentasFormComponent implements OnInit {
     } catch (error: any) {
       console.error('Error al navegar a ventas:', error);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.perfilSub?.unsubscribe();
   }
 }
