@@ -18,6 +18,8 @@
               <option value="182783d5-1935-4cb6-bd6a-dff90b9eefcf" />
               <option value="ef642e58-9757-4378-bd6b-bdc0a6633f55" />
               <option value="338e092c-ec75-4bd4-aaa3-5ed344632daa" />
+              <option value="d849af68-696f-416c-bc75-1b554c54fda7" />
+              <option value="2bd6be63-39b5-4568-8ea4-1873b8144b43" />
             </set>
           </value>
         </entry>
@@ -60,6 +62,9 @@
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-module.ts" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.html" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-routing.module.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/auth.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/login/login.component.ts" />
         </set>
       </entry>
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
