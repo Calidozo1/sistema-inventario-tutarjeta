@@ -4,10 +4,23 @@
     <option name="migrationStatus" value="IN_PROGRESS" />
     <option name="pendingSessionIds">
       <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
+      <option value="64928811-1577-4bda-a089-b34025364a1a" />
       <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
     </option>
     <option name="pendingTurns">
       <map>
+        <entry key="64928811-1577-4bda-a089-b34025364a1a">
+          <value>
+            <set>
+              <option value="1754d70f-b487-4d2a-93b4-ff2a837e4833" />
+              <option value="8830c8c6-4af2-4b36-b79e-1057a85aaf16" />
+              <option value="0a4016c8-eca5-4e4c-ae17-cfdf16a77efa" />
+              <option value="182783d5-1935-4cb6-bd6a-dff90b9eefcf" />
+              <option value="ef642e58-9757-4378-bd6b-bdc0a6633f55" />
+              <option value="338e092c-ec75-4bd4-aaa3-5ed344632daa" />
+            </set>
+          </value>
+        </entry>
         <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99">
           <value>
             <set>
@@ -38,6 +51,17 @@
       </map>
     </option>
     <pendingWorkingSetItems>
+      <entry key="64928811-1577-4bda-a089-b34025364a1a">
+        <set>
+          <option value="file://$PROJECT_DIR$/frontend/frontend/package.json" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/consultar-incidencia/consultar-incidencia.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/angular.json" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-module.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.html" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-routing.module.ts" />
+        </set>
+      </entry>
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
     </pendingWorkingSetItems>
   </component>
