@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PerfilService } from '../core/services/perfil.service';
+import { AuthService } from '../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,30 +12,26 @@ import { PerfilService } from '../core/services/perfil.service';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
   perfil: any = null; // Inicializa a null
+  private sub: Subscription | null = null;
 
-  constructor(private router: Router, private perfilService: PerfilService) {
+  constructor(private router: Router, private perfilService: PerfilService, private authService: AuthService) {
     // Dejar la carga para ngOnInit
   }
 
   ngOnInit() {
-    // Intentar obtener perfil del localStorage
-    const perfilJson = localStorage.getItem('perfilActivo');
-    if (perfilJson) {
-      try {
-        this.perfil = JSON.parse(perfilJson);
-      } catch (e) {
-        console.error('Error parseando perfilActivo:', e);
-        this.perfil = null;
+    // Suscribirse al perfil desde AuthService (que consulta la BD)
+    this.sub = this.authService.perfil$().subscribe(perfil => {
+      this.perfil = perfil;
+      if (!this.perfil) {
+        this.router.navigate(['/login']);
       }
-    }
+    });
+  }
 
-    // Si no hay perfil en localStorage, intentar obtenerlo del backend (opcional)
-    if (!this.perfil) {
-      // Redirigir a login si no hay perfil
-      this.router.navigate(['/login']);
-    }
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
   verMiPerfil() {
@@ -57,8 +55,8 @@ export class DashboardComponent {
   }
 
   logout() {
-    // Lógica real de logout
-    localStorage.removeItem('perfilActivo');
+    // Limpiar state de auth
+    this.authService.clear();
     console.log('Cerrando sesión');
     this.router.navigate(['/login']);
   }
