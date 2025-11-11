@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { PerfilService } from '../core/services/perfil.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,21 +11,29 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
-  perfil: any = {}; // Inicializa vacío
+  perfil: any = null; // Inicializa a null
 
-  constructor(private router: Router) {
-    // Simulamos la carga desde BD o desde tu servicio de login
-    this.cargarPerfil();
+  constructor(private router: Router, private perfilService: PerfilService) {
+    // Dejar la carga para ngOnInit
   }
 
-  cargarPerfil() {
-    // Esto debe venir de tu servicio que hace login
-    // Aquí solo un ejemplo temporal
-    this.perfil = {
-      nombre: 'Admin',
-      rol: 'admin',
-      gestionarEmpleados: true
-    };
+  ngOnInit() {
+    // Intentar obtener perfil del localStorage
+    const perfilJson = localStorage.getItem('perfilActivo');
+    if (perfilJson) {
+      try {
+        this.perfil = JSON.parse(perfilJson);
+      } catch (e) {
+        console.error('Error parseando perfilActivo:', e);
+        this.perfil = null;
+      }
+    }
+
+    // Si no hay perfil en localStorage, intentar obtenerlo del backend (opcional)
+    if (!this.perfil) {
+      // Redirigir a login si no hay perfil
+      this.router.navigate(['/login']);
+    }
   }
 
   verMiPerfil() {
@@ -49,6 +58,7 @@ export class DashboardComponent {
 
   logout() {
     // Lógica real de logout
+    localStorage.removeItem('perfilActivo');
     console.log('Cerrando sesión');
     this.router.navigate(['/login']);
   }
