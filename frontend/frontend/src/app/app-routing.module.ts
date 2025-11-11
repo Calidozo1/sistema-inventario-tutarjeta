@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -68,6 +67,16 @@ const routes: Routes = [
       import('./login/login.component').then(m => m.LoginComponent),
   },
   { path: 'dashboard', component: DashboardComponent },
+
+  // INCIDENCIAS
+  {
+    path: 'registrar-incidencia',
+    loadComponent: () => import('./registrar-incidencia/registrar-incidencia.component').then(m => m.RegistrarIncidenciaComponent)
+  },
+  {
+    path: 'consultar-incidencia',
+    loadComponent: () => import('./consultar-incidencia/consultar-incidencia.component').then(m => m.ConsultarIncidenciaComponent)
+  },
 
   // CUALQUIER RUTA DESCONOCIDA
   { path: '**', redirectTo: '/dashboard' },
