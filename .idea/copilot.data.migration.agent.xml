@@ -4,30 +4,33 @@
     <option name="migrationStatus" value="IN_PROGRESS" />
     <option name="pendingSessionIds">
       <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
+      <option value="308f47cc-806d-45cf-9d9f-be46b8b8a58b" />
       <option value="64928811-1577-4bda-a089-b34025364a1a" />
       <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
+      <option value="8ddb15c2-74f8-4841-b251-1912a09615aa" />
+      <option value="dc07fdec-069e-4ad3-ad08-5fbe0e22b3e8" />
     </option>
     <option name="pendingTurns">
       <map>
         <entry key="64928811-1577-4bda-a089-b34025364a1a">
           <value>
             <set>
-              <option value="1754d70f-b487-4d2a-93b4-ff2a837e4833" />
-              <option value="8830c8c6-4af2-4b36-b79e-1057a85aaf16" />
               <option value="0a4016c8-eca5-4e4c-ae17-cfdf16a77efa" />
+              <option value="1754d70f-b487-4d2a-93b4-ff2a837e4833" />
               <option value="182783d5-1935-4cb6-bd6a-dff90b9eefcf" />
-              <option value="ef642e58-9757-4378-bd6b-bdc0a6633f55" />
-              <option value="338e092c-ec75-4bd4-aaa3-5ed344632daa" />
-              <option value="d849af68-696f-416c-bc75-1b554c54fda7" />
               <option value="2bd6be63-39b5-4568-8ea4-1873b8144b43" />
-              <option value="c9dc95be-94ae-4108-9878-ddaa77fde39c" />
+              <option value="338e092c-ec75-4bd4-aaa3-5ed344632daa" />
               <option value="5a7cfa1e-1345-4a69-a519-8001505bf8b2" />
-              <option value="9a424e14-2f11-41cc-85ab-96345ba04b9a" />
               <option value="63b00102-4166-42a6-98e2-09d5ae728ef9" />
-              <option value="e4d29889-b1f2-4f4f-8947-8e73b03848a2" />
-              <option value="b4d27f36-a975-4426-b940-2400fa2e36f9" />
               <option value="85d16ad8-495e-4dac-b9c8-1d1418862400" />
+              <option value="8830c8c6-4af2-4b36-b79e-1057a85aaf16" />
+              <option value="9a424e14-2f11-41cc-85ab-96345ba04b9a" />
+              <option value="b4d27f36-a975-4426-b940-2400fa2e36f9" />
+              <option value="c9dc95be-94ae-4108-9878-ddaa77fde39c" />
               <option value="d1296469-c759-42b4-beaa-2d5f1643f94a" />
+              <option value="d849af68-696f-416c-bc75-1b554c54fda7" />
+              <option value="e4d29889-b1f2-4f4f-8947-8e73b03848a2" />
+              <option value="ef642e58-9757-4378-bd6b-bdc0a6633f55" />
               <option value="f23fd5fe-e24c-4a17-8c6f-421ea215f8fa" />
             </set>
           </value>
@@ -59,31 +62,29 @@
             </set>
           </value>
         </entry>
+        <entry key="8ddb15c2-74f8-4841-b251-1912a09615aa">
+          <value>
+            <set>
+              <option value="00c8fba2-6e2c-4ba6-8ac5-1d110ff92475" />
+              <option value="1d4c3438-603e-4783-9d68-c46a90ca05fe" />
+              <option value="21a1ee63-7474-4c83-b449-0a5dc1aa2a12" />
+              <option value="8506ed51-1c83-454e-8765-c55eee46ebbe" />
+              <option value="bd94063f-eea9-42db-9d81-670d7c80953e" />
+            </set>
+          </value>
+        </entry>
+        <entry key="dc07fdec-069e-4ad3-ad08-5fbe0e22b3e8">
+          <value>
+            <set>
+              <option value="65a24562-519d-4e33-a8f0-d240a37dd259" />
+              <option value="bf92abf7-cdf6-46c4-8f5b-e3442dbf2e4b" />
+            </set>
+          </value>
+        </entry>
       </map>
     </option>
     <pendingWorkingSetItems>
-      <entry key="64928811-1577-4bda-a089-b34025364a1a">
-        <set>
-          <option value="file://$PROJECT_DIR$/frontend/frontend/package.json" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/consultar-incidencia/consultar-incidencia.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/angular.json" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-module.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.html" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/app-routing.module.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/dashboard/dashboard.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/auth.service.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/login/login.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/mi-perfil/mi-perfil.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/tarjeta.service.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/tarjetas/tarjetas-form/tarjetas-form.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/proxy.conf.json" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/venta.service.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/perfil.service.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/services/empleado.service.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/services/incidencia.service.ts" />
-        </set>
-      </entry>
+      <entry key="64928811-1577-4bda-a089-b34025364a1a" />
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
     </pendingWorkingSetItems>
   </component>
