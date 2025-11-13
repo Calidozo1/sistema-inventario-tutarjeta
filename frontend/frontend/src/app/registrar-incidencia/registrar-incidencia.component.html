@@ -24,8 +24,11 @@
     </select>
     <div class="error" *ngIf="form.get('estadoIncidencia')?.invalid && form.get('estadoIncidencia')?.touched">Campo obligatorio.</div>
 
-    <label>Cédula del cliente</label>
-    <input type="text" formControlName="cedulaCliente" class="input">
+    <label>Tarjeta (seleccione la tarjeta que tuvo la incidencia)</label>
+    <select formControlName="cedulaCliente" class="input">
+      <option value="">Seleccione...</option>
+      <option *ngFor="let t of tarjetas" [value]="t.codigoUnico">{{ t.codigoUnico }} - {{ t.tipoTarjeta }} ({{ t.estado }})</option>
+    </select>
     <div class="error" *ngIf="form.get('cedulaCliente')?.invalid && form.get('cedulaCliente')?.touched">Campo obligatorio.</div>
 
     <label>Comentarios</label>

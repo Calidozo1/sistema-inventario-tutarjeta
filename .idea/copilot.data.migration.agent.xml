@@ -5,6 +5,7 @@
     <option name="pendingSessionIds">
       <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
       <option value="308f47cc-806d-45cf-9d9f-be46b8b8a58b" />
+      <option value="5e17ca24-14c6-4230-bb7d-9a8cee4f46af" />
       <option value="64928811-1577-4bda-a089-b34025364a1a" />
       <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
       <option value="8ddb15c2-74f8-4841-b251-1912a09615aa" />
@@ -12,6 +13,14 @@
     </option>
     <option name="pendingTurns">
       <map>
+        <entry key="5e17ca24-14c6-4230-bb7d-9a8cee4f46af">
+          <value>
+            <set>
+              <option value="b24c057a-a1ad-4181-bc76-e1d31a17023e" />
+              <option value="e3ac0b13-7031-46bc-ad73-79d648aab514" />
+            </set>
+          </value>
+        </entry>
         <entry key="64928811-1577-4bda-a089-b34025364a1a">
           <value>
             <set>
@@ -68,7 +77,9 @@
               <option value="00c8fba2-6e2c-4ba6-8ac5-1d110ff92475" />
               <option value="1d4c3438-603e-4783-9d68-c46a90ca05fe" />
               <option value="21a1ee63-7474-4c83-b449-0a5dc1aa2a12" />
+              <option value="78a6128e-df8e-4a19-83ab-b0f1552f3d89" />
               <option value="8506ed51-1c83-454e-8765-c55eee46ebbe" />
+              <option value="b3d6ddac-800f-43f8-987b-11ab56f1b6cd" />
               <option value="bd94063f-eea9-42db-9d81-670d7c80953e" />
             </set>
           </value>
@@ -84,8 +95,16 @@
       </map>
     </option>
     <pendingWorkingSetItems>
+      <entry key="5e17ca24-14c6-4230-bb7d-9a8cee4f46af">
+        <set>
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/services/tarjeta.service.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/registrar-incidencia/registrar-incidencia.component.ts" />
+          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/registrar-incidencia/registrar-incidencia.component.html" />
+        </set>
+      </entry>
       <entry key="64928811-1577-4bda-a089-b34025364a1a" />
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
+      <entry key="8ddb15c2-74f8-4841-b251-1912a09615aa" />
     </pendingWorkingSetItems>
   </component>
 </project>
