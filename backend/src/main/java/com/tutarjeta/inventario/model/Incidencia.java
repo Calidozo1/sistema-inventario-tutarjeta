@@ -38,6 +38,11 @@ public class Incidencia {
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
 
+    // Relación hacia Tarjeta: Many incidencias pueden referenciar una misma tarjeta
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tarjeta_id")
+    private Tarjeta tarjeta;
+
     @PrePersist
     protected void onCreate() {
         fechaRegistro = LocalDateTime.now();
@@ -81,6 +86,9 @@ public class Incidencia {
 
     public String getUsuarioRegistro() { return usuarioRegistro; }
     public void setUsuarioRegistro(String usuarioRegistro) { this.usuarioRegistro = usuarioRegistro; }
+
+    public Tarjeta getTarjeta() { return tarjeta; }
+    public void setTarjeta(Tarjeta tarjeta) { this.tarjeta = tarjeta; }
 
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }

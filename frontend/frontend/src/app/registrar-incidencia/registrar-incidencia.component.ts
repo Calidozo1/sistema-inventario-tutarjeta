@@ -21,7 +21,9 @@ export class RegistrarIncidenciaComponent {
       tipoIncidencia: ['', Validators.required],
       estadoIncidencia: ['', Validators.required],
       cedulaCliente: ['', Validators.required],
-      comentarios: ['']
+      comentarios: [''],
+      // Campo opcional para validar existencia de tarjeta en backend
+      codigoTarjeta: ['']
     });
   }
 

@@ -8,5 +8,10 @@ export interface Incidencia {
   comentarios: string;
   usuarioRegistro: string;
   fechaRegistro: string;
+  // Nueva propiedad opcional para la tarjeta asociada
+  tarjeta?: {
+    id?: number;
+    codigoUnico?: string;
+  };
 }
 

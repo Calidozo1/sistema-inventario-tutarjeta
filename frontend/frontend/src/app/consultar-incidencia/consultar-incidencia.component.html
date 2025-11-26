@@ -16,6 +16,7 @@
 <table *ngIf="incidencias.length > 0">
   <tr>
     <th>Código</th><th>Fecha</th><th>Tipo</th><th>Estado</th>
+    <th>Tarjeta</th>
     <th>Cédula</th><th>Usuario</th><th>Registro</th><th>Comentarios</th>
   </tr>
   <tr *ngFor="let incidencia of incidencias">
@@ -23,6 +24,7 @@
     <td>{{incidencia.fechaIncidencia}}</td>
     <td>{{incidencia.tipoIncidencia}}</td>
     <td>{{incidencia.estadoIncidencia}}</td>
+    <td>{{incidencia.tarjeta?.codigoUnico || '-'}}</td>
     <td>{{incidencia.cedulaCliente}}</td>
     <td>{{incidencia.usuarioRegistro}}</td>
     <td>{{incidencia.fechaRegistro}}</td>

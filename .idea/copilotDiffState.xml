@@ -3,14 +3,6 @@
   <component name="CopilotDiffPersistence">
     <option name="pendingDiffs">
       <map>
-        <entry key="$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts" />
-              <option name="updatedContent" value="export interface Incidencia {&#10;  id: number;&#10;  codigoIncidencia: string;&#10;  fechaIncidencia: string;&#10;  tipoIncidencia: string;&#10;  estadoIncidencia: string;&#10;  cedulaCliente: string;&#10;  comentarios: string;&#10;  usuarioRegistro: string;&#10;  fechaRegistro: string;&#10;}&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/frontend/frontend/src/app/services/incidencia.service.ts">
           <value>
             <PendingDiffInfo>

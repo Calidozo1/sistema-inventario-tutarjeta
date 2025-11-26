@@ -12,6 +12,10 @@ public class IncidenciaDTO {
     // Nuevo campo para el usuario
     private String usuario;
 
+    // Nuevo campo opcional: código de tarjeta (no crea relación en la entidad Incidencia)
+    // Se usa solo para validar que la tarjeta exista antes de registrar la incidencia.
+    public String codigoTarjeta;
+
     // Getter y Setter para usuario
     public String getUsuario() {
         return usuario;
