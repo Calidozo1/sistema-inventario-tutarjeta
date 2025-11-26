@@ -20,8 +20,8 @@
   <input formControlName="cedulaCliente" required>
   <div *ngIf="form.get('cedulaCliente')?.invalid && form.get('cedulaCliente')?.touched">Campo obligatorio.</div>
 
-  <label>Código de tarjeta (opcional):</label>
-  <input formControlName="codigoTarjeta" placeholder="Ej: ABC123" />
+  <label>Código de tarjeta :</label>
+  <input formControlName="codigoTarjeta" placeholder="Ej: 1234" />
 
   <label>Comentarios:</label>
   <textarea formControlName="comentarios"></textarea>

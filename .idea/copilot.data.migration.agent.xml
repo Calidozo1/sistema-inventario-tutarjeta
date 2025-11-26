@@ -5,6 +5,7 @@
     <option name="pendingSessionIds">
       <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
       <option value="32ec6bf2-750e-4387-8c5d-fc560b8ae2f3" />
+      <option value="4fc790c6-75bf-42d0-88d9-5721e881bb25" />
       <option value="64928811-1577-4bda-a089-b34025364a1a" />
       <option value="76d1234b-2a32-494e-b9fb-5d3ddcc908cb" />
       <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
@@ -19,6 +20,17 @@
               <option value="47bbb004-30da-484a-af75-eff68a37e246" />
               <option value="9697ef1a-bb15-4eda-b534-67c65d6fe2f8" />
               <option value="43297475-ab4e-431a-b817-c2d4d1c8d24f" />
+              <option value="24cdd33a-ce52-446f-b826-e6611d08a72e" />
+              <option value="464f049a-6e19-4e0d-b2fc-ed8e926f6582" />
+            </set>
+          </value>
+        </entry>
+        <entry key="4fc790c6-75bf-42d0-88d9-5721e881bb25">
+          <value>
+            <set>
+              <option value="b5dd0c7f-22a4-426b-add2-4e324b0bde12" />
+              <option value="be3afc48-d7a5-4fe3-b063-23d34311e789" />
+              <option value="73cb965f-c8c1-4b07-a7ec-2e7db55dd399" />
             </set>
           </value>
         </entry>
@@ -109,6 +121,11 @@
           <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Perfil.java" />
           <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/service/PerfilService.java" />
           <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Empleado.java" />
+        </set>
+      </entry>
+      <entry key="4fc790c6-75bf-42d0-88d9-5721e881bb25">
+        <set>
+          <option value="file://$PROJECT_DIR$/sprint1_file_list.md" />
         </set>
       </entry>
       <entry key="64928811-1577-4bda-a089-b34025364a1a" />
