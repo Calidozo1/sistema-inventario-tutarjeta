@@ -106,6 +106,9 @@
           <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Tarjeta.java" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts" />
           <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/consultar-incidencia/consultar-incidencia.component.html" />
+          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Perfil.java" />
+          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/service/PerfilService.java" />
+          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Empleado.java" />
         </set>
       </entry>
       <entry key="64928811-1577-4bda-a089-b34025364a1a" />
