@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IncidenciaService } from '../services/incidencia.service';
+import { IncidenciaService } from '../core/services/incidencia.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import { Incidencia } from '../models/incidencia.model';
+import { Incidencia } from '../core/models/incidencia.model';
 import { CommonModule } from '@angular/common';
 
 @Component({

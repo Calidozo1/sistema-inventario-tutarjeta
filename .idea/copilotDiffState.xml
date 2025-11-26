@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts" />
+              <option name="updatedContent" value="export interface Incidencia {&#10;  id: number;&#10;  codigoIncidencia: string;&#10;  fechaIncidencia: string;&#10;  tipoIncidencia: string;&#10;  estadoIncidencia: string;&#10;  cedulaCliente: string;&#10;  comentarios: string;&#10;  usuarioRegistro: string;&#10;  fechaRegistro: string;&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/frontend/frontend/src/app/services/incidencia.service.ts">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/frontend/frontend/src/app/services/incidencia.service.ts" />
+              <option name="originalContent" value="// frontend/frontend/src/app/incidencia.service.ts&#10;import { Injectable } from '@angular/core';&#10;import {HttpClient, HttpParams} from '@angular/common/http';&#10;import { Observable } from 'rxjs';&#10;import {Incidencia} from '../models/incidencia.model';&#10;&#10;@Injectable({ providedIn: 'root' })&#10;export class IncidenciaService {&#10;  private baseUrl = '/api/incidencias';&#10;&#10;  constructor(private http: HttpClient) {&#10;  }&#10;&#10;  registrarIncidencia(payload: any): Observable&lt;any&gt; {&#10;    return this.http.post&lt;any&gt;(this.baseUrl, payload);&#10;  }&#10;&#10;  listarTodas(): Observable&lt;any[]&gt; {&#10;    return this.http.get&lt;any[]&gt;(this.baseUrl);&#10;  }&#10;&#10;  consultarIncidencias(tipoIncidencia?: string, fechaDesde?: string, fechaHasta?: string): Observable&lt;Incidencia[]&gt; {&#10;    let params = new HttpParams();&#10;    if (tipoIncidencia) {&#10;      params = params.set('tipoIncidencia', tipoIncidencia);&#10;    }&#10;    if (fechaDesde) {&#10;      params = params.set('fechaDesde', fechaDesde);&#10;    }&#10;    if (fechaHasta) {&#10;      params = params.set('fechaHasta', fechaHasta);&#10;    }&#10;    return this.http.get&lt;Incidencia[]&gt;(this.baseUrl, {params});&#10;  }&#10;}&#10;&#10;// Re-exporta la implementación real que ahora está en core/services&#10;export * from '../core/services/incidencia.service';&#10;" />
+              <option name="updatedContent" value="// frontend/frontend/src/app/incidencia.service.ts&#10;// Re-exporta la implementación real que ahora está en core/services&#10;export * from '../core/services/incidencia.service';" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

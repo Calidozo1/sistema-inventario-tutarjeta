@@ -9,3 +9,4 @@ export interface Incidencia {
   usuarioRegistro: string;
   fechaRegistro: string;
 }
+

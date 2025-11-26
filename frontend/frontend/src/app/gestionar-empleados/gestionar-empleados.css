@@ -1,3 +1,61 @@
-.gestionar-empleados { padding: 1rem; }
-.actions button { margin-right: 8px; padding:8px 12px; }
+/* --- Título: Centrado y con Espacio --- */
+h2 {
+  text-align: center;      /* Esto obliga al texto a ir al medio */
+  margin-top: 20px;        /* Espacio arriba */
+  margin-bottom: 40px;     /* Espacio generoso debajo para separar de los botones */
 
+  color: #1e293b;          /* Color oscuro profesional */
+  font-weight: 800;        /* Letra gruesa */
+  font-size: 2rem;
+}
+
+/* --- Grupo de Botones --- */
+.button-group {
+  display: flex;
+  justify-content: center; /* Centra los botones horizontalmente */
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* --- Estilos de los Botones (Consistentes con Dashboard) --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  color: #ffffff !important; /* Texto blanco asegurado */
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+/* Colores */
+.btn-primary {
+  background-color: #2563eb !important; /* Azul Royal */
+}
+
+.btn-secondary {
+  background-color: #475569 !important; /* Gris Slate */
+}
+
+/* --- Mobile --- */
+@media (max-width: 600px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center; /* Asegura que en móvil también estén centrados */
+  }
+  .btn {
+    width: 100%;     /* Botones anchos en celular */
+    max-width: 300px; /* Pero no gigantes */
+  }
+}

@@ -1,58 +1,103 @@
+/* --- Dashboard Container --- */
 .dashboard {
-  max-width: 600px;
+  max-width: 800px;
   margin: 50px auto;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  text-align: center;
+  padding: 35px;
+  background-color: #ffffff; /* Tarjeta blanca limpia */
+  border-radius: 8px; /* Bordes más técnicos/cuadrados para inventario */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: 'Roboto', 'Segoe UI', sans-serif; /* Tipografía técnica */
 }
 
 h2 {
-  color: #333;
+  color: #1e293b; /* Gris muy oscuro */
+  text-align: center;
   margin-bottom: 30px;
+  font-weight: 800;
+  text-transform: uppercase; /* Estilo más industrial/software */
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
 }
 
+/* --- Layout Grid --- */
 .button-group {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 15px;
+  margin-bottom: 15px;
 }
 
-button {
-  padding: 12px 20px;
-  background-color: #28a745;
-  color: white;
+/* --- ESTILO BASE (Para TODOS los botones) --- */
+.dashboard button,
+.dashboard .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 15px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px; /* Borde técnico */
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
+
+  /* --- REGLA MAESTRA DE COLOR --- */
+  /* Color por defecto (Gris Pizarra): Para "Ver perfil" y "Registrar" */
+  background-color: #334155 !important;
+  color: #ffffff !important; /* Texto blanco FORZADO */
 }
 
-button:hover {
-  background-color: #218838;
+/* Efecto Hover Genérico */
+.dashboard button:hover,
+.dashboard .btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(115%); /* Aclara el color un 15% */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-button.logout {
-  background-color: #dc3545;
+/* --- COLORES ESPECÍFICOS (Sobreescriben el gris base) --- */
+
+/* 1. Botones Primarios (Empleados, Tarjetas, Ventas) -> Azul Corporativo */
+.dashboard .btn-primary {
+  background-color: #2563eb !important; /* Azul intenso */
+  color: #ffffff !important;
 }
 
-button.logout:hover {
-  background-color: #c82333;
+/* 2. INCIDENCIAS (Warning) -> Naranja Ladrillo (Oscuro) */
+/* Usamos un naranja oscuro para que la letra blanca SE LEA BIEN */
+.dashboard .btn-warning {
+  background-color: #ea580c !important;
+  color: #ffffff !important;
 }
 
-
-.button-group button.incidencia {
-  padding: 12px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+/* 3. CONSULTAS (Info) -> Verde Azulado (Teal) */
+/* Diferente al azul primario para distinguir "Ver" de "Gestionar" */
+.dashboard .btn-info {
+  background-color: #0d9488 !important;
+  color: #ffffff !important;
 }
 
-.button-group button.incidencia:hover {
-  background-color: #218838;
+/* 4. CERRAR SESIÓN (Logout) -> Rojo Vino */
+.dashboard button.logout {
+  background-color: #be123c !important; /* Rojo oscuro elegante */
+  color: #ffffff !important;
+  border: 1px solid #9f1239 !important; /* Borde sutil */
 }
 
+/* --- Ajustes Mobile --- */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 20px;
+    margin: 15px;
+  }
+  .button-group {
+    grid-template-columns: 1fr; /* Una columna */
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+}

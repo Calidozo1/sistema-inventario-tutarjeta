@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { IncidenciaService } from '../services/incidencia.service';
+import { IncidenciaService } from '../core/services/incidencia.service';
 
 @Component({
   selector: 'app-registrar-incidencia',
@@ -36,5 +36,3 @@ export class RegistrarIncidenciaComponent {
     }
   }
 }
-
-
