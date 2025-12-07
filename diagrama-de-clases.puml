@@ -237,6 +237,7 @@ class "PerfilService" {
 }
 class "TarjetaService" {
     - tarjetaRepository: TarjetaRepository
+    - latencyMonitor: ExternalCallLatencyMonitor
     + listarTarjetas(): List of TarjetaResponseDTO
     + obtenerTarjetaPorId(id: Long): TarjetaResponseDTO
     + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
@@ -252,6 +253,15 @@ class "VentaService" {
     + registrarVenta(request: VentaRequestDTO): VentaResponseDTO
     + filtrarVentas(cliente: String, tarjetaId: Long, empleadoId: Long, fecha: LocalDate): List of VentaResponseDTO
     - convertirAResponseDTO(venta: Venta): VentaResponseDTO
+}
+
+' --- Componentes de Monitoreo ---
+class "ExternalCallLatencyMonitor" <<Component>> {
+    - log: Logger
+    - THRESHOLD_MS: long
+    - startTime: ThreadLocal<Long>
+    + start(): void
+    + checkLatency(): void
 }
 
 ' --- Repositorios ---
@@ -468,6 +478,9 @@ TarjetaService "1" --> "1" TarjetaRepository : usa
 VentaService "1" --> "1" VentaRepository : usa
 VentaService "1" --> "1" TarjetaRepository : usa
 VentaService "1" --> "1" PerfilRepository : usa
+
+' === Backend: Service -> Component ===
+TarjetaService --> ExternalCallLatencyMonitor : usa
 
 ' === Backend: Repository -> Model ===
 EmpleadoRepository "1" -- "0..*" Empleado : gestiona

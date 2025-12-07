@@ -3,6 +3,7 @@ package com.tutarjeta.inventario.service;
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
 import com.tutarjeta.inventario.model.Tarjeta;
+import com.tutarjeta.inventario.monitor.ExternalCallLatencyMonitor;
 import com.tutarjeta.inventario.repository.TarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class TarjetaService {
 
     @Autowired
     private TarjetaRepository tarjetaRepository;
+
+    @Autowired
+    private ExternalCallLatencyMonitor latencyMonitor;
 
     // Listar todas las tarjetas
     public List<TarjetaResponseDTO> listarTarjetas() {
@@ -44,7 +48,12 @@ public class TarjetaService {
         tarjeta.setTipoTarjeta(request.getTipoTarjeta());
         tarjeta.setEstado("Disponible"); // Estado inicial
 
-        tarjeta = tarjetaRepository.save(tarjeta);
+        latencyMonitor.start();
+        try {
+            tarjeta = tarjetaRepository.save(tarjeta);
+        } finally {
+            latencyMonitor.checkLatency();
+        }
         return convertirAResponseDTO(tarjeta);
     }
 

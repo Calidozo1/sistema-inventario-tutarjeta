@@ -1,0 +1,72 @@
+@startuml
+title Diagrama de Secuencia - Registrar Tarjeta (con Táctica de Timestamp)
+
+participant Usuario
+participant "tarjetas-form.component.html" as Vista
+participant "tarjetas-form.component.ts" as Comp
+participant "tarjeta.service.ts" as ServNg
+participant "TarjetaController.java" as Ctrl
+participant "TarjetaService.java" as ServSp
+participant "ExternalCallLatencyMonitor.java" as Monitor <<Component>>
+participant "TarjetaRepository.java" as Repo
+participant "Database (MySQL)" as DB
+
+Usuario->Vista: Rellena formulario y clic en "Guardar"
+Vista->Comp: Llama a la función onSubmit()
+
+Comp->Comp: Inicia la validación del formulario
+
+alt Formulario Válido (this.tarjetaForm.valid)
+    Comp->Comp: Prepara los datos de la nueva tarjeta
+    Comp->ServNg: Solicita registrar la tarjeta
+    ServNg->Ctrl: (Red) Envía la solicitud al backend
+
+    note right of Ctrl: Inicia la revisión de la solicitud
+    Ctrl->ServSp: Pasa la solicitud al servicio de lógica
+    ServSp->Repo: Pregunta si el código de tarjeta ya existe
+    Repo->DB: Ejecuta la consulta en la base de datos
+
+    alt El código de tarjeta NO existe
+        DB->Repo: Informa que el código no existe
+        Repo->ServSp: Informa que el código no existe
+        ServSp->ServSp: Crea la nueva tarjeta
+        ServSp->ServSp: Asigna estado = "Disponible"
+
+        group Táctica de Detección de Fallas: Timestamp
+            ServSp->Monitor: Llama a start() para iniciar el temporizador
+            note right of ServSp: Inicia el monitoreo de latencia
+
+            ServSp->Repo: Ordena guardar la nueva tarjeta
+            note left of Repo: Usa el 'plano' de la Entidad Tarjeta.java
+            Repo->DB: Almacena la nueva tarjeta
+            DB->Repo: Devuelve la tarjeta (ya con su ID)
+            Repo->ServSp: Devuelve la tarjeta guardada
+
+            ServSp->Monitor: Llama a checkLatency() para verificar el tiempo
+            note right of ServSp: Finaliza el monitoreo de latencia
+            Monitor->Monitor: Si (tiempo > 2000ms), registra un ERROR en el log
+        end
+
+        ServSp->ServSp: Prepara la respuesta para el frontend
+        ServSp->Ctrl: Devuelve la tarjeta registrada
+        Ctrl->ServNg:  Confirma que el registro fue exitoso
+
+        ServNg->Comp: Recibe la confirmación de éxito
+        Comp->Vista: Muestra "Tarjeta registrada"
+        Comp->Usuario: Redirige a la lista de tarjetas
+
+    else El código de tarjeta SÍ existe
+        DB->Repo: Informa que el código SÍ existe
+        Repo->ServSp: Informa que el código SÍ existe
+        ServSp->Ctrl: Lanza un error (tarjeta duplicada)
+
+        note right of Ctrl: 'catch' atrapa el error
+        Ctrl->ServNg:  Reporta el error al frontend
+        ServNg->Comp: Recibe la notificación de error
+        Comp->Vista: Muestra "Error: Tarjeta ya existe"
+    end
+
+else Formulario Inválido
+    Comp->Vista: Muestra errores de validación en pantalla
+end
+@enduml
