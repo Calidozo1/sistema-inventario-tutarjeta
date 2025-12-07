@@ -6,31 +6,35 @@
       <option value="073081e4-9325-465d-a32c-fb7e2a15d2d0" />
       <option value="32ec6bf2-750e-4387-8c5d-fc560b8ae2f3" />
       <option value="4fc790c6-75bf-42d0-88d9-5721e881bb25" />
+      <option value="59de3d7b-f47c-4d3c-a463-4da04bbf3cbf" />
       <option value="64928811-1577-4bda-a089-b34025364a1a" />
       <option value="76d1234b-2a32-494e-b9fb-5d3ddcc908cb" />
       <option value="88438b05-98d7-481a-8c6f-d5c81b059f99" />
+      <option value="8ff3666e-90ac-41db-9a51-1bad0e234dd8" />
       <option value="a2f1e791-f8f4-4f8f-ac11-c7a75995a766" />
+      <option value="b0c69928-5c0f-4c5a-b8f0-4cb3ee2c242f" />
+      <option value="e04f6077-9732-496d-b051-230ffa1e1471" />
     </option>
     <option name="pendingTurns">
       <map>
         <entry key="32ec6bf2-750e-4387-8c5d-fc560b8ae2f3">
           <value>
             <set>
+              <option value="24cdd33a-ce52-446f-b826-e6611d08a72e" />
               <option value="35d3a309-9eb4-45e4-85c7-d7de00ddf7f4" />
+              <option value="43297475-ab4e-431a-b817-c2d4d1c8d24f" />
+              <option value="464f049a-6e19-4e0d-b2fc-ed8e926f6582" />
               <option value="47bbb004-30da-484a-af75-eff68a37e246" />
               <option value="9697ef1a-bb15-4eda-b534-67c65d6fe2f8" />
-              <option value="43297475-ab4e-431a-b817-c2d4d1c8d24f" />
-              <option value="24cdd33a-ce52-446f-b826-e6611d08a72e" />
-              <option value="464f049a-6e19-4e0d-b2fc-ed8e926f6582" />
             </set>
           </value>
         </entry>
         <entry key="4fc790c6-75bf-42d0-88d9-5721e881bb25">
           <value>
             <set>
+              <option value="73cb965f-c8c1-4b07-a7ec-2e7db55dd399" />
               <option value="b5dd0c7f-22a4-426b-add2-4e324b0bde12" />
               <option value="be3afc48-d7a5-4fe3-b063-23d34311e789" />
-              <option value="73cb965f-c8c1-4b07-a7ec-2e7db55dd399" />
             </set>
           </value>
         </entry>
@@ -105,29 +109,22 @@
             </set>
           </value>
         </entry>
+        <entry key="e04f6077-9732-496d-b051-230ffa1e1471">
+          <value>
+            <set>
+              <option value="122286f3-f3d0-413e-b0a3-3c69e944a078" />
+              <option value="25864dc6-c554-4ab3-baa4-aca5563d3fe7" />
+              <option value="4a8d0987-86b5-4852-9b94-3c312814071b" />
+              <option value="4ba02f76-0da3-4e15-b823-249225f58ab0" />
+              <option value="dbb227b2-b934-4946-a27c-0416593f3687" />
+            </set>
+          </value>
+        </entry>
       </map>
     </option>
     <pendingWorkingSetItems>
-      <entry key="32ec6bf2-750e-4387-8c5d-fc560b8ae2f3">
-        <set>
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/dto/IncidenciaDTO.java" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/service/IncidenciaService.java" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/registrar-incidencia/registrar-incidencia.component.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/registrar-incidencia/registrar-incidencia.component.html" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Incidencia.java" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Tarjeta.java" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/core/models/incidencia.model.ts" />
-          <option value="file://$PROJECT_DIR$/frontend/frontend/src/app/consultar-incidencia/consultar-incidencia.component.html" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Perfil.java" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/service/PerfilService.java" />
-          <option value="file://$PROJECT_DIR$/backend/src/main/java/com/tutarjeta/inventario/model/Empleado.java" />
-        </set>
-      </entry>
-      <entry key="4fc790c6-75bf-42d0-88d9-5721e881bb25">
-        <set>
-          <option value="file://$PROJECT_DIR$/sprint1_file_list.md" />
-        </set>
-      </entry>
+      <entry key="32ec6bf2-750e-4387-8c5d-fc560b8ae2f3" />
+      <entry key="4fc790c6-75bf-42d0-88d9-5721e881bb25" />
       <entry key="64928811-1577-4bda-a089-b34025364a1a" />
       <entry key="88438b05-98d7-481a-8c6f-d5c81b059f99" />
       <entry key="a2f1e791-f8f4-4f8f-ac11-c7a75995a766" />

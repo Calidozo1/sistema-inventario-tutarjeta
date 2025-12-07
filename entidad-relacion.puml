@@ -1,0 +1,72 @@
+@startuml
+
+skinparam linetype ortho
+
+entity "Perfil" as Perfil {
+  + id: Long <<PK>>
+  --
+  nombre: String
+  cedula: String <<unique>>
+  telefono: String
+  correo: String <<unique>>
+  rol: String
+  contrasena: String
+  fecha_creacion: LocalDateTime
+  empleado_id: Long <<FK>>
+}
+
+entity "Empleado" as Empleado {
+  + id: Long <<PK>>
+  --
+  nombre: String
+  apellido: String
+  cedula: String <<unique>>
+  telefono: String
+  direccion: String
+  correo: String <<unique>>
+  rol: String
+  fecha_creacion: LocalDateTime
+}
+
+entity "Venta" as Venta {
+  + id: Long <<PK>>
+  --
+  nombre_cliente: String
+  fecha_venta: LocalDate
+  created_at: LocalDateTime
+  updated_at: LocalDateTime
+  tarjeta_id: Long <<FK>>
+  empleado_id: Long <<FK>>
+}
+
+entity "Tarjeta" as Tarjeta {
+  + id: Long <<PK>>
+  --
+  codigo_unico: String <<unique>>
+  tipo_tarjeta: String
+  estado: String
+  created_at: LocalDateTime
+  updated_at: LocalDateTime
+}
+
+entity "Incidencia" as Incidencia {
+  + id: Long <<PK>>
+  --
+  codigoIncidencia: String <<unique>>
+  fechaIncidencia: LocalDate
+  tipoIncidencia: String
+  estadoIncidencia: String
+  cedulaCliente: String
+  comentarios: String
+  usuarioRegistro: String
+  fecha_registro: LocalDateTime
+  tarjeta_id: Long <<FK>>
+}
+
+' Relaciones
+Perfil }o--|| Empleado : "puede estar asociado a"
+Venta }|--|| Tarjeta : "corresponde a"
+Venta }|--|| Perfil : "es registrada por"
+Incidencia }o--|| Tarjeta : "se reporta sobre"
+
+@enduml

@@ -1,0 +1,516 @@
+@startuml
+
+' Titulo del Diagrama
+title Diagrama de Clases Final y Exhaustivo del Sistema (con Vistas HTML)
+
+' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
+scale 3.0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    ArrowColor #262626
+    BorderColor #262626
+    BackgroundColor #FFFFF0
+}
+
+' ---------------------------------
+' --- CLASES DEL FRONTEND (Angular) ---
+' ---------------------------------
+
+' --- Componentes (con estereotipo <<Component>>) ---
+class "ConsultarIncidenciaComponent" <<Component>> {
+    + incidencias: Array of Incidencia
+    + filtrosForm: FormGroup
+    + ngOnInit(): void
+    + listarIncidencias(): void
+}
+class "DashboardComponent" <<Component>> {
+    + perfil: any
+    - sub: Subscription
+    + isAdmin: boolean
+    + isEmpleado: boolean
+    + canManageEmpleados: boolean
+    + canManageTarjetas: boolean
+    + canManageVentas: boolean
+    + canManageIncidencias: boolean
+    + ngOnInit(): void
+    - computePermissions(): void
+    + ngOnDestroy(): void
+    + verMiPerfil(): void
+    + registrarPerfil(): void
+    + gestionarEmpleados(): void
+    + gestionarTarjetas(): void
+    + gestionarVentas(): void
+    + logout(): void
+    + registrarIncidencia(): void
+    + consultarIncidencia(): void
+}
+class "LoginComponent" <<Component>> {
+    + usuario: string
+    + contrasena: string
+    + errorMsg: string
+    + login(): void
+}
+class "MiPerfilComponent" <<Component>> {
+    + perfil: any
+    - sub: Subscription
+    + ngOnDestroy(): void
+}
+class "RegistrarIncidenciaComponent" <<Component>> {
+    + form: FormGroup
+    + onSubmit(): void
+}
+class "RegistrarPerfilComponent" <<Component>> {
+    + perfil: any
+    + errorMsg: string
+    + exitoMsg: string
+    + registrar(): void
+}
+class "TarjetasFormComponent" <<Component>> {
+    + tarjetaForm: FormGroup
+    + ngOnInit(): void
+    + onSubmit(): Promise of void
+    + cancelar(): Promise of void
+}
+class "TarjetasListComponent" <<Component>> {
+    + displayedColumns: Array of string
+    + dataSource: MatTableDataSource
+    + ngOnInit(): void
+    + cargarTarjetas(): void
+    + filtrar(event: Event): void
+    + cancelar(): Promise of void
+}
+class "VentasFormComponent" <<Component>> {
+    + ventaForm: FormGroup
+    + tarjetasDisponibles: Array of Tarjeta
+    + tarjetasAsignadas: Array of Tarjeta
+    + cargando: boolean
+    + empleadoId: number
+    - perfilSub: Subscription
+    + ngOnInit(): void
+    + cargarTarjetasAsignadas(): void
+    + cargarTarjetasDisponibles(): void
+    + onSubmit(): void
+    + volver(): Promise of void
+    + ngOnDestroy(): void
+}
+class "VentasListComponent" <<Component>> {
+    + displayedColumns: Array of string
+    + dataSource: MatTableDataSource
+    + ngOnInit(): void
+    + cargarVentas(): void
+    + filtrar(event: Event): void
+    + cancelar(): void
+}
+class "ListarEmpleados" as ListarEmpleadosComponent <<Component>> {
+    + empleados: Array of Empleado
+    + errorMsg: string
+    + ngOnInit(): void
+    + cargarEmpleados(): void
+}
+class "GestionarEmpleados" as GestionarEmpleadosComponent <<Component>> {
+    + irRegistrar(): void
+    + irListar(): void
+}
+class "RegistrarEmpleado" as RegistrarEmpleadoComponent <<Component>> {
+    + empleado: EmpleadoRegistro
+    + errorMsg: string
+    + exitoMsg: string
+    + registrar(): void
+}
+
+' --- Vistas HTML (con estereotipo <<View>>) ---
+class "consultar-incidencia.component.html" as ConsultarIncidenciaView <<View>>
+class "dashboard.html" as DashboardView <<View>>
+class "login.html" as LoginView <<View>>
+class "mi-perfil.html" as MiPerfilView <<View>>
+class "registrar-incidencia.component.html" as RegistrarIncidenciaView <<View>>
+class "registrar-perfil.html" as RegistrarPerfilView <<View>>
+class "tarjetas-form.component.html" as TarjetasFormView <<View>>
+class "tarjetas-list.component.html" as TarjetasListView <<View>>
+class "ventas-form.component.html" as VentasFormView <<View>>
+class "ventas-list.component.html" as VentasListView <<View>>
+class "listar-empleados.html" as ListarEmpleadosView <<View>>
+class "gestionar-empleados.html" as GestionarEmpleadosView <<View>>
+class "registrar-empleado.html" as RegistrarEmpleadoView <<View>>
+
+' --- Servicios (con estereotipo <<Service>>) ---
+class "AuthService" <<Service>> {
+    - cedulaSubject: BehaviorSubject
+    + setCedula(cedula: string): void
+    + clear(): void
+    + getCedula(): string
+    + perfil$(): Observable
+}
+class "EmpleadoServiceFE" as EmpleadoServiceFE <<Service>> {
+    - apiUrl: string
+    + registrarEmpleado(empleado: EmpleadoRegistro): Observable
+    + consultarEmpleadoPorCedula(cedula: string): Observable
+    + obtenerTodos(): Observable of Array of Empleado
+}
+class "IncidenciaServiceFE" as IncidenciaServiceFE <<Service>> {
+    - baseUrl: string
+    + registrarIncidencia(payload: any): Observable
+    + listarTodas(): Observable of Array of any
+    + consultarIncidencias(params: any): Observable of Array of Incidencia
+}
+class "PerfilServiceFE" as PerfilServiceFE <<Service>> {
+    - apiUrl: string
+    + registrarPerfil(perfil: PerfilRegistro): Observable
+    + consultarPerfilPorCedula(cedula: string): Observable
+    + obtenerTodosLosPerfiles(): Observable of Array of Perfil
+}
+class "StorageService" <<Service>>
+class "TarjetaServiceFE" as TarjetaServiceFE <<Service>> {
+    - apiUrl: string
+    + listarTarjetas(): Observable of Array of Tarjeta
+    + obtenerTarjeta(id: number): Observable
+    + registrarTarjeta(tarjeta: TarjetaRequest): Observable
+    + filtrarTarjetas(filtros: any): Observable of Array of Tarjeta
+}
+class "VentaServiceFE" as VentaServiceFE <<Service>> {
+    - apiUrl: string
+    + listarVentas(): Observable of Array of Venta
+    + obtenerVenta(id: number): Observable
+    + registrarVenta(venta: VentaRequest): Observable
+    + filtrarVentas(filtros: any): Observable of Array of Venta
+}
+
+' ---------------------------------
+' --- CLASES DEL BACKEND (Spring Boot) ---
+' ---------------------------------
+
+' --- Controladores ---
+class "EmpleadoController" {
+    - empleadoService: EmpleadoService
+    + registrarEmpleado(dto: EmpleadoRegistroDTO): ResponseEntity
+    + obtenerPorCedula(cedula: String): ResponseEntity
+    + obtenerTodos(): ResponseEntity of List of EmpleadoDTO
+}
+class "IncidenciaController" {
+    - incidenciaService: IncidenciaService
+    + registrar(dto: IncidenciaDTO): Incidencia
+    + listar(tipoIncidencia: String): List of Incidencia
+}
+class "PerfilController" {
+    - perfilService: PerfilService
+    + registrarPerfil(dto: PerfilRegistroDTO): ResponseEntity
+    + obtenerPerfilPorCedula(cedula: String): ResponseEntity
+}
+class "TarjetaController" {
+    - tarjetaService: TarjetaService
+    + listarTarjetas(): ResponseEntity of List of TarjetaResponseDTO
+    + obtenerTarjeta(id: Long): ResponseEntity of TarjetaResponseDTO
+    + registrarTarjeta(request: TarjetaRequestDTO): ResponseEntity
+    + filtrarTarjetas(codigo: String, tipo: String, estado: String): ResponseEntity of List of TarjetaResponseDTO
+}
+class "VentaController" {
+    - ventaService: VentaService
+    + listarVentas(): ResponseEntity of List of VentaResponseDTO
+    + obtenerVenta(id: Long): ResponseEntity of VentaResponseDTO
+    + registrarVenta(request: VentaRequestDTO): ResponseEntity of VentaResponseDTO
+    + filtrarVentas(cliente: String, tarjeta: Long, empleado: Long, fecha: LocalDate): ResponseEntity of List of VentaResponseDTO
+}
+
+' --- Servicios ---
+class "EmpleadoService" {
+    - empleadoRepository: EmpleadoRepository
+    + registrarEmpleado(dto: EmpleadoRegistroDTO): EmpleadoDTO
+    + convertirADTO(e: Empleado): EmpleadoDTO
+    + consultarPorCedula(cedula: String): EmpleadoDTO
+    + obtenerTodos(): List of EmpleadoDTO
+}
+class "IncidenciaService" {
+    - incidenciaRepository: IncidenciaRepository
+    - tarjetaRepository: TarjetaRepository
+    + registrarIncidencia(dto: IncidenciaDTO, usuario: String): Incidencia
+    + listarTodas(): List of Incidencia
+    + listarPorTipo(tipoIncidencia: String): List of Incidencia
+}
+class "PerfilService" {
+    - perfilRepository: PerfilRepository
+    - empleadoRepository: EmpleadoRepository
+    + registrarPerfil(dto: PerfilRegistroDTO): PerfilDTO
+    + obtenerPorCedula(cedula: String): Perfil
+    + consultarPerfilPorCedula(cedula: String): PerfilDTO
+    - convertirADTO(perfil: Perfil): PerfilDTO
+}
+class "TarjetaService" {
+    - tarjetaRepository: TarjetaRepository
+    + listarTarjetas(): List of TarjetaResponseDTO
+    + obtenerTarjetaPorId(id: Long): TarjetaResponseDTO
+    + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
+    + filtrarTarjetas(codigo: String, tipo: String, estado: String): List of TarjetaResponseDTO
+    - convertirAResponseDTO(tarjeta: Tarjeta): TarjetaResponseDTO
+}
+class "VentaService" {
+    - ventaRepository: VentaRepository
+    - tarjetaRepository: TarjetaRepository
+    - perfilRepository: PerfilRepository
+    + listarVentas(): List of VentaResponseDTO
+    + obtenerVentaPorId(id: Long): VentaResponseDTO
+    + registrarVenta(request: VentaRequestDTO): VentaResponseDTO
+    + filtrarVentas(cliente: String, tarjetaId: Long, empleadoId: Long, fecha: LocalDate): List of VentaResponseDTO
+    - convertirAResponseDTO(venta: Venta): VentaResponseDTO
+}
+
+' --- Repositorios ---
+interface "EmpleadoRepository" {
+    + findByCedula(cedula: String): Optional of Empleado
+    + existsByCedula(cedula: String): boolean
+    + existsByCorreo(correo: String): boolean
+}
+interface "IncidenciaRepository" {
+    + existsByCedulaClienteAndTipoIncidencia(cedula: String, tipo: String): boolean
+    + findByTipoIncidencia(tipo: String): List of Incidencia
+}
+interface "PerfilRepository" {
+    + findByCedula(cedula: String): Optional of Perfil
+    + existsByCedula(cedula: String): boolean
+    + existsByCorreo(correo: String): boolean
+}
+interface "TarjetaRepository" {
+    + findByEstado(estado: String): List of Tarjeta
+    + findByCodigoUnico(codigo: String): Tarjeta
+    + filtrarTarjetas(codigo: String, tipo: String, estado: String): List of Tarjeta
+}
+interface "VentaRepository" {
+    + findByNombreClienteContainingIgnoreCase(nombre: String): List of Venta
+    + findByTarjetaId(id: Long): List of Venta
+    + findByEmpleadoId(id: Long): List of Venta
+    + findByFechaVenta(fecha: LocalDate): List of Venta
+    + filtrarVentas(cliente: String, tarjetaId: Long, empleadoId: Long, fecha: LocalDate): List of Venta
+}
+
+' --- Modelos de Dominio ---
+class "Empleado" {
+    + id: Long
+    - nombre: String
+    - apellido: String
+    - cedula: String
+    - telefono: String
+    - direccion: String
+    - correo: String
+    - rol: String
+    - fechaCreacion: LocalDateTime
+}
+class "Incidencia" {
+    + id: Long
+    - codigoIncidencia: String
+    - fechaIncidencia: LocalDate
+    - tipoIncidencia: String
+    - estadoIncidencia: String
+    - cedulaCliente: String
+    - comentarios: String
+    - usuarioRegistro: String
+    - fechaRegistro: LocalDateTime
+    - tarjeta: Tarjeta
+}
+class "Perfil" {
+    + id: Long
+    - nombre: String
+    - cedula: String
+    - telefono: String
+    - correo: String
+    - rol: String
+    - contrasena: String
+    - fechaCreacion: LocalDateTime
+    - empleado: Empleado
+}
+class "Tarjeta" {
+    + id: Long
+    - codigoUnico: String
+    - tipoTarjeta: String
+    - estado: String
+    - createdAt: LocalDateTime
+    - updatedAt: LocalDateTime
+}
+class "Venta" {
+    + id: Long
+    - nombreCliente: String
+    - tarjeta: Tarjeta
+    - empleado: Perfil
+    - fechaVenta: LocalDate
+    - createdAt: LocalDateTime
+    - updatedAt: LocalDateTime
+}
+
+' --- DTOs ---
+class "EmpleadoDTO" {
+    + id: Long
+    + nombre: String
+    + apellido: String
+    + cedula: String
+    + correo: String
+    + telefono: String
+    + direccion: String
+    + rol: String
+    + fechaCreacion: LocalDateTime
+}
+class "EmpleadoRegistroDTO" {
+    + nombre: String
+    + apellido: String
+    + cedula: String
+    + correo: String
+    + telefono: String
+    + direccion: String
+    + rol: String
+}
+class "IncidenciaDTO" {
+    + fechaIncidencia: LocalDate
+    + tipoIncidencia: String
+    + estadoIncidencia: String
+    + cedulaCliente: String
+    + comentarios: String
+    + codigoTarjeta: String
+    + usuario: String
+}
+class "PerfilDTO" {
+    + id: Long
+    + nombre: String
+    + cedula: String
+    + telefono: String
+    + correo: String
+    + rol: String
+    + fechaCreacion: LocalDateTime
+    + gestionarEmpleados: boolean
+}
+class "PerfilRegistroDTO" {
+    + nombre: String
+    + cedula: String
+    + correo: String
+    + rol: String
+    + contrasena: String
+    + confirmacionContrasena: String
+}
+class "TarjetaRequestDTO" {
+    + codigoUnico: String
+    + tipoTarjeta: String
+}
+class "TarjetaResponseDTO" {
+    + id: Long
+    + codigoUnico: String
+    + tipoTarjeta: String
+    + estado: String
+}
+class "VentaRequestDTO" {
+    + nombreCliente: String
+    + tarjetaId: Long
+    + empleadoId: Long
+    + fechaVenta: LocalDate
+}
+class "VentaResponseDTO" {
+    + id: Long
+    + nombreCliente: String
+    + tarjetaCodigoUnico: String
+    + empleadoNombre: String
+    + fechaVenta: LocalDate
+}
+
+' ---------------------------------
+' --- RELACIONES DEL SISTEMA ---
+' ---------------------------------
+
+' === Frontend: Componentes -> Vistas HTML ===
+ConsultarIncidenciaComponent -- ConsultarIncidenciaView : "renderiza"
+DashboardComponent -- DashboardView : "renderiza"
+LoginComponent -- LoginView : "renderiza"
+MiPerfilComponent -- MiPerfilView : "renderiza"
+RegistrarIncidenciaComponent -- RegistrarIncidenciaView : "renderiza"
+RegistrarPerfilComponent -- RegistrarPerfilView : "renderiza"
+TarjetasFormComponent -- TarjetasFormView : "renderiza"
+TarjetasListComponent -- TarjetasListView : "renderiza"
+VentasFormComponent -- VentasFormView : "renderiza"
+VentasListComponent -- VentasListView : "renderiza"
+ListarEmpleadosComponent -- ListarEmpleadosView : "renderiza"
+GestionarEmpleadosComponent -- GestionarEmpleadosView : "renderiza"
+RegistrarEmpleadoComponent -- RegistrarEmpleadoView : "renderiza"
+
+' === Frontend: Componentes -> Servicios ===
+ConsultarIncidenciaComponent --> IncidenciaServiceFE : usa
+DashboardComponent --> EmpleadoServiceFE : usa
+DashboardComponent --> TarjetaServiceFE : usa
+DashboardComponent --> VentaServiceFE : usa
+LoginComponent --> AuthService : usa
+MiPerfilComponent --> PerfilServiceFE : usa
+RegistrarIncidenciaComponent --> IncidenciaServiceFE : usa
+RegistrarPerfilComponent --> PerfilServiceFE : usa
+RegistrarEmpleadoComponent --> EmpleadoServiceFE : usa
+GestionarEmpleadosComponent --> EmpleadoServiceFE : usa
+ListarEmpleadosComponent --> EmpleadoServiceFE : usa
+TarjetasFormComponent --> TarjetaServiceFE : usa
+TarjetasListComponent --> TarjetaServiceFE : usa
+VentasFormComponent --> VentaServiceFE : usa
+VentasListComponent --> VentaServiceFE : usa
+AuthService --> PerfilServiceFE : delega a
+
+' === Frontend Services -> Backend Controllers ===
+EmpleadoServiceFE --> EmpleadoController : comunica vía HTTP API
+IncidenciaServiceFE --> IncidenciaController : comunica vía HTTP API
+PerfilServiceFE --> PerfilController : comunica vía HTTP API
+TarjetaServiceFE --> TarjetaController : comunica vía HTTP API
+VentaServiceFE --> VentaController : comunica vía HTTP API
+
+' === Backend: Controller -> Service ===
+EmpleadoController "1" --> "1" EmpleadoService : delega a
+IncidenciaController "1" --> "1" IncidenciaService : delega a
+PerfilController "1" --> "1" PerfilService : delega a
+TarjetaController "1" --> "1" TarjetaService : delega a
+VentaController "1" --> "1" VentaService : delega a
+
+' === Backend: Service -> Repository ===
+EmpleadoService "1" --> "1" EmpleadoRepository : usa
+IncidenciaService "1" --> "1" IncidenciaRepository : usa
+IncidenciaService "1" --> "1" TarjetaRepository : usa
+PerfilService "1" --> "1" PerfilRepository : usa
+PerfilService "1" --> "1" EmpleadoRepository : usa
+TarjetaService "1" --> "1" TarjetaRepository : usa
+VentaService "1" --> "1" VentaRepository : usa
+VentaService "1" --> "1" TarjetaRepository : usa
+VentaService "1" --> "1" PerfilRepository : usa
+
+' === Backend: Repository -> Model ===
+EmpleadoRepository "1" -- "0..*" Empleado : gestiona
+IncidenciaRepository "1" -- "0..*" Incidencia : gestiona
+PerfilRepository "1" -- "0..*" Perfil : gestiona
+TarjetaRepository "1" -- "0..*" Tarjeta : gestiona
+VentaRepository "1" -- "0..*" Venta : gestiona
+
+' === Backend: Flujo Completo de DTOs ===
+' Perfil
+PerfilController --> PerfilRegistroDTO : recibe
+PerfilController --> PerfilDTO : retorna
+PerfilService --> PerfilRegistroDTO : usa
+PerfilService --> PerfilDTO : crea
+' Empleado
+EmpleadoController --> EmpleadoRegistroDTO : recibe
+EmpleadoController --> EmpleadoDTO : retorna
+EmpleadoService --> EmpleadoRegistroDTO : usa
+EmpleadoService --> EmpleadoDTO : crea
+' Tarjeta
+TarjetaController --> TarjetaRequestDTO : recibe
+TarjetaController --> TarjetaResponseDTO : retorna
+TarjetaService --> TarjetaRequestDTO : usa
+TarjetaService --> TarjetaResponseDTO : crea
+' Venta
+VentaController --> VentaRequestDTO : recibe
+VentaController --> VentaResponseDTO : retorna
+VentaService --> VentaRequestDTO : usa
+VentaService --> VentaResponseDTO : crea
+' Incidencia
+IncidenciaController --> IncidenciaDTO : recibe/retorna
+IncidenciaService --> IncidenciaDTO : usa
+
+' === Relaciones entre Modelos de Dominio ===
+Perfil "*" -- "0..*" Empleado : está asociado a
+Venta "1" -- "1" Tarjeta : corresponde a
+Venta "*" -- "1" Perfil : es registrada por
+Incidencia "*" -- "0..1" Tarjeta : se reporta sobre
+
+legend
+  **Nota sobre Nomenclatura y Estereotipos:**
+  - El sufijo 'FE' diferencia clases de Frontend y Backend con el mismo nombre.
+  - `<<Component>>`, `<<Service>>` y `<<View>>` indican el rol de la clase.
+end legend
+
+@enduml
