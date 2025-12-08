@@ -1,72 +1,149 @@
 @startuml
-title Diagrama de Secuencia - Registrar Tarjeta (con Táctica de Timestamp)
+autonumber
 
-participant Usuario
-participant "tarjetas-form.component.html" as Vista
-participant "tarjetas-form.component.ts" as Comp
-participant "tarjeta.service.ts" as ServNg
-participant "TarjetaController.java" as Ctrl
-participant "TarjetaService.java" as ServSp
-participant "ExternalCallLatencyMonitor.java" as Monitor <<Component>>
+' --- CONFIGURACIÓN VISUAL ---
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 200
+skinparam participant {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam actor {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam note {
+    BackgroundColor #FEFECE
+    BorderColor #D4D433
+}
+
+' --- PARTICIPANTES (ACTUALIZADOS) ---
+actor "User" as User
+participant "tarjetas-form.\ncomponent.html" as HTML
+participant "tarjetas-form.\ncomponent.ts" as Component
+participant "Tarjeta.service.ts" as FrontService
+
+' === BACKEND CON TÁCTICA TIMESTAMP ===
+participant "TarjetaController.java" as Controller
+participant "TarjetaService.java" as BackService
+participant "ExternalCallLatencyMonitor" as Monitor #Cyan
 participant "TarjetaRepository.java" as Repo
-participant "Database (MySQL)" as DB
+database "Database\nMySQL" as DB
 
-Usuario->Vista: Rellena formulario y clic en "Guardar"
-Vista->Comp: Llama a la función onSubmit()
+' =========================================================
+' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' =========================================================
+group Camino Feliz
 
-Comp->Comp: Inicia la validación del formulario
+    ' 1. Frontend
+    User -> HTML: Llena el form
+    User -> HTML: Presiona OK
 
-alt Formulario Válido (this.tarjetaForm.valid)
-    Comp->Comp: Prepara los datos de la nueva tarjeta
-    Comp->ServNg: Solicita registrar la tarjeta
-    ServNg->Ctrl: (Red) Envía la solicitud al backend
+    note left of Component
+        PASO 3
+    end note
 
-    note right of Ctrl: Inicia la revisión de la solicitud
-    Ctrl->ServSp: Pasa la solicitud al servicio de lógica
-    ServSp->Repo: Pregunta si el código de tarjeta ya existe
-    Repo->DB: Ejecuta la consulta en la base de datos
+    HTML -> Component: onclick()
+    Component -> Component: valida el form (OK)
+    Component -> FrontService: solicita registrar
 
-    alt El código de tarjeta NO existe
-        DB->Repo: Informa que el código no existe
-        Repo->ServSp: Informa que el código no existe
-        ServSp->ServSp: Crea la nueva tarjeta
-        ServSp->ServSp: Asigna estado = "Disponible"
+    ' 2. Backend (Conexión Directa)
+    FrontService -> Controller: envia la sol. al back (POST)
 
-        group Táctica de Detección de Fallas: Timestamp
-            ServSp->Monitor: Llama a start() para iniciar el temporizador
-            note right of ServSp: Inicia el monitoreo de latencia
+    ' 3. Lógica de Backend con Táctica Timestamp
+    Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
 
-            ServSp->Repo: Ordena guardar la nueva tarjeta
-            note left of Repo: Usa el 'plano' de la Entidad Tarjeta.java
-            Repo->DB: Almacena la nueva tarjeta
-            DB->Repo: Devuelve la tarjeta (ya con su ID)
-            Repo->ServSp: Devuelve la tarjeta guardada
+    BackService -> Repo: valida existencia
+    Repo -> DB: Ejecuta la consulta en BD
+    DB --> Repo: informa que el cod No existe
+    Repo --> BackService: informa que no existe
 
-            ServSp->Monitor: Llama a checkLatency() para verificar el tiempo
-            note right of ServSp: Finaliza el monitoreo de latencia
-            Monitor->Monitor: Si (tiempo > 2000ms), registra un ERROR en el log
-        end
+    BackService -> BackService: Crea nueva tarjeta
+    BackService -> BackService: Asigna estado "disponible"
 
-        ServSp->ServSp: Prepara la respuesta para el frontend
-        ServSp->Ctrl: Devuelve la tarjeta registrada
-        Ctrl->ServNg:  Confirma que el registro fue exitoso
+    ' ---> INICIO TÁCTICA TIMESTAMP <---
+    BackService -> Monitor: start()
+    note right of Monitor
+        Táctica Timestamp:
+        Mide tiempo de respuesta
+    end note
 
-        ServNg->Comp: Recibe la confirmación de éxito
-        Comp->Vista: Muestra "Tarjeta registrada"
-        Comp->Usuario: Redirige a la lista de tarjetas
+    BackService -> Repo: ordena guardar
+    Repo -> DB: Registra nueva tarjeta
+    DB --> Repo: Devuelve tarjeta
+    Repo --> BackService: Devuelve tarjeta
 
-    else El código de tarjeta SÍ existe
-        DB->Repo: Informa que el código SÍ existe
-        Repo->ServSp: Informa que el código SÍ existe
-        ServSp->Ctrl: Lanza un error (tarjeta duplicada)
+    BackService -> Monitor: checkLatency()
+    ' ---> FIN TÁCTICA TIMESTAMP <---
 
-        note right of Ctrl: 'catch' atrapa el error
-        Ctrl->ServNg:  Reporta el error al frontend
-        ServNg->Comp: Recibe la notificación de error
-        Comp->Vista: Muestra "Error: Tarjeta ya existe"
-    end
+    BackService -> BackService: Prepara respuesta\n(tarjetaResponseDTO)
+    BackService --> Controller: Devuelve tarjeta regist.
 
-else Formulario Inválido
-    Comp->Vista: Muestra errores de validación en pantalla
+    ' 4. Retorno
+    Controller --> FrontService: 200 OK
+
+    FrontService --> Component: Recibe confirmación
+    Component -> HTML: Muestra tarjeta registrada
+
+    ' 5. Acción Final Usuario
+    User -> HTML: Presiona OK
+    note right of HTML
+      Regresa a lista
+      tarjetas registradas
+    end note
 end
+
+' =========================================================
+' === FLUJOS ALTERNOS (Errores) ===
+' =========================================================
+
+' --- 1. Error de Negocio Backend ---
+group Flujo Alterno: El código de tarjeta SÍ existe
+    ' Estira la caja
+    User -[hidden]-> DB
+
+    ' Empieza directo en la respuesta de la BD
+    DB --> Repo: informa que el código existe
+    Repo --> BackService: informa que existe
+
+    BackService --> Controller: Lanza error (Excepción)
+    Controller --> FrontService: reporta error al front
+    FrontService --> Component: recibe el error
+    Component -> HTML: Muestra msj error en el campo
+
+    ' Acción del usuario + Referencia al paso 3
+    User -> HTML: Ingresa nuevo código
+    User -> HTML: Presiona OK
+    note right of Component
+        regresan al paso 3
+    end note
+end
+
+' --- 2. Error de Frontend (Datos Inválidos) ---
+group Flujo Alterno: Datos inválidos en el form
+    ' Estira la caja
+    User -[hidden]-> DB
+
+    ' Empieza directo mostrando errores
+    Component -> HTML: muestra errores en los campos
+
+    ' Acción del usuario + Referencia al paso 3
+    User -> HTML: Arregla datos
+    note right of Component
+        regresan al paso 3
+    end note
+end
+
+' --- 3. Falla de Latencia (Timestamp) ---
+group Flujo Alterno: Falla de Latencia (Timestamp)
+    ' Estira la caja
+    User -[hidden]-> DB
+
+    ' La táctica detecta la falla después de la operación de BD
+    BackService -> Monitor: checkLatency()
+    Monitor -> Monitor: tiempo > 2000ms
+    Monitor -> Monitor: Log Error
+end
+
 @enduml
