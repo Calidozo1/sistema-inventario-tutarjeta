@@ -1,0 +1,127 @@
+@startuml
+autonumber
+
+' --- CONFIGURACIÓN VISUAL ---
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 200
+skinparam participant {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam actor {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam note {
+    BackgroundColor #FEFECE
+    BorderColor #D4D433
+}
+
+' --- PARTICIPANTES (LIMPIOS) ---
+actor "User" as User
+participant "tarjetas-form.\ncomponent.html" as HTML
+participant "tarjetas-form.\ncomponent.ts" as Component
+participant "Tarjeta.service.ts" as FrontService
+
+' === BACKEND ORIGINAL ===
+participant "TarjetaController.java" as Controller
+participant "TarjetaService.java" as BackService
+participant "TarjetaRepository.java" as Repo
+database "Database\nMySQL" as DB
+
+' =========================================================
+' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' =========================================================
+group Camino Feliz
+
+    ' 1. Frontend
+    User -> HTML: Llena el form
+    User -> HTML: Presiona OK
+
+    note left of Component
+        PASO 3
+    end note
+
+    HTML -> Component: onclick()
+    Component -> Component: valida el form (OK)
+    Component -> FrontService: solicita registrar
+
+    ' 2. Backend (Conexión Directa)
+    FrontService -> Controller: POST /tarjetas
+
+    ' 3. Backend Original
+    Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
+
+    BackService -> Repo: valida existencia
+    Repo -> DB: Ejecuta la consulta en BD
+    DB --> Repo: informa que el cod No existe
+    Repo --> BackService: informa que no existe
+
+    BackService -> BackService: Crea nueva tarjeta
+    BackService -> BackService: Asigna estado "disponible"
+
+    BackService -> Repo: ordena guardar
+    Repo -> DB: Registra nueva tarjeta
+    DB --> Repo: Devuelve tarjeta
+    Repo --> BackService: Devuelve tarjeta
+
+    BackService -> BackService: Prepara respuesta\n(tarjetaResponseDTO)
+    BackService --> Controller: Devuelve tarjeta regist.
+
+    ' 4. Retorno
+    Controller --> FrontService: 200 OK
+
+    FrontService --> Component: Recibe confirmación
+    Component -> HTML: Muestra tarjeta registrada
+
+    ' 5. Acción Final Usuario
+    User -> HTML: Presiona OK
+    note right of HTML
+      Regresa a lista
+      tarjetas registradas
+    end note
+end
+
+' =========================================================
+' === FLUJOS ALTERNOS (Errores) ===
+' =========================================================
+
+' --- 1. Error de Negocio Backend ---
+group Flujo Alterno: El código de tarjeta SÍ existe
+    ' Estira la caja
+    User -[hidden]-> DB
+
+    ' Empieza directo en la respuesta de la BD
+    DB --> Repo: informa que el código existe
+    Repo --> BackService: informa que existe
+
+    BackService --> Controller: Lanza error (Excepción)
+    Controller --> FrontService: reporta error al front
+    FrontService --> Component: recibe el error
+    Component -> HTML: Muestra msj error en el campo
+
+    ' Acción del usuario + Referencia al paso 3
+    User -> HTML: Ingresa nuevo código
+    User -> HTML: Presiona OK
+    note right of Component
+        regresan al paso 3
+    end note
+end
+
+' --- 2. Error de Frontend (Datos Inválidos) ---
+group Flujo Alterno: Datos inválidos en el form
+    ' Estira la caja
+    User -[hidden]-> DB
+
+    ' Empieza directo mostrando errores
+    Component -> HTML: muestra errores en los campos
+
+    ' Acción del usuario + Referencia al paso 3
+    User -> HTML: Arregla datos
+    note right of Component
+        regresan al paso 3
+    end note
+end
+
+@enduml
