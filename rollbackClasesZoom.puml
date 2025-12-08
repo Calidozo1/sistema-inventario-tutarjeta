@@ -1,0 +1,78 @@
+@startuml
+
+' Titulo del Diagrama
+title Diagrama de Clases con Táctica 'Rollback'
+
+' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
+scale 3.0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    ArrowColor #262626
+    BorderColor #262626
+    BackgroundColor #FFFFF0
+}
+
+' ---------------------------------
+' --- CLASES DEL BACKEND (Enfocado en la Táctica) ---
+' ---------------------------------
+
+' --- Componentes de Tácticas Arquitectónicas ---
+class "RegistrationTransactionHandler" as Handler <<Component>> #LightBlue {
+    - tarjetaRepository: TarjetaRepository
+    + executeTransaction(tarjeta: Tarjeta): Tarjeta
+}
+
+' --- Excepciones Personalizadas ---
+class "TransactionRollbackException" as RollbackException #LightPink {
+    + TransactionRollbackException(message: String, cause: Throwable)
+}
+
+' --- Servicios ---
+class "TarjetaService" {
+    - tarjetaRepository: TarjetaRepository
+    - transactionHandler: RegistrationTransactionHandler
+    + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
+    ' ... otros métodos
+}
+
+' --- Repositorios ---
+interface "TarjetaRepository" {
+    + save(tarjeta: Tarjeta): Tarjeta
+    + findByCodigoUnico(codigo: String): Tarjeta
+    ' ... otros métodos
+}
+
+' --- Modelos de Dominio ---
+class "Tarjeta" {
+    + id: Long
+    - codigoUnico: String
+    - tipoTarjeta: String
+    - estado: String
+}
+
+' ---------------------------------
+' --- RELACIONES DEL SISTEMA ---
+' ---------------------------------
+
+' === Backend: Service -> Handler (Táctica) ===
+TarjetaService --> Handler : delega la transacción
+
+' === Backend: Handler -> Repository ===
+Handler --> TarjetaRepository : usa para guardar
+
+' === Backend: Handler -> Exception (Táctica) ===
+Handler ..> RollbackException : <<throws>>
+
+' === Backend: Repository -> Model ===
+TarjetaRepository -- "0..*" Tarjeta : gestiona
+
+legend
+  **Nota sobre el Diagrama:**
+  - Se ha añadido el manejador `RegistrationTransactionHandler` (en azul claro) que encapsula la transacción.
+  - Se muestra la excepción personalizada `TransactionRollbackException` (en rosa) que se lanza en caso de fallo.
+  - `TarjetaService` ahora delega la operación de guardado al `Handler`.
+  - Se han omitido clases no relevantes para esta vista por claridad.
+end legend
+
+@enduml

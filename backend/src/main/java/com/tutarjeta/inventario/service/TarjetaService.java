@@ -2,6 +2,7 @@ package com.tutarjeta.inventario.service;
 
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
+import com.tutarjeta.inventario.handler.RegistrationTransactionHandler;
 import com.tutarjeta.inventario.model.Tarjeta;
 import com.tutarjeta.inventario.repository.TarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class TarjetaService {
 
     @Autowired
     private TarjetaRepository tarjetaRepository;
+
+    @Autowired
+    private RegistrationTransactionHandler transactionHandler;
 
     // Listar todas las tarjetas
     public List<TarjetaResponseDTO> listarTarjetas() {
@@ -44,8 +48,10 @@ public class TarjetaService {
         tarjeta.setTipoTarjeta(request.getTipoTarjeta());
         tarjeta.setEstado("Disponible"); // Estado inicial
 
-        tarjeta = tarjetaRepository.save(tarjeta);
-        return convertirAResponseDTO(tarjeta);
+        // Delegar la operación de escritura al manejador transaccional
+        Tarjeta tarjetaGuardada = transactionHandler.executeTransaction(tarjeta);
+
+        return convertirAResponseDTO(tarjetaGuardada);
     }
 
     // Filtrar tarjetas

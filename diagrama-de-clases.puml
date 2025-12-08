@@ -1,7 +1,7 @@
 @startuml
 
 ' Titulo del Diagrama
-title Diagrama de Clases Final y Exhaustivo del Sistema (con Vistas HTML)
+title Diagrama de Clases Final y Exhaustivo del Sistema (con Táctica Rollback)
 
 ' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
 scale 3.0
@@ -180,6 +180,17 @@ class "VentaServiceFE" as VentaServiceFE <<Service>> {
 ' --- CLASES DEL BACKEND (Spring Boot) ---
 ' ---------------------------------
 
+' --- Componentes de Tácticas Arquitectónicas ---
+class "RegistrationTransactionHandler" as Handler <<Component>> #LightBlue {
+    - tarjetaRepository: TarjetaRepository
+    + executeTransaction(tarjeta: Tarjeta): Tarjeta
+}
+
+' --- Excepciones Personalizadas ---
+class "TransactionRollbackException" as RollbackException <<Exception>> #LightPink {
+    + TransactionRollbackException(message: String, cause: Throwable)
+}
+
 ' --- Controladores ---
 class "EmpleadoController" {
     - empleadoService: EmpleadoService
@@ -237,6 +248,7 @@ class "PerfilService" {
 }
 class "TarjetaService" {
     - tarjetaRepository: TarjetaRepository
+    - transactionHandler: RegistrationTransactionHandler
     + listarTarjetas(): List of TarjetaResponseDTO
     + obtenerTarjetaPorId(id: Long): TarjetaResponseDTO
     + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
@@ -458,6 +470,13 @@ PerfilController "1" --> "1" PerfilService : delega a
 TarjetaController "1" --> "1" TarjetaService : delega a
 VentaController "1" --> "1" VentaService : delega a
 
+' === Backend: Service -> Tactic Components ===
+TarjetaService --> Handler : delega la transacción
+Handler --> RollbackException : <<throws>>
+
+' === Backend: Tactic Components -> Repository ===
+Handler --> TarjetaRepository : usa
+
 ' === Backend: Service -> Repository ===
 EmpleadoService "1" --> "1" EmpleadoRepository : usa
 IncidenciaService "1" --> "1" IncidenciaRepository : usa
@@ -510,7 +529,7 @@ Incidencia "*" -- "0..1" Tarjeta : se reporta sobre
 legend
   **Nota sobre Nomenclatura y Estereotipos:**
   - El sufijo 'FE' diferencia clases de Frontend y Backend con el mismo nombre.
-  - `<<Component>>`, `<<Service>>` y `<<View>>` indican el rol de la clase.
+  - <<Component>>, <<Service>> y <<View>> indican el rol de la clase.
 end legend
 
 @enduml

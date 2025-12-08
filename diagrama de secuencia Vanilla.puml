@@ -18,15 +18,16 @@ skinparam note {
     BorderColor #D4D433
 }
 
-' --- PARTICIPANTES (LIMPIOS) ---
+' --- PARTICIPANTES (CON TÁCTICA ROLLBACK) ---
 actor "User" as User
 participant "tarjetas-form.\ncomponent.html" as HTML
 participant "tarjetas-form.\ncomponent.ts" as Component
 participant "Tarjeta.service.ts" as FrontService
 
-' === BACKEND ORIGINAL ===
+' === BACKEND CON TÁCTICA ROLLBACK ===
 participant "TarjetaController.java" as Controller
 participant "TarjetaService.java" as BackService
+participant "RegistrationTransactionHandler" as Handler #LightBlue
 participant "TarjetaRepository.java" as Repo
 database "Database\nMySQL" as DB
 
@@ -50,7 +51,7 @@ group Camino Feliz
     ' 2. Backend (Conexión Directa)
     FrontService -> Controller: POST /tarjetas
 
-    ' 3. Backend Original
+    ' 3. Backend con Táctica 'Rollback'
     Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
 
     BackService -> Repo: valida existencia
@@ -59,12 +60,22 @@ group Camino Feliz
     Repo --> BackService: informa que no existe
 
     BackService -> BackService: Crea nueva tarjeta
-    BackService -> BackService: Asigna estado "disponible"
 
-    BackService -> Repo: ordena guardar
-    Repo -> DB: Registra nueva tarjeta
-    DB --> Repo: Devuelve tarjeta
-    Repo --> BackService: Devuelve tarjeta
+    ' ---> Táctica: Delegar a un manejador transaccional
+    BackService -> Handler: executeTransaction(tarjeta)
+
+    group Táctica Rollback: Transacción Aislada
+        Handler -> Repo: ordena guardar
+        note right of Handler
+            Anotado con @Transactional
+            (propagation = REQUIRES_NEW)
+        end note
+        Repo -> DB: Registra nueva tarjeta
+        DB --> Repo: Devuelve tarjeta
+        Repo --> Handler: Devuelve tarjeta guardada
+    end
+
+    Handler --> BackService: Devuelve tarjeta guardada
 
     BackService -> BackService: Prepara respuesta\n(tarjetaResponseDTO)
     BackService --> Controller: Devuelve tarjeta regist.
@@ -89,39 +100,41 @@ end
 
 ' --- 1. Error de Negocio Backend ---
 group Flujo Alterno: El código de tarjeta SÍ existe
-    ' Estira la caja
+    ' (Este flujo no cambia, ocurre antes de la transacción)
     User -[hidden]-> DB
-
-    ' Empieza directo en la respuesta de la BD
     DB --> Repo: informa que el código existe
     Repo --> BackService: informa que existe
-
     BackService --> Controller: Lanza error (Excepción)
     Controller --> FrontService: reporta error al front
     FrontService --> Component: recibe el error
     Component -> HTML: Muestra msj error en el campo
-
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Ingresa nuevo código
-    User -> HTML: Presiona OK
-    note right of Component
-        regresan al paso 3
-    end note
 end
 
-' --- 2. Error de Frontend (Datos Inválidos) ---
-group Flujo Alterno: Datos inválidos en el form
-    ' Estira la caja
+' --- 2. Falla en la Transacción (Rollback) ---
+group Flujo Alterno: Falla en la Transacción (Rollback)
     User -[hidden]-> DB
 
-    ' Empieza directo mostrando errores
-    Component -> HTML: muestra errores en los campos
+    ' El flujo es normal hasta el intento de guardado
+    BackService -> Handler: executeTransaction(tarjeta)
+    Handler -> Repo: ordena guardar
 
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Arregla datos
-    note right of Component
-        regresan al paso 3
+    ' La BD falla
+    Repo -> DB: Registra nueva tarjeta
+    DB --x Repo: Error de escritura (ej. Constraint Violation)
+
+    ' La excepción sube y es manejada por la táctica
+    Repo -->> Handler: Lanza DataAccessException
+    Handler -> Handler: Captura excepción original
+    Handler -->> BackService: Lanza TransactionRollbackException
+    note right of Handler
+        Spring ejecuta ROLLBACK
+        debido a la excepción
     end note
+
+    BackService -->> Controller: Propaga la excepción
+    Controller --> FrontService: reporta error (Falla en transacción)
+    FrontService --> Component: recibe el error
+    Component -> HTML: Muestra "Error al guardar. Intente de nuevo."
 end
 
 @enduml
