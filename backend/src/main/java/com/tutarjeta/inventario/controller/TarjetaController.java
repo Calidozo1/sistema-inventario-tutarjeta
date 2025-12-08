@@ -3,6 +3,7 @@ package com.tutarjeta.inventario.controller;
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
 import com.tutarjeta.inventario.service.TarjetaService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,10 @@ public class TarjetaController {
 
     // ✅ Registrar nueva tarjeta (ahora muestra el error real)
     @PostMapping
-    public ResponseEntity<?> registrarTarjeta(@RequestBody TarjetaRequestDTO request) {
+    public ResponseEntity<?> registrarTarjeta(@RequestBody TarjetaRequestDTO request, HttpServletRequest httpServletRequest) {
         try {
-            TarjetaResponseDTO tarjeta = tarjetaService.registrarTarjeta(request);
+            String clientIp = httpServletRequest.getRemoteAddr();
+            TarjetaResponseDTO tarjeta = tarjetaService.registrarTarjeta(request, clientIp);
             return ResponseEntity.status(HttpStatus.CREATED).body(tarjeta);
         } catch (RuntimeException e) {
             e.printStackTrace(); // ✅ mostrará el error real en consola

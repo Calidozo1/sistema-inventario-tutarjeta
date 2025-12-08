@@ -1,7 +1,7 @@
 @startuml
 
 ' Titulo del Diagrama
-title Diagrama de Clases Final y Exhaustivo del Sistema (con Vistas HTML)
+title Diagrama de Clases con Táctica 'Revoke Access'
 
 ' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
 scale 3.0
@@ -180,6 +180,17 @@ class "VentaServiceFE" as VentaServiceFE <<Service>> {
 ' --- CLASES DEL BACKEND (Spring Boot) ---
 ' ---------------------------------
 
+' --- Componentes de Tácticas Arquitectónicas ---
+class "UserSuspensionManager" as SuspensionManager <<Component>> #LightCoral {
+    - MAX_ATTEMPTS: int
+    - BLOCK_DURATION_MINUTES: long
+    - failedAttempts: ConcurrentHashMap<String, Integer>
+    - blockedIps: ConcurrentHashMap<String, LocalDateTime>
+    + isBlocked(ip: String): boolean
+    + reportFailedAttempt(ip: String): void
+    + resetAttempts(ip: String): void
+}
+
 ' --- Controladores ---
 class "EmpleadoController" {
     - empleadoService: EmpleadoService
@@ -201,7 +212,7 @@ class "TarjetaController" {
     - tarjetaService: TarjetaService
     + listarTarjetas(): ResponseEntity of List of TarjetaResponseDTO
     + obtenerTarjeta(id: Long): ResponseEntity of TarjetaResponseDTO
-    + registrarTarjeta(request: TarjetaRequestDTO): ResponseEntity
+    + registrarTarjeta(request: TarjetaRequestDTO, httpServletRequest: HttpServletRequest): ResponseEntity
     + filtrarTarjetas(codigo: String, tipo: String, estado: String): ResponseEntity of List of TarjetaResponseDTO
 }
 class "VentaController" {
@@ -237,9 +248,10 @@ class "PerfilService" {
 }
 class "TarjetaService" {
     - tarjetaRepository: TarjetaRepository
+    - suspensionManager: UserSuspensionManager
     + listarTarjetas(): List of TarjetaResponseDTO
     + obtenerTarjetaPorId(id: Long): TarjetaResponseDTO
-    + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
+    + registrarTarjeta(request: TarjetaRequestDTO, clientIp: String): TarjetaResponseDTO
     + filtrarTarjetas(codigo: String, tipo: String, estado: String): List of TarjetaResponseDTO
     - convertirAResponseDTO(tarjeta: Tarjeta): TarjetaResponseDTO
 }
@@ -458,6 +470,9 @@ PerfilController "1" --> "1" PerfilService : delega a
 TarjetaController "1" --> "1" TarjetaService : delega a
 VentaController "1" --> "1" VentaService : delega a
 
+' === Backend: Service -> Tactic Components ===
+TarjetaService --> SuspensionManager : usa
+
 ' === Backend: Service -> Repository ===
 EmpleadoService "1" --> "1" EmpleadoRepository : usa
 IncidenciaService "1" --> "1" IncidenciaRepository : usa
@@ -510,7 +525,7 @@ Incidencia "*" -- "0..1" Tarjeta : se reporta sobre
 legend
   **Nota sobre Nomenclatura y Estereotipos:**
   - El sufijo 'FE' diferencia clases de Frontend y Backend con el mismo nombre.
-  - `<<Component>>`, `<<Service>>` y `<<View>>` indican el rol de la clase.
+  - <<Component>>, <<Service>> y <<View>> indican el rol de la clase.
 end legend
 
 @enduml

@@ -1,0 +1,56 @@
+@startuml
+title Diagrama de Estados - Revocar Acceso (Ancho Extendido)
+
+' --- 1. ESCALA Y ESPACIADO (Aquí está la magia) ---
+scale 2.0
+skinparam linetype ortho
+skinparam nodesep 350  ' <-- AUMENTADO para mayor separación horizontal
+skinparam ranksep 150
+
+' --- 2. ESTILOS VISUALES AUMENTADOS ---
+skinparam state {
+    ' Colores
+    BackgroundColor<<OK>> #D5F5E3
+    BorderColor<<OK>> #196F3D
+    BackgroundColor<<WARN>> #FCF3CF
+    BorderColor<<WARN>> #F1C40F
+    BackgroundColor<<ERR>> #FADBD8
+    BorderColor<<ERR>> #943126
+
+    ' Tipografía más grande
+    FontName Helvetica
+    FontSize 18
+    AttributeFontSize 16
+    FontStyle Bold
+
+    ' Flechas más visibles
+    ArrowColor #333333
+    ArrowThickness 2
+}
+hide empty description
+
+' --- 3. ESTADOS (con padding para más anchura) ---
+state "    Acceso Habilitado    " as Habilitado <<OK>> : Estado: Seguro\nContador: 0
+
+state "        Sospechoso        " as Sospechoso <<WARN>> : Advertencia\nContador: 1 o 2
+
+state "    ACCESO REVOCADO    " as Revocado <<ERR>> : <b>BLOQUEO ACTIVO</b>\nDuración: 5 min
+
+' --- 4. TRANSICIONES ---
+
+[*] --> Habilitado
+
+' Bajada (Errores)
+Habilitado -down-> Sospechoso : Falla Registro
+Sospechoso -down-> Revocado : <b>Falla (Intento 3)</b>
+
+' Subida (Recuperación)
+Sospechoso -up-> Habilitado : Registro Exitoso
+Revocado -up-> Habilitado : <b>Tiempo > 5 min</b>\n(Desbloqueo Auto)
+
+' Bucles Laterales (Reintentos fallidos)
+' -right-> se extiende gracias al nodesep aumentado
+Sospechoso -right-> Sospechoso : Falla (Intento < 3)
+Revocado -right-> Revocado : Intento Acceso (Rechazado)
+
+@enduml

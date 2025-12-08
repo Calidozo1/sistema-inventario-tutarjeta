@@ -4,6 +4,7 @@ import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
 import com.tutarjeta.inventario.model.Tarjeta;
 import com.tutarjeta.inventario.repository.TarjetaRepository;
+import com.tutarjeta.inventario.security.UserSuspensionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class TarjetaService {
 
     @Autowired
     private TarjetaRepository tarjetaRepository;
+
+    @Autowired
+    private UserSuspensionManager suspensionManager;
 
     // Listar todas las tarjetas
     public List<TarjetaResponseDTO> listarTarjetas() {
@@ -31,10 +35,17 @@ public class TarjetaService {
     }
 
     // Registrar nueva tarjeta
-    public TarjetaResponseDTO registrarTarjeta(TarjetaRequestDTO request) {
+    public TarjetaResponseDTO registrarTarjeta(TarjetaRequestDTO request, String clientIp) {
+        // Paso 1: Verificar si la IP está bloqueada
+        if (suspensionManager.isBlocked(clientIp)) {
+            throw new RuntimeException("ACCESO REVOCADO: IP Bloqueada temporalmente");
+        }
+
         // Validar que no exista tarjeta con el mismo código único
         Tarjeta tarjetaExistente = tarjetaRepository.findByCodigoUnico(request.getCodigoUnico());
         if (tarjetaExistente != null) {
+            // Paso 2: Reportar intento fallido si la tarjeta ya existe
+            suspensionManager.reportFailedAttempt(clientIp);
             throw new RuntimeException("Ya existe una tarjeta con el código único: " + request.getCodigoUnico());
         }
 
@@ -45,6 +56,10 @@ public class TarjetaService {
         tarjeta.setEstado("Disponible"); // Estado inicial
 
         tarjeta = tarjetaRepository.save(tarjeta);
+
+        // Paso 3: Resetear intentos si el registro es exitoso
+        suspensionManager.resetAttempts(clientIp);
+
         return convertirAResponseDTO(tarjeta);
     }
 
