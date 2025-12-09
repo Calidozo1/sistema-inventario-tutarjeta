@@ -1,4 +1,5 @@
 @startuml
+title Diagrama de Secuencia - Registro con Táctica "Limit Event Response"
 autonumber
 
 ' --- CONFIGURACIÓN VISUAL ---
@@ -18,11 +19,14 @@ skinparam note {
     BorderColor #D4D433
 }
 
-' --- PARTICIPANTES (LIMPIOS) ---
+' --- PARTICIPANTES ---
 actor "User" as User
 participant "tarjetas-form.\ncomponent.html" as HTML
 participant "tarjetas-form.\ncomponent.ts" as Component
 participant "Tarjeta.service.ts" as FrontService
+
+' === COMPONENTE TÁCTICO ===
+participant "RateLimitInterceptor.java" as Interceptor
 
 ' === BACKEND ORIGINAL ===
 participant "TarjetaController.java" as Controller
@@ -31,24 +35,51 @@ participant "TarjetaRepository.java" as Repo
 database "Database\nMySQL" as DB
 
 ' =========================================================
-' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' === INICIO DEL FLUJO ===
 ' =========================================================
-group Camino Feliz
 
-    ' 1. Frontend
-    User -> HTML: Llena el form
-    User -> HTML: Presiona OK
+' 1. Frontend
+User -> HTML: Llena el form
+User -> HTML: Presiona OK
 
-    note left of Component
-        PASO 3
+note left of Component
+    PASO 3
+end note
+
+HTML -> Component: onclick()
+Component -> Component: valida el form (OK)
+Component -> FrontService: solicita registrar
+
+' 2. Salida a la Red (Interceptada)
+FrontService -> Interceptor: POST /tarjetas
+
+' =========================================================
+' === FLUJO ALTERNO: TÁCTICA ACTIVADA (RECHAZO) ===
+' =========================================================
+' Este bloque solo ocurre si falla la verificación. Si no, el flujo sigue bajando.
+
+alt Táctica Activada: Límite Excedido (Tokens = 0)
+    Interceptor -> Interceptor: checkTokens() == false
+    note right of Interceptor
+        **Limit Event Response**
+        Descarta carga excesiva.
+        Detiene el flujo aquí.
     end note
 
-    HTML -> Component: onclick()
-    Component -> Component: valida el form (OK)
-    Component -> FrontService: solicita registrar
+    Interceptor --x FrontService: **HTTP 429 Too Many Requests**
+    FrontService -->> Component: Error: "Servidor saturado"
+    Component -> HTML: Muestra aviso: "Intente en 1 min"
+end
 
-    ' 2. Backend (Conexión Directa)
-    FrontService -> Controller: POST /tarjetas
+' =========================================================
+' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' =========================================================
+' Si el interceptor permite el paso (Caso normal), el código continúa aquí:
+
+Interceptor -> Interceptor: consumeToken()
+Interceptor -> Controller: preHandle(true) -> Pasa petición
+
+group Camino Feliz (Flujo Principal)
 
     ' 3. Backend Original
     Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
@@ -70,7 +101,8 @@ group Camino Feliz
     BackService --> Controller: Devuelve tarjeta regist.
 
     ' 4. Retorno
-    Controller --> FrontService: 200 OK
+    Controller --> Interceptor: 200 OK
+    Interceptor --> FrontService: 200 OK
 
     FrontService --> Component: Recibe confirmación
     Component -> HTML: Muestra tarjeta registrada
@@ -84,44 +116,26 @@ group Camino Feliz
 end
 
 ' =========================================================
-' === FLUJOS ALTERNOS (Errores) ===
+' === FLUJOS ALTERNOS POSTERIORES (Errores de Negocio) ===
 ' =========================================================
 
 ' --- 1. Error de Negocio Backend ---
 group Flujo Alterno: El código de tarjeta SÍ existe
-    ' Estira la caja
+    ' Nota: Esto asume que pasó el Rate Limit
     User -[hidden]-> DB
-
-    ' Empieza directo en la respuesta de la BD
     DB --> Repo: informa que el código existe
     Repo --> BackService: informa que existe
-
     BackService --> Controller: Lanza error (Excepción)
     Controller --> FrontService: reporta error al front
     FrontService --> Component: recibe el error
     Component -> HTML: Muestra msj error en el campo
-
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Ingresa nuevo código
-    User -> HTML: Presiona OK
-    note right of Component
-        regresan al paso 3
-    end note
 end
 
 ' --- 2. Error de Frontend (Datos Inválidos) ---
 group Flujo Alterno: Datos inválidos en el form
-    ' Estira la caja
-    User -[hidden]-> DB
-
-    ' Empieza directo mostrando errores
+    User -[hidden]-> HTML
     Component -> HTML: muestra errores en los campos
-
-    ' Acción del usuario + Referencia al paso 3
     User -> HTML: Arregla datos
-    note right of Component
-        regresan al paso 3
-    end note
 end
 
 @enduml

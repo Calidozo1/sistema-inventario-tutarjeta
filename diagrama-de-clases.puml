@@ -1,7 +1,7 @@
 @startuml
 
 ' Titulo del Diagrama
-title Diagrama de Clases Final y Exhaustivo del Sistema (con Vistas HTML)
+title Diagrama de Clases Final y Exhaustivo del Sistema (con Tácticas Aplicadas)
 
 ' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
 scale 3.0
@@ -179,6 +179,16 @@ class "VentaServiceFE" as VentaServiceFE <<Service>> {
 ' ---------------------------------
 ' --- CLASES DEL BACKEND (Spring Boot) ---
 ' ---------------------------------
+
+' --- Componentes de Tácticas Arquitectónicas ---
+class "RateLimitInterceptor" as Interceptor <<HandlerInterceptor>> #DDDDFF {
+    - buckets: Map<String, TokenBucket>
+    + preHandle(request, response, handler): boolean
+}
+class "RateLimiterConfig" as Config <<Configuration>> #DDDDFF {
+    - rateLimitInterceptor: RateLimitInterceptor
+    + addInterceptors(registry: InterceptorRegistry): void
+}
 
 ' --- Controladores ---
 class "EmpleadoController" {
@@ -444,11 +454,16 @@ VentasFormComponent --> VentaServiceFE : usa
 VentasListComponent --> VentaServiceFE : usa
 AuthService --> PerfilServiceFE : delega a
 
-' === Frontend Services -> Backend Controllers ===
+' === Táctica: Intercepción de Peticiones (Limit Event Response) ===
+Config --> Interceptor : "registra"
+TarjetaServiceFE --> Interceptor : "petición es interceptada por"
+Interceptor --> TarjetaController : "permite el paso a"
+
+' === Frontend Services -> Backend Controllers (Flujo Normal) ===
 EmpleadoServiceFE --> EmpleadoController : comunica vía HTTP API
 IncidenciaServiceFE --> IncidenciaController : comunica vía HTTP API
 PerfilServiceFE --> PerfilController : comunica vía HTTP API
-TarjetaServiceFE --> TarjetaController : comunica vía HTTP API
+' TarjetaServiceFE --> TarjetaController : comunica vía HTTP API (Esta línea es reemplazada por la intercepción)
 VentaServiceFE --> VentaController : comunica vía HTTP API
 
 ' === Backend: Controller -> Service ===
@@ -510,7 +525,7 @@ Incidencia "*" -- "0..1" Tarjeta : se reporta sobre
 legend
   **Nota sobre Nomenclatura y Estereotipos:**
   - El sufijo 'FE' diferencia clases de Frontend y Backend con el mismo nombre.
-  - `<<Component>>`, `<<Service>>` y `<<View>>` indican el rol de la clase.
+  - <<Component>>, <<Service>> y <<View>> indican el rol de la clase.
 end legend
 
 @enduml
