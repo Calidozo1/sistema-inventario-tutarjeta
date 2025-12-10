@@ -1,7 +1,7 @@
 @startuml
 
 ' Titulo del Diagrama
-title Diagrama de Clases Final y Exhaustivo del Sistema (con Vistas HTML)
+title Diagrama de Clases Final y Exhaustivo del Sistema (con Mapper)
 
 ' --- CONFIGURACIÓN DE ESTILO Y TAMAÑO ---
 scale 3.0
@@ -180,6 +180,12 @@ class "VentaServiceFE" as VentaServiceFE <<Service>> {
 ' --- CLASES DEL BACKEND (Spring Boot) ---
 ' ---------------------------------
 
+' --- Mappers (Táctica) ---
+class "TarjetaMapper" <<Component>> #LightGoldenRodYellow {
+    + toEntity(dto: TarjetaRequestDTO): Tarjeta
+    + toDto(entity: Tarjeta): TarjetaResponseDTO
+}
+
 ' --- Controladores ---
 class "EmpleadoController" {
     - empleadoService: EmpleadoService
@@ -237,11 +243,11 @@ class "PerfilService" {
 }
 class "TarjetaService" {
     - tarjetaRepository: TarjetaRepository
+    - tarjetaMapper: TarjetaMapper
     + listarTarjetas(): List of TarjetaResponseDTO
     + obtenerTarjetaPorId(id: Long): TarjetaResponseDTO
     + registrarTarjeta(request: TarjetaRequestDTO): TarjetaResponseDTO
     + filtrarTarjetas(codigo: String, tipo: String, estado: String): List of TarjetaResponseDTO
-    - convertirAResponseDTO(tarjeta: Tarjeta): TarjetaResponseDTO
 }
 class "VentaService" {
     - ventaRepository: VentaRepository
@@ -458,6 +464,14 @@ PerfilController "1" --> "1" PerfilService : delega a
 TarjetaController "1" --> "1" TarjetaService : delega a
 VentaController "1" --> "1" VentaService : delega a
 
+' === Backend: Service -> Mapper (Táctica) ===
+TarjetaService --> TarjetaMapper : usa para convertir
+
+' === Backend: Mapper -> DTOs y Model ===
+TarjetaMapper --> TarjetaRequestDTO : lee
+TarjetaMapper --> TarjetaResponseDTO : crea
+TarjetaMapper --> Tarjeta : crea
+
 ' === Backend: Service -> Repository ===
 EmpleadoService "1" --> "1" EmpleadoRepository : usa
 IncidenciaService "1" --> "1" IncidenciaRepository : usa
@@ -490,8 +504,6 @@ EmpleadoService --> EmpleadoDTO : crea
 ' Tarjeta
 TarjetaController --> TarjetaRequestDTO : recibe
 TarjetaController --> TarjetaResponseDTO : retorna
-TarjetaService --> TarjetaRequestDTO : usa
-TarjetaService --> TarjetaResponseDTO : crea
 ' Venta
 VentaController --> VentaRequestDTO : recibe
 VentaController --> VentaResponseDTO : retorna
@@ -510,7 +522,7 @@ Incidencia "*" -- "0..1" Tarjeta : se reporta sobre
 legend
   **Nota sobre Nomenclatura y Estereotipos:**
   - El sufijo 'FE' diferencia clases de Frontend y Backend con el mismo nombre.
-  - `<<Component>>`, `<<Service>>` y `<<View>>` indican el rol de la clase.
+  - <<Component>>, <<Service>> y <<View>> indican el rol de la clase.
 end legend
 
 @enduml

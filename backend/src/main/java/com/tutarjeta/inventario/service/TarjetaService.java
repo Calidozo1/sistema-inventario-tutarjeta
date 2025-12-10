@@ -2,6 +2,7 @@ package com.tutarjeta.inventario.service;
 
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
+import com.tutarjeta.inventario.mapper.TarjetaMapper;
 import com.tutarjeta.inventario.model.Tarjeta;
 import com.tutarjeta.inventario.repository.TarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ public class TarjetaService {
     @Autowired
     private TarjetaRepository tarjetaRepository;
 
+    @Autowired
+    private TarjetaMapper tarjetaMapper;
+
     // Listar todas las tarjetas
     public List<TarjetaResponseDTO> listarTarjetas() {
         return tarjetaRepository.findAll().stream()
-                .map(this::convertirAResponseDTO)
+                .map(tarjetaMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -27,7 +31,7 @@ public class TarjetaService {
     public TarjetaResponseDTO obtenerTarjetaPorId(Long id) {
         Tarjeta tarjeta = tarjetaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tarjeta no encontrada con ID: " + id));
-        return convertirAResponseDTO(tarjeta);
+        return tarjetaMapper.toDto(tarjeta);
     }
 
     // Registrar nueva tarjeta
@@ -38,21 +42,21 @@ public class TarjetaService {
             throw new RuntimeException("Ya existe una tarjeta con el código único: " + request.getCodigoUnico());
         }
 
-        // Crear nueva tarjeta
-        Tarjeta tarjeta = new Tarjeta();
-        tarjeta.setCodigoUnico(request.getCodigoUnico());
-        tarjeta.setTipoTarjeta(request.getTipoTarjeta());
-        tarjeta.setEstado("Disponible"); // Estado inicial
+        // Usar el mapper para convertir DTO a Entidad
+        Tarjeta nuevaTarjeta = tarjetaMapper.toEntity(request);
 
-        tarjeta = tarjetaRepository.save(tarjeta);
-        return convertirAResponseDTO(tarjeta);
+        // Persistir la entidad
+        Tarjeta tarjetaGuardada = tarjetaRepository.save(nuevaTarjeta);
+
+        // Usar el mapper para convertir la entidad guardada a DTO de respuesta
+        return tarjetaMapper.toDto(tarjetaGuardada);
     }
 
     // Filtrar tarjetas
     public List<TarjetaResponseDTO> filtrarTarjetas(String codigoUnico, String tipoTarjeta, String estado) {
         return tarjetaRepository.filtrarTarjetas(codigoUnico, tipoTarjeta, estado)
                 .stream()
-                .map(this::convertirAResponseDTO)
+                .map(tarjetaMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -60,17 +64,7 @@ public class TarjetaService {
     public List<TarjetaResponseDTO> obtenerTarjetasAsignadas() {
         return tarjetaRepository.findByEstado("Asignada")
                 .stream()
-                .map(this::convertirAResponseDTO)
+                .map(tarjetaMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    // Convertir entidad a DTO
-    private TarjetaResponseDTO convertirAResponseDTO(Tarjeta tarjeta) {
-        return new TarjetaResponseDTO(
-                tarjeta.getId(),
-                tarjeta.getCodigoUnico(),
-                tarjeta.getTipoTarjeta(),
-                tarjeta.getEstado()
-        );
     }
 }

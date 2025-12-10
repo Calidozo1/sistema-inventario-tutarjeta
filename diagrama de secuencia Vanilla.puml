@@ -1,4 +1,5 @@
 @startuml
+title Diagrama de Secuencia - Táctica 'Restrict Communication Paths' (Mapper)
 autonumber
 
 ' --- CONFIGURACIÓN VISUAL ---
@@ -18,70 +19,74 @@ skinparam note {
     BorderColor #D4D433
 }
 
-' --- PARTICIPANTES (LIMPIOS) ---
+' --- PARTICIPANTES ---
 actor "User" as User
 participant "tarjetas-form.\ncomponent.html" as HTML
 participant "tarjetas-form.\ncomponent.ts" as Component
 participant "Tarjeta.service.ts" as FrontService
 
-' === BACKEND ORIGINAL ===
+' === BACKEND CON MAPPER ===
 participant "TarjetaController.java" as Controller
 participant "TarjetaService.java" as BackService
+participant "TarjetaMapper.java" as Mapper #LightGoldenRodYellow
 participant "TarjetaRepository.java" as Repo
-database "Database\nMySQL" as DB
+' CAMBIO: Ahora es un participante normal (recuadro), no un cilindro
+participant "Database\nMySQL" as DB
 
 ' =========================================================
-' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' === FLUJO PRINCIPAL (REGISTRO EXITOSO) ===
 ' =========================================================
-group Camino Feliz
 
-    ' 1. Frontend
-    User -> HTML: Llena el form
-    User -> HTML: Presiona OK
+' 1. Frontend
+User -> HTML: Llena el form
+User -> HTML: Presiona OK
 
-    note left of Component
-        PASO 3
-    end note
+note left of Component
+    PASO 3
+end note
 
-    HTML -> Component: onclick()
-    Component -> Component: valida el form (OK)
-    Component -> FrontService: solicita registrar
+HTML -> Component: onclick()
+Component -> Component: valida el form (OK)
+Component -> FrontService: solicita registrar
 
-    ' 2. Backend (Conexión Directa)
-    FrontService -> Controller: POST /tarjetas
+' 2. Backend (Conexión Directa)
+FrontService -> Controller: POST /tarjetas
 
-    ' 3. Backend Original
-    Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
+' 3. Backend con Táctica (Controller ciego a la Entidad)
+Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
 
-    BackService -> Repo: valida existencia
-    Repo -> DB: Ejecuta la consulta en BD
-    DB --> Repo: informa que el cod No existe
-    Repo --> BackService: informa que no existe
+BackService -> Repo: valida existencia
+Repo -> DB: Ejecuta la consulta en BD
+DB --> Repo: informa que el cod No existe
+Repo --> BackService: informa que no existe
 
-    BackService -> BackService: Crea nueva tarjeta
-    BackService -> BackService: Asigna estado "disponible"
+' ---> TÁCTICA: Delegar transformación al Mapper (Service no manipula DTOs manualmente)
+BackService -> Mapper: toEntity(tarjetaRequestDTO)
+Mapper --> BackService: Devuelve nueva entidad Tarjeta
 
-    BackService -> Repo: ordena guardar
-    Repo -> DB: Registra nueva tarjeta
-    DB --> Repo: Devuelve tarjeta
-    Repo --> BackService: Devuelve tarjeta
+BackService -> Repo: ordena guardar(tarjeta)
+Repo -> DB: Registra nueva tarjeta
+DB --> Repo: Devuelve tarjeta guardada
+Repo --> BackService: Devuelve tarjeta guardada
 
-    BackService -> BackService: Prepara respuesta\n(tarjetaResponseDTO)
-    BackService --> Controller: Devuelve tarjeta regist.
+' ---> TÁCTICA: Conversión inversa para respuesta
+BackService -> Mapper: toDto(tarjetaGuardada)
+Mapper --> BackService: Devuelve tarjetaResponseDTO
 
-    ' 4. Retorno
-    Controller --> FrontService: 200 OK
+BackService --> Controller: Devuelve tarjetaResponseDTO
 
-    FrontService --> Component: Recibe confirmación
-    Component -> HTML: Muestra tarjeta registrada
+' 4. Retorno
+Controller --> FrontService: 200 OK
 
-    ' 5. Acción Final Usuario
-    User -> HTML: Presiona OK
-    note right of HTML
-      Regresa a lista
-      tarjetas registradas
-    end note
-end
+FrontService --> Component: Recibe confirmación
+Component -> HTML: Muestra tarjeta registrada
+
+' 5. Acción Final Usuario
+User -> HTML: Presiona OK
+note right of HTML
+  Regresa a lista
+  tarjetas registradas
+end note
 
 ' =========================================================
 ' === FLUJOS ALTERNOS (Errores) ===
@@ -89,39 +94,24 @@ end
 
 ' --- 1. Error de Negocio Backend ---
 group Flujo Alterno: El código de tarjeta SÍ existe
-    ' Estira la caja
+    ' (Este flujo ocurre antes del mapeo)
     User -[hidden]-> DB
-
-    ' Empieza directo en la respuesta de la BD
     DB --> Repo: informa que el código existe
     Repo --> BackService: informa que existe
-
     BackService --> Controller: Lanza error (Excepción)
     Controller --> FrontService: reporta error al front
     FrontService --> Component: recibe el error
     Component -> HTML: Muestra msj error en el campo
-
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Ingresa nuevo código
-    User -> HTML: Presiona OK
-    note right of Component
-        regresan al paso 3
-    end note
 end
 
 ' --- 2. Error de Frontend (Datos Inválidos) ---
 group Flujo Alterno: Datos inválidos en el form
-    ' Estira la caja
+    ' (Validación previa al envío)
     User -[hidden]-> DB
-
-    ' Empieza directo mostrando errores
     Component -> HTML: muestra errores en los campos
-
-    ' Acción del usuario + Referencia al paso 3
     User -> HTML: Arregla datos
     note right of Component
         regresan al paso 3
     end note
 end
-
 @enduml
