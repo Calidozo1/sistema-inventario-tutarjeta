@@ -1,4 +1,5 @@
 @startuml
+title Diagrama de Secuencia - Táctica 'Redundancy with Voting'
 autonumber
 
 ' --- CONFIGURACIÓN VISUAL ---
@@ -18,110 +19,124 @@ skinparam note {
     BorderColor #D4D433
 }
 
-' --- PARTICIPANTES (LIMPIOS) ---
+' --- PARTICIPANTES ---
 actor "User" as User
-participant "tarjetas-form.\ncomponent.html" as HTML
 participant "tarjetas-form.\ncomponent.ts" as Component
 participant "Tarjeta.service.ts" as FrontService
 
-' === BACKEND ORIGINAL ===
-participant "TarjetaController.java" as Controller
-participant "TarjetaService.java" as BackService
-participant "TarjetaRepository.java" as Repo
-database "Database\nMySQL" as DB
+' === BACKEND ===
+participant "TarjetaController" as Controller
+participant "TarjetaService" as BackService
+
+' === TÁCTICA: VOTING MANAGER Y SUS VOTANTES ===
+participant "FraudVotingManager" as Manager #LightGreen
+participant "Internal\nVoter" as V1
+participant "External\nVoter" as V2
+participant "Heuristic\nVoter" as V3
+
+' === PERSISTENCIA ===
+participant "TarjetaRepository" as Repo
+' CORRECCIÓN: Ahora es un participante (recuadro), no database
+participant "Database\nMySQL" as DB
 
 ' =========================================================
-' === ESCENARIO PRINCIPAL: CAMINO FELIZ (Registro Exitoso) ===
+' === FLUJO PRINCIPAL (REGISTRO EXITOSO) ===
 ' =========================================================
-group Camino Feliz
 
-    ' 1. Frontend
-    User -> HTML: Llena el form
-    User -> HTML: Presiona OK
+' 1. Inicio
+User -> Component: Click Registrar
+Component -> Component: Valida Form
+Component -> FrontService: solicita registrar
+FrontService -> Controller: POST /tarjetas
+Controller -> BackService: Pasa solicitud (DTO)
 
-    note left of Component
-        PASO 3
+' 2. Validación Inicial (BD)
+BackService -> Repo: valida existencia
+Repo -> DB: SELECT count(*)
+DB --> Repo: 0 (No existe)
+Repo --> BackService: OK, continuar
+
+' ---------------------------------------------------------
+' 3. APLICACIÓN DE LA TÁCTICA: VOTACIÓN
+' ---------------------------------------------------------
+BackService -> Manager: executeVoting(dto)
+activate Manager
+
+    note right of Manager
+      **Redundancia Activa:**
+      Consulta 3 fuentes distintas
+      para enmascarar fallos.
     end note
 
-    HTML -> Component: onclick()
-    Component -> Component: valida el form (OK)
-    Component -> FrontService: solicita registrar
+    ' Votante 1: OK
+    Manager -> V1: isSafe(dto)
+    V1 --> Manager: true (Voto +)
 
-    ' 2. Backend (Conexión Directa)
-    FrontService -> Controller: POST /tarjetas
+    ' Votante 2: OK
+    Manager -> V2: isSafe(dto)
+    V2 --> Manager: true (Voto +)
 
-    ' 3. Backend Original
-    Controller -> BackService: Pasa la sol (tarjetaRequestDTO)
+    ' Votante 3: FALLO (Simulado)
+    Manager -> V3: isSafe(dto)
+    V3 --> Manager: false (Voto -)
 
-    BackService -> Repo: valida existencia
-    Repo -> DB: Ejecuta la consulta en BD
-    DB --> Repo: informa que el cod No existe
-    Repo --> BackService: informa que no existe
-
-    BackService -> BackService: Crea nueva tarjeta
-    BackService -> BackService: Asigna estado "disponible"
-
-    BackService -> Repo: ordena guardar
-    Repo -> DB: Registra nueva tarjeta
-    DB --> Repo: Devuelve tarjeta
-    Repo --> BackService: Devuelve tarjeta
-
-    BackService -> BackService: Prepara respuesta\n(tarjetaResponseDTO)
-    BackService --> Controller: Devuelve tarjeta regist.
-
-    ' 4. Retorno
-    Controller --> FrontService: 200 OK
-
-    FrontService --> Component: Recibe confirmación
-    Component -> HTML: Muestra tarjeta registrada
-
-    ' 5. Acción Final Usuario
-    User -> HTML: Presiona OK
-    note right of HTML
-      Regresa a lista
-      tarjetas registradas
+    Manager -> Manager: Calcular: 2 vs 1
+    note right of Manager
+      **Decisión:** APROBADO
+      (La mayoría gana)
     end note
+
+Manager --> BackService: true (Es seguro)
+deactivate Manager
+
+' 4. Continuación del Registro (Solo si la votación pasó)
+BackService -> BackService: Lógica de negocio\n(Crear Entidad)
+
+BackService -> Repo: save(tarjeta)
+Repo -> DB: INSERT INTO...
+DB --> Repo: OK
+Repo --> BackService: Tarjeta Guardada
+
+BackService --> Controller: Retorna DTO Exitoso
+Controller --> FrontService: 200 OK
+FrontService --> Component: Confirmación
+Component -> User: Muestra "Registro Exitoso"
+
+' =========================================================
+' === FLUJOS ALTERNOS (ERRORES) ===
+' =========================================================
+
+' --- 1. Fraude Confirmado (La votación falla) ---
+group Flujo Alterno: Fraude Detectado (Mayoría Negativa)
+    ' Nota: Asumimos que esto ocurre en la fase de votación
+    BackService -> Manager: executeVoting(dto)
+    activate Manager
+
+    Manager -> V1: isSafe() --> false
+    Manager -> V2: isSafe() --> true
+    Manager -> V3: isSafe() --> false
+
+    Manager -> Manager: Calcular: 1 vs 2
+    note right of Manager
+        **Decisión:** RECHAZADO
+        (Posible Fraude)
+    end note
+
+    Manager --> BackService: false
+    deactivate Manager
+
+    BackService --> Controller: Lanza SecurityException
+    Controller --> FrontService: 403 Forbidden
+    FrontService --> Component: Error "Denegado por seguridad"
 end
 
-' =========================================================
-' === FLUJOS ALTERNOS (Errores) ===
-' =========================================================
-
-' --- 1. Error de Negocio Backend ---
-group Flujo Alterno: El código de tarjeta SÍ existe
-    ' Estira la caja
-    User -[hidden]-> DB
-
-    ' Empieza directo en la respuesta de la BD
-    DB --> Repo: informa que el código existe
-    Repo --> BackService: informa que existe
-
-    BackService --> Controller: Lanza error (Excepción)
-    Controller --> FrontService: reporta error al front
-    FrontService --> Component: recibe el error
-    Component -> HTML: Muestra msj error en el campo
-
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Ingresa nuevo código
-    User -> HTML: Presiona OK
-    note right of Component
-        regresan al paso 3
-    end note
-end
-
-' --- 2. Error de Frontend (Datos Inválidos) ---
-group Flujo Alterno: Datos inválidos en el form
-    ' Estira la caja
-    User -[hidden]-> DB
-
-    ' Empieza directo mostrando errores
-    Component -> HTML: muestra errores en los campos
-
-    ' Acción del usuario + Referencia al paso 3
-    User -> HTML: Arregla datos
-    note right of Component
-        regresan al paso 3
-    end note
+' --- 2. Error de Negocio ---
+group Flujo Alterno: Código Duplicado
+    Repo -> DB: SELECT
+    DB --> Repo: 1 (Ya existe)
+    Repo --> BackService: Error: Existe
+    BackService --> Controller: Lanza BusinessException
+    Controller --> FrontService: 400 Bad Request
 end
 
 @enduml
