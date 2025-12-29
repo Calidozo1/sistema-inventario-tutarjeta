@@ -18,6 +18,10 @@ export class IncidenciaService {
     return this.http.get<any[]>(this.baseUrl);
   }
 
+  actualizarIncidencia(id: number, payload: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${id}`, payload);
+  }
+
   consultarIncidencias(tipoIncidencia?: string, fechaDesde?: string, fechaHasta?: string): Observable<Incidencia[]> {
     let params = new HttpParams();
     if (tipoIncidencia) {

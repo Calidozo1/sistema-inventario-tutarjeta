@@ -18,17 +18,38 @@
     <th>Código</th><th>Fecha</th><th>Tipo</th><th>Estado</th>
     <th>Tarjeta</th>
     <th>Cédula</th><th>Usuario</th><th>Registro</th><th>Comentarios</th>
+    <th>Acciones</th>
   </tr>
-  <tr *ngFor="let incidencia of incidencias">
-    <td>{{incidencia.codigoIncidencia}}</td>
-    <td>{{incidencia.fechaIncidencia}}</td>
-    <td>{{incidencia.tipoIncidencia}}</td>
-    <td>{{incidencia.estadoIncidencia}}</td>
-    <td>{{incidencia.tarjeta?.codigoUnico || '-'}}</td>
-    <td>{{incidencia.cedulaCliente}}</td>
-    <td>{{incidencia.usuarioRegistro}}</td>
-    <td>{{incidencia.fechaRegistro}}</td>
-    <td>{{incidencia.comentarios}}</td>
-  </tr>
+  <!-- Envuelve la fila en un ng-container para manejar el formGroup de edición -->
+  <ng-container *ngFor="let incidencia of incidencias">
+    <tr [formGroup]="edicionForm">
+      <td>{{incidencia.codigoIncidencia}}</td>
+      <td>{{incidencia.fechaIncidencia}}</td>
+      <td>{{incidencia.tipoIncidencia}}</td>
+      <td>
+        <ng-container *ngIf="editandoId !== incidencia.id">{{incidencia.estadoIncidencia}}</ng-container>
+        <!-- Usa formControlName en lugar de [formControl] -->
+        <input *ngIf="editandoId === incidencia.id" formControlName="estadoIncidencia" class="edit-input">
+      </td>
+      <td>{{incidencia.tarjeta?.codigoUnico || '-'}}</td>
+      <td>{{incidencia.cedulaCliente}}</td>
+      <td>{{incidencia.usuarioRegistro}}</td>
+      <td>{{incidencia.fechaRegistro}}</td>
+      <td>
+        <ng-container *ngIf="editandoId !== incidencia.id">{{incidencia.comentarios}}</ng-container>
+        <!-- Usa formControlName en lugar de [formControl] -->
+        <textarea *ngIf="editandoId === incidencia.id" formControlName="comentarios" class="edit-input"></textarea>
+      </td>
+      <td>
+        <ng-container *ngIf="editandoId !== incidencia.id">
+          <button (click)="iniciarEdicion(incidencia)" class="btn-edit">Editar</button>
+        </ng-container>
+        <ng-container *ngIf="editandoId === incidencia.id">
+          <button (click)="guardarEdicion(incidencia.id)" class="btn-save">Guardar</button>
+          <button (click)="cancelarEdicion()" class="btn-cancel">Cancelar</button>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-container>
 </table>
 <p *ngIf="incidencias.length === 0">No se encontraron incidencias.</p>

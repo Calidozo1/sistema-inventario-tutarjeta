@@ -16,3 +16,21 @@ th, td {
 th {
   background: #e3e3e3;
 }
+
+.edit-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-edit, .btn-save, .btn-cancel {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-edit { background-color: #2563eb; }
+.btn-save { background-color: #28a745; }
+.btn-cancel { background-color: #dc3545; }
+

@@ -1,6 +1,6 @@
-// java
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.ActualizarIncidenciaDTO;
 import com.tutarjeta.inventario.dto.IncidenciaDTO;
 import com.tutarjeta.inventario.model.Incidencia;
 import com.tutarjeta.inventario.repository.IncidenciaRepository;
@@ -69,5 +69,32 @@ public class IncidenciaService {
 
     public List<Incidencia> listarPorTipo(String tipoIncidencia) {
         return incidenciaRepository.findByTipoIncidencia(tipoIncidencia);
+    }
+
+    public Incidencia actualizarIncidencia(Long id, ActualizarIncidenciaDTO dto, String usuario) {
+        Incidencia incidencia = incidenciaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró la incidencia con ID: " + id));
+
+        // Asumo que tienes una forma de saber el rol del usuario.
+        // Por ahora, simulo que si el usuario es "admin" puede editar todo.
+        boolean esAdmin = "admin".equalsIgnoreCase(usuario);
+
+        if ("Cerrada".equalsIgnoreCase(incidencia.getEstadoIncidencia()) && !esAdmin) {
+            throw new IllegalStateException("La incidencia está cerrada y no se puede modificar.");
+        }
+
+        if (dto.getEstadoIncidencia() != null && !dto.getEstadoIncidencia().isEmpty()) {
+            incidencia.setEstadoIncidencia(dto.getEstadoIncidencia());
+        }
+
+        if (dto.getComentarios() != null) {
+            incidencia.setComentarios(dto.getComentarios());
+        }
+
+        // Opcional: guardar quién y cuándo se modificó
+        // incidencia.setUsuarioModificacion(usuario);
+        // incidencia.setFechaModificacion(LocalDateTime.now());
+
+        return incidenciaRepository.save(incidencia);
     }
 }
