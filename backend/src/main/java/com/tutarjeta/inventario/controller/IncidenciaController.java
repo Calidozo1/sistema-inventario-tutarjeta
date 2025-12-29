@@ -1,4 +1,3 @@
-
 package com.tutarjeta.inventario.controller;
 
 import com.tutarjeta.inventario.dto.ActualizarIncidenciaDTO;
@@ -48,6 +47,26 @@ public class IncidenciaController {
             return ResponseEntity.notFound().build();
         } catch (IllegalStateException e) {
             return ResponseEntity.status(403).build(); // 403 Forbidden
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id, Principal principal) {
+        // Aquí, en un sistema real, verificarías si el usuario tiene rol de "admin"
+        // Por ahora, asumimos que si el principal no es nulo, es un admin.
+        // En una implementación real, esto debería ser más robusto.
+        String usuario = (principal != null) ? principal.getName() : "anonimo";
+        boolean esAdmin = true; // Simulación forzada para permitir la eliminación
+
+        if (!esAdmin) {
+            return ResponseEntity.status(403).build(); // Forbidden
+        }
+
+        try {
+            incidenciaService.eliminarIncidencia(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

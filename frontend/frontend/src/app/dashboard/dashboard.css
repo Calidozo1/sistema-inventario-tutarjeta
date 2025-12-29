@@ -86,6 +86,15 @@ h2 {
   background-color: #be123c !important; /* Rojo oscuro elegante */
   color: #ffffff !important;
   border: 1px solid #9f1239 !important; /* Borde sutil */
+  max-width: 280px;
+  width: 100%; /* Ocupará el máximo de 280px o menos si el contenedor es más pequeño */
+}
+
+/* Contenedor para centrar el botón de logout */
+.logout-container {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
 }
 
 /* --- Ajustes Mobile --- */

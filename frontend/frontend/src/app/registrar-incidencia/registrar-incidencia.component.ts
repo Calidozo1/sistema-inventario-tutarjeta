@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { IncidenciaService } from '../core/services/incidencia.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-incidencia',
@@ -15,7 +16,7 @@ import { IncidenciaService } from '../core/services/incidencia.service';
 export class RegistrarIncidenciaComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService) {
+  constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService, private router: Router) {
     this.form = this.fb.group({
       fechaIncidencia: ['', Validators.required],
       tipoIncidencia: ['', Validators.required],
@@ -36,5 +37,9 @@ export class RegistrarIncidenciaComponent {
     } else {
       alert('Complete los campos obligatorios');
     }
+  }
+
+  volver(): void {
+    this.router.navigate(['/consultar-incidencia']);
   }
 }

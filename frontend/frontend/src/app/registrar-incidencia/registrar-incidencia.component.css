@@ -1,94 +1,87 @@
-/* --- EL FORMULARIO (La Tarjeta Principal) --- */
-form {
-  /* 1. CENTRADO */
-  max-width: 500px;        /* Ancho máximo ideal para lectura */
-  margin: 50px auto;       /* 50px arriba/abajo, AUTO a los lados (Esto lo centra) */
-
-  /* 2. DISEÑO DE TARJETA */
-  background-color: #ffffff;
-  padding: 40px;
-  border-radius: 12px;     /* Bordes redondeados */
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1); /* Sombra de elevación */
-
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  display: block;          /* Asegura comportamiento de bloque */
+.container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* --- Títulos/Labels --- */
-label {
-  display: block;          /* Ocupa su propia línea */
-  margin-top: 20px;        /* Separación del campo anterior */
-  margin-bottom: 8px;      /* Separación de su propio input */
+h2 {
+  margin-bottom: 24px;
+  color: #2c3e50;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
 
-  color: #1e293b;          /* Gris oscuro (Slate) */
+.header-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.btn, button {
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
   font-weight: 600;
-  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: white !important;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
 }
 
-label:first-of-type {
-  margin-top: 0;           /* El primero no necesita margen arriba */
+.btn-secondary {
+  background-color: #6c757d;
 }
 
-/* --- Inputs, Selects y Textarea --- */
-input,
-select,
-textarea {
-  width: 100%;             /* Ocupan todo el ancho de la tarjeta */
-  box-sizing: border-box;  /* El padding no rompe el ancho */
-  padding: 12px 15px;
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
 
-  background-color: #f8fafc; /* Gris muy claro de fondo */
-  border: 2px solid #e2e8f0; /* Borde sutil */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+  color: #37474f;
+}
+
+input[type="date"],
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
 
-  font-size: 1rem;
-  color: #334155;
+input:focus, select:focus, textarea:focus {
   outline: none;
-  transition: all 0.2s ease;
-  font-family: inherit;
+  border-color: #1976d2;
 }
 
-/* Estado Focus (Al escribir) */
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #2563eb;     /* Azul Royal (Tu color de marca) */
-  background-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-}
-
-textarea {
-  min-height: 100px;         /* Altura mínima para comentarios */
-  resize: vertical;
-}
-
-/* --- Mensajes de Error (Los divs debajo de los inputs) --- */
-form div {
-  margin-top: 5px;
-  color: #ef4444;            /* Rojo alerta moderno */
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-/* --- Botón de Registrar --- */
 button[type="submit"] {
   width: 100%;
-  margin-top: 30px;          /* Espacio generoso arriba */
-  padding: 15px;
-
-  background-color: #2563eb !important; /* Azul Royal */
-  color: white !important;
-
+  background-color: #28a745;
+  color: white;
+  padding: 14px 20px;
+  margin-top: 10px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-  transition: transform 0.2s, background-color 0.2s;
+  font-size: 16px;
 }
 
 button[type="submit"]:hover {
-  background-color: #1d4ed8 !important; /* Azul más oscuro */
-  transform: translateY(-2px);
+  background-color: #218838;
 }

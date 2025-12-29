@@ -1,30 +1,39 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <label>Fecha de incidencia:</label>
-  <input type="date" formControlName="fechaIncidencia" required>
-  <div *ngIf="form.get('fechaIncidencia')?.invalid && form.get('fechaIncidencia')?.touched">Campo obligatorio.</div>
+<div class="container">
+  <div class="header-controls">
+    <button type="button" (click)="volver()" class="btn btn-secondary">⬅️ Volver</button>
+  </div>
 
-  <label>Tipo de incidencia:</label>
-  <select formControlName="tipoIncidencia" required>
-    <option value="">Seleccione...</option>
-    <option value="robada">Robada</option>
-    <option value="perdida">Perdida</option>
-    <option value="mal funcionamiento">Mal funcionamiento</option>
-  </select>
-  <div *ngIf="form.get('tipoIncidencia')?.invalid && form.get('tipoIncidencia')?.touched">Campo obligatorio.</div>
+  <h2>Registrar Incidencia</h2>
 
-  <label>Estado incidencia:</label>
-  <input formControlName="estadoIncidencia" required>
-  <div *ngIf="form.get('estadoIncidencia')?.invalid && form.get('estadoIncidencia')?.touched">Campo obligatorio.</div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="fechaIncidencia">Fecha de Incidencia</label>
+    <input id="fechaIncidencia" type="date" formControlName="fechaIncidencia">
 
-  <label>Cédula del cliente:</label>
-  <input formControlName="cedulaCliente" required>
-  <div *ngIf="form.get('cedulaCliente')?.invalid && form.get('cedulaCliente')?.touched">Campo obligatorio.</div>
+    <label for="tipoIncidencia">Tipo de Incidencia</label>
+    <select id="tipoIncidencia" formControlName="tipoIncidencia">
+      <option value="" disabled>Seleccione un tipo</option>
+      <option value="robada">Robada</option>
+      <option value="perdida">Perdida</option>
+      <option value="mal funcionamiento">Mal funcionamiento</option>
+    </select>
 
-  <label>Código de tarjeta :</label>
-  <input formControlName="codigoTarjeta" placeholder="Ej: 1234" />
+    <label for="estadoIncidencia">Estado de la Incidencia</label>
+    <select id="estadoIncidencia" formControlName="estadoIncidencia">
+      <option value="" disabled>Seleccione un estado</option>
+      <option value="abierta">Abierta</option>
+      <option value="en proceso">En proceso</option>
+      <option value="cerrada">Cerrada</option>
+    </select>
 
-  <label>Comentarios:</label>
-  <textarea formControlName="comentarios"></textarea>
+    <label for="cedulaCliente">Cédula del Cliente</label>
+    <input id="cedulaCliente" type="text" formControlName="cedulaCliente">
 
-  <button type="submit">Registrar incidencia</button>
-</form>
+    <label for="codigoTarjeta">Código de Tarjeta (Opcional)</label>
+    <input id="codigoTarjeta" type="text" formControlName="codigoTarjeta">
+
+    <label for="comentarios">Comentarios</label>
+    <textarea id="comentarios" formControlName="comentarios" rows="4"></textarea>
+
+    <button type="submit" [disabled]="form.invalid">Registrar</button>
+  </form>
+</div>

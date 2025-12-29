@@ -22,6 +22,10 @@ export class IncidenciaService {
     return this.http.put<any>(`${this.baseUrl}/${id}`, payload);
   }
 
+  eliminarIncidencia(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+  }
+
   consultarIncidencias(tipoIncidencia?: string, fechaDesde?: string, fechaHasta?: string): Observable<Incidencia[]> {
     let params = new HttpParams();
     if (tipoIncidencia) {

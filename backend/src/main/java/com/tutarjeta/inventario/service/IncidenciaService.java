@@ -97,4 +97,11 @@ public class IncidenciaService {
 
         return incidenciaRepository.save(incidencia);
     }
+
+    public void eliminarIncidencia(Long id) {
+        if (!incidenciaRepository.existsById(id)) {
+            throw new IllegalArgumentException("No se encontró la incidencia con ID: " + id);
+        }
+        incidenciaRepository.deleteById(id);
+    }
 }

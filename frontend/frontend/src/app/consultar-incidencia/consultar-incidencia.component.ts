@@ -3,6 +3,9 @@ import { IncidenciaService } from '../core/services/incidencia.service';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Incidencia } from '../core/models/incidencia.model';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-consultar-incidencia',
@@ -10,7 +13,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './consultar-incidencia.component.html',
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   styleUrls: ['./consultar-incidencia.component.css']
 })
@@ -19,8 +23,10 @@ export class ConsultarIncidenciaComponent implements OnInit {
   filtrosForm: FormGroup;
   edicionForm: FormGroup;
   editandoId: number | null = null;
+  canManageIncidencias: boolean = true;
+  esAdmin: boolean = true; // Simula el rol de administrador
 
-  constructor(private incidenciaService: IncidenciaService, private fb: FormBuilder) {
+  constructor(private incidenciaService: IncidenciaService, private fb: FormBuilder, private router: Router) {
     this.filtrosForm = this.fb.group({
       tipoIncidencia: [''],
       fechaDesde: [''],
@@ -35,6 +41,14 @@ export class ConsultarIncidenciaComponent implements OnInit {
 
   ngOnInit() {
     this.listarIncidencias();
+  }
+
+  registrarIncidencia(): void {
+    this.router.navigate(['/registrar-incidencia']);
+  }
+
+  volverAlDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 
   listarIncidencias() {
@@ -80,5 +94,19 @@ export class ConsultarIncidenciaComponent implements OnInit {
         }
       }
     });
+  }
+
+  eliminarIncidencia(id: number): void {
+    if (confirm('¿Está seguro de que desea eliminar esta incidencia?')) {
+      this.incidenciaService.eliminarIncidencia(id).subscribe({
+        next: () => {
+          this.incidencias = this.incidencias.filter(i => i.id !== id);
+          alert('Incidencia eliminada correctamente.');
+        },
+        error: (err) => {
+          alert('Error al eliminar la incidencia.');
+        }
+      });
+    }
   }
 }
