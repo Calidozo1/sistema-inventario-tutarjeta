@@ -58,7 +58,7 @@
         <td mat-cell *matCellDef="let venta">
           <ng-container *ngIf="editandoId !== venta.id">
             <button (click)="iniciarEdicion(venta)" class="btn-edit">✏️</button>
-            <button (click)="eliminarVenta(venta.id)" class="btn-delete">🗑️</button>
+            <button *ngIf="esAdmin" (click)="eliminarVenta(venta.id)" class="btn-delete">🗑️</button>
           </ng-container>
           <ng-container *ngIf="editandoId === venta.id">
             <button (click)="guardarEdicion(venta.id)" class="btn-save">💾</button>

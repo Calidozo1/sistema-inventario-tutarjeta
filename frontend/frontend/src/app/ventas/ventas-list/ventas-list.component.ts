@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { VentaService } from '../../core/services/venta.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Venta } from '../../core/models/venta.model';
 
 @Component({
@@ -34,9 +35,11 @@ export class VentasListComponent implements OnInit {
 
   edicionForm: FormGroup;
   editandoId: number | null = null;
+  esAdmin: boolean = false;
 
   constructor(
     private ventaService: VentaService,
+    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -48,6 +51,7 @@ export class VentasListComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarVentas();
+    this.authService.isAdmin$().subscribe(isAdmin => this.esAdmin = isAdmin);
   }
 
   cargarVentas(): void {

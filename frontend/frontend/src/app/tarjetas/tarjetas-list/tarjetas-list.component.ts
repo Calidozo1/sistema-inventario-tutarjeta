@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 // ⭐ SERVICIOS Y MODELOS
 import { TarjetaService } from '../../core/services/tarjeta.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Tarjeta } from '../../core/models/tarjeta.model';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -40,9 +41,11 @@ export class TarjetasListComponent implements OnInit {
 
   edicionForm: FormGroup;
   editandoId: number | null = null;
+  esAdmin: boolean = false;
 
   constructor(
     private tarjetaService: TarjetaService,
+    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -54,6 +57,7 @@ export class TarjetasListComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarTarjetas();
+    this.authService.isAdmin$().subscribe(isAdmin => this.esAdmin = isAdmin);
   }
 
   cargarTarjetas(): void {

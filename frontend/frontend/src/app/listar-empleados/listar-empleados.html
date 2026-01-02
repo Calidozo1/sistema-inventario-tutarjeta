@@ -50,14 +50,17 @@
         </td>
         <td>{{ e.fechaCreacion | date:'shortDate' }}</td>
         <td>
-          <ng-container *ngIf="editandoId !== e.id">
-            <button (click)="iniciarEdicion(e)" class="btn-edit">✏️</button>
-            <button (click)="eliminarEmpleado(e.id)" class="btn-delete">🗑️</button>
+          <ng-container *ngIf="esAdmin">
+            <ng-container *ngIf="editandoId !== e.id">
+              <button (click)="iniciarEdicion(e)" class="btn-edit">✏️</button>
+              <button (click)="eliminarEmpleado(e.id)" class="btn-delete">🗑️</button>
+            </ng-container>
+            <ng-container *ngIf="editandoId === e.id">
+              <button (click)="guardarEdicion(e.id)" class="btn-save">💾</button>
+              <button (click)="cancelarEdicion()" class="btn-cancel">❌</button>
+            </ng-container>
           </ng-container>
-          <ng-container *ngIf="editandoId === e.id">
-            <button (click)="guardarEdicion(e.id)" class="btn-save">💾</button>
-            <button (click)="cancelarEdicion()" class="btn-cancel">❌</button>
-          </ng-container>
+          <span *ngIf="!esAdmin" class="text-muted">Solo lectura</span>
         </td>
       </tr>
     </tbody>

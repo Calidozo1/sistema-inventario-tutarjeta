@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmpleadoService } from '../core/services/empleado.service';
+import { AuthService } from '../core/services/auth.service';
 import { Empleado } from '../core/models/empleado.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -14,12 +15,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class ListarEmpleados implements OnInit {
   empleados: Empleado[] = [];
   errorMsg = '';
+  esAdmin: boolean = false;
 
   edicionForm: FormGroup;
   editandoId: number | null = null;
 
   constructor(
     private empleadoService: EmpleadoService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {
     this.edicionForm = this.fb.group({
@@ -34,6 +37,7 @@ export class ListarEmpleados implements OnInit {
 
   ngOnInit() {
     this.cargarEmpleados();
+    this.authService.isAdmin$().subscribe(isAdmin => this.esAdmin = isAdmin);
   }
 
   cargarEmpleados() {

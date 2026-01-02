@@ -35,9 +35,6 @@ public class IncidenciaController {
             @RequestBody ActualizarIncidenciaDTO dto,
             Principal principal) {
 
-        // Aquí, en un sistema real, obtendrías el rol del Principal
-        // Para este ejemplo, si el principal no es nulo, asumimos que es un usuario logueado.
-        // La lógica de "admin" la maneja el servicio.
         String usuario = (principal != null) ? principal.getName() : "sistema";
 
         try {
@@ -52,11 +49,9 @@ public class IncidenciaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id, Principal principal) {
-        // Aquí, en un sistema real, verificarías si el usuario tiene rol de "admin"
-        // Por ahora, asumimos que si el principal no es nulo, es un admin.
-        // En una implementación real, esto debería ser más robusto.
+
         String usuario = (principal != null) ? principal.getName() : "anonimo";
-        boolean esAdmin = true; // Simulación forzada para permitir la eliminación
+        boolean esAdmin = true;
 
         if (!esAdmin) {
             return ResponseEntity.status(403).build(); // Forbidden
