@@ -1,7 +1,8 @@
 <div class="mi-perfil" *ngIf="perfil">
   <a class="back-arrow" routerLink="/dashboard">←</a>
   <h2>Mi perfil</h2>
-  <div class="perfil-info">
+
+  <div *ngIf="!editando" class="perfil-info">
     <div class="info-item">
       <strong>Nombre:</strong> {{ perfil.nombre }}
     </div>
@@ -9,19 +10,45 @@
       <strong>Cédula:</strong> {{ perfil.cedula }}
     </div>
     <div class="info-item">
+      <strong>Teléfono:</strong> {{ perfil.telefono || 'No registrado' }}
+    </div>
+    <div class="info-item">
       <strong>Correo:</strong> {{ perfil.correo }}
     </div>
     <div class="info-item">
       <strong>Rol:</strong> {{ perfil.rol === 'usuario' ? 'Empleado' : perfil.rol }}
-
     </div>
     <div class="info-item" *ngIf="perfil.fechaCreacion">
       <strong>Fecha de creación:</strong> {{ perfil.fechaCreacion | date:'medium' }}
     </div>
+
+    <div class="actions">
+      <button class="btn-edit" (click)="iniciarEdicion()">Editar Perfil</button>
+      <button class="volver-btn" routerLink="/dashboard">Volver</button>
+    </div>
   </div>
 
-  <button class="volver-btn" routerLink="/dashboard">
-    Volver
-  </button>
+  <form *ngIf="editando" [formGroup]="edicionForm" (ngSubmit)="guardarEdicion()" class="edit-form">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text" formControlName="nombre">
+    </div>
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" formControlName="telefono">
+    </div>
+    <div class="form-group">
+      <label>Correo:</label>
+      <input type="email" formControlName="correo">
+    </div>
+    <div class="form-group">
+      <label>Nueva Contraseña (opcional):</label>
+      <input type="password" formControlName="contrasena" placeholder="Dejar en blanco para no cambiar">
+    </div>
 
+    <div class="actions">
+      <button type="submit" class="btn-save">Guardar Cambios</button>
+      <button type="button" class="btn-cancel" (click)="cancelarEdicion()">Cancelar</button>
+    </div>
+  </form>
 </div>

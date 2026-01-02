@@ -12,3 +12,29 @@ th, td { border: 1px solid #ddd; padding: 8px; }
   text-decoration: none;
   color: #444;
 }
+
+.btn-edit, .btn-save {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-delete, .btn-cancel {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

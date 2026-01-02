@@ -29,15 +29,44 @@
 
       <ng-container matColumnDef="tipoTarjeta">
         <th mat-header-cell *matHeaderCellDef>Tipo</th>
-        <td mat-cell *matCellDef="let tarjeta">{{tarjeta.tipoTarjeta}}</td>
+        <td mat-cell *matCellDef="let tarjeta">
+          <ng-container *ngIf="editandoId !== tarjeta.id">{{tarjeta.tipoTarjeta}}</ng-container>
+          <div *ngIf="editandoId === tarjeta.id" [formGroup]="edicionForm">
+            <input formControlName="tipoTarjeta" class="edit-input">
+          </div>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef>Estado</th>
         <td mat-cell *matCellDef="let tarjeta">
-          <span [ngClass]="'badge estado-' + tarjeta.estado.toLowerCase()">
-            {{tarjeta.estado}}
-          </span>
+          <ng-container *ngIf="editandoId !== tarjeta.id">
+            <span [ngClass]="'badge estado-' + tarjeta.estado.toLowerCase()">
+              {{tarjeta.estado}}
+            </span>
+          </ng-container>
+          <div *ngIf="editandoId === tarjeta.id" [formGroup]="edicionForm">
+            <select formControlName="estado" class="edit-input">
+              <option value="Disponible">Disponible</option>
+              <option value="Asignada">Asignada</option>
+              <option value="Vendida">Vendida</option>
+              <option value="Dañada">Dañada</option>
+            </select>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let tarjeta">
+          <ng-container *ngIf="editandoId !== tarjeta.id">
+            <button (click)="iniciarEdicion(tarjeta)" class="btn-edit">✏️</button>
+            <button (click)="eliminarTarjeta(tarjeta.id)" class="btn-delete">🗑️</button>
+          </ng-container>
+          <ng-container *ngIf="editandoId === tarjeta.id">
+            <button (click)="guardarEdicion(tarjeta.id)" class="btn-save">💾</button>
+            <button (click)="cancelarEdicion()" class="btn-cancel">❌</button>
+          </ng-container>
         </td>
       </ng-container>
 

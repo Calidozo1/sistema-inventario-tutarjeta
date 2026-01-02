@@ -1,6 +1,6 @@
-
 package com.tutarjeta.inventario.controller;
 
+import com.tutarjeta.inventario.dto.ActualizarEmpleadoDTO;
 import com.tutarjeta.inventario.dto.EmpleadoDTO;
 import com.tutarjeta.inventario.dto.EmpleadoRegistroDTO;
 import com.tutarjeta.inventario.service.EmpleadoService;
@@ -57,5 +57,28 @@ public class EmpleadoController {
         List<EmpleadoDTO> lista = empleadoService.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
-}
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarEmpleado(@PathVariable Long id, @RequestBody ActualizarEmpleadoDTO dto) {
+        try {
+            EmpleadoDTO actualizado = empleadoService.actualizarEmpleado(id, dto);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarEmpleado(@PathVariable Long id) {
+        try {
+            empleadoService.eliminarEmpleado(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.controller;
 
+import com.tutarjeta.inventario.dto.ActualizarTarjetaDTO;
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
 import com.tutarjeta.inventario.service.TarjetaService;
@@ -60,5 +61,25 @@ public class TarjetaController {
     @GetMapping("/asignadas")
     public ResponseEntity<List<TarjetaResponseDTO>> obtenerTarjetasAsignadas() {
         return ResponseEntity.ok(tarjetaService.obtenerTarjetasAsignadas());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarTarjeta(@PathVariable Long id, @RequestBody ActualizarTarjetaDTO dto) {
+        try {
+            TarjetaResponseDTO actualizada = tarjetaService.actualizarTarjeta(id, dto);
+            return ResponseEntity.ok(actualizada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarTarjeta(@PathVariable Long id) {
+        try {
+            tarjetaService.eliminarTarjeta(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

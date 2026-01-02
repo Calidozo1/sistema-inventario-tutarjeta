@@ -1,6 +1,6 @@
-// ...existing code...
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.ActualizarEmpleadoDTO;
 import com.tutarjeta.inventario.dto.EmpleadoDTO;
 import com.tutarjeta.inventario.dto.EmpleadoRegistroDTO;
 import com.tutarjeta.inventario.model.Empleado;
@@ -60,5 +60,33 @@ public class EmpleadoService {
         List<Empleado> lista = empleadoRepository.findAll();
         return lista.stream().map(this::convertirADTO).collect(Collectors.toList());
     }
-}
 
+    @Transactional
+    public EmpleadoDTO actualizarEmpleado(Long id, ActualizarEmpleadoDTO dto) throws Exception {
+        Empleado empleado = empleadoRepository.findById(id)
+                .orElseThrow(() -> new Exception("Empleado no encontrado con ID: " + id));
+
+        if (dto.getNombre() != null) empleado.setNombre(dto.getNombre());
+        if (dto.getApellido() != null) empleado.setApellido(dto.getApellido());
+        if (dto.getTelefono() != null) empleado.setTelefono(dto.getTelefono());
+        if (dto.getDireccion() != null) empleado.setDireccion(dto.getDireccion());
+        if (dto.getRol() != null) empleado.setRol(dto.getRol());
+        if (dto.getCorreo() != null && !dto.getCorreo().isEmpty()) {
+            if (!empleado.getCorreo().equals(dto.getCorreo()) && empleadoRepository.existsByCorreo(dto.getCorreo())) {
+                throw new Exception("El correo ya está en uso por otro empleado");
+            }
+            empleado.setCorreo(dto.getCorreo());
+        }
+
+        Empleado actualizado = empleadoRepository.save(empleado);
+        return convertirADTO(actualizado);
+    }
+
+    @Transactional
+    public void eliminarEmpleado(Long id) throws Exception {
+        if (!empleadoRepository.existsById(id)) {
+            throw new Exception("Empleado no encontrado con ID: " + id);
+        }
+        empleadoRepository.deleteById(id);
+    }
+}

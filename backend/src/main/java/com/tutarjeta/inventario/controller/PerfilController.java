@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.controller;
 
+import com.tutarjeta.inventario.dto.ActualizarPerfilDTO;
 import com.tutarjeta.inventario.model.Perfil;
 import com.tutarjeta.inventario.service.PerfilService;
 import com.tutarjeta.inventario.dto.PerfilDTO;
@@ -63,4 +64,27 @@ public class PerfilController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarPerfil(@PathVariable Long id, @RequestBody ActualizarPerfilDTO dto) {
+        try {
+            PerfilDTO actualizado = perfilService.actualizarPerfil(id, dto);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarPerfil(@PathVariable Long id) {
+        try {
+            perfilService.eliminarPerfil(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+    }
 }

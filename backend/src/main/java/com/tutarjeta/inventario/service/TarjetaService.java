@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.ActualizarTarjetaDTO;
 import com.tutarjeta.inventario.dto.TarjetaRequestDTO;
 import com.tutarjeta.inventario.dto.TarjetaResponseDTO;
 import com.tutarjeta.inventario.model.Tarjeta;
@@ -62,6 +63,29 @@ public class TarjetaService {
                 .stream()
                 .map(this::convertirAResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    public TarjetaResponseDTO actualizarTarjeta(Long id, ActualizarTarjetaDTO dto) {
+        Tarjeta tarjeta = tarjetaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tarjeta no encontrada con ID: " + id));
+
+        if (dto.getTipoTarjeta() != null && !dto.getTipoTarjeta().isEmpty()) {
+            tarjeta.setTipoTarjeta(dto.getTipoTarjeta());
+        }
+        if (dto.getEstado() != null && !dto.getEstado().isEmpty()) {
+            tarjeta.setEstado(dto.getEstado());
+        }
+
+        Tarjeta actualizada = tarjetaRepository.save(tarjeta);
+        return convertirAResponseDTO(actualizada);
+    }
+
+    public void eliminarTarjeta(Long id) {
+        if (!tarjetaRepository.existsById(id)) {
+            throw new RuntimeException("Tarjeta no encontrada con ID: " + id);
+        }
+        // Podríamos agregar validación si la tarjeta ya fue vendida o tiene incidencias
+        tarjetaRepository.deleteById(id);
     }
 
     // Convertir entidad a DTO

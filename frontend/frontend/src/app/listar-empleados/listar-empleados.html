@@ -14,19 +14,51 @@
         <th>Dirección</th>
         <th>Rol</th>
         <th>Fecha creación</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let e of empleados">
+      <tr *ngFor="let e of empleados" [formGroup]="edicionForm">
         <td>{{ e.id }}</td>
-        <td>{{ e.nombre }}</td>
-        <td>{{ e.apellido }}</td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.nombre }}</ng-container>
+          <input *ngIf="editandoId === e.id" formControlName="nombre" class="edit-input">
+        </td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.apellido }}</ng-container>
+          <input *ngIf="editandoId === e.id" formControlName="apellido" class="edit-input">
+        </td>
         <td>{{ e.cedula }}</td>
-        <td>{{ e.correo }}</td>
-        <td>{{ e.telefono }}</td>
-        <td>{{ e.direccion }}</td>
-        <td>{{ e.rol }}</td>
-        <td>{{ e.fechaCreacion }}</td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.correo }}</ng-container>
+          <input *ngIf="editandoId === e.id" formControlName="correo" class="edit-input">
+        </td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.telefono }}</ng-container>
+          <input *ngIf="editandoId === e.id" formControlName="telefono" class="edit-input">
+        </td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.direccion }}</ng-container>
+          <input *ngIf="editandoId === e.id" formControlName="direccion" class="edit-input">
+        </td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">{{ e.rol }}</ng-container>
+          <select *ngIf="editandoId === e.id" formControlName="rol" class="edit-input">
+            <option value="Administrador">Administrador</option>
+            <option value="Empleado">Empleado</option>
+          </select>
+        </td>
+        <td>{{ e.fechaCreacion | date:'shortDate' }}</td>
+        <td>
+          <ng-container *ngIf="editandoId !== e.id">
+            <button (click)="iniciarEdicion(e)" class="btn-edit">✏️</button>
+            <button (click)="eliminarEmpleado(e.id)" class="btn-delete">🗑️</button>
+          </ng-container>
+          <ng-container *ngIf="editandoId === e.id">
+            <button (click)="guardarEdicion(e.id)" class="btn-save">💾</button>
+            <button (click)="cancelarEdicion()" class="btn-cancel">❌</button>
+          </ng-container>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.ActualizarPerfilDTO;
 import com.tutarjeta.inventario.dto.PerfilDTO;
 import com.tutarjeta.inventario.dto.PerfilRegistroDTO;
 import com.tutarjeta.inventario.model.Perfil;
@@ -57,6 +58,40 @@ public class PerfilService {
         Perfil perfil = perfilRepository.findByCedula(cedula)
                 .orElseThrow(() -> new Exception("No se encontró un perfil con la cédula: " + cedula));
         return convertirADTO(perfil);
+    }
+
+    @Transactional
+    public PerfilDTO actualizarPerfil(Long id, ActualizarPerfilDTO dto) throws Exception {
+        Perfil perfil = perfilRepository.findById(id)
+                .orElseThrow(() -> new Exception("Perfil no encontrado con ID: " + id));
+
+        if (dto.getNombre() != null && !dto.getNombre().isEmpty()) {
+            perfil.setNombre(dto.getNombre());
+        }
+        if (dto.getTelefono() != null) {
+            perfil.setTelefono(dto.getTelefono());
+        }
+        if (dto.getCorreo() != null && !dto.getCorreo().isEmpty()) {
+            // Verificar si el correo cambió y si ya existe otro usuario con ese correo
+            if (!perfil.getCorreo().equals(dto.getCorreo()) && perfilRepository.existsByCorreo(dto.getCorreo())) {
+                throw new Exception("El correo ya está en uso por otro perfil");
+            }
+            perfil.setCorreo(dto.getCorreo());
+        }
+        if (dto.getContrasena() != null && !dto.getContrasena().isEmpty()) {
+            perfil.setContrasena(dto.getContrasena());
+        }
+
+        Perfil actualizado = perfilRepository.save(perfil);
+        return convertirADTO(actualizado);
+    }
+
+    @Transactional
+    public void eliminarPerfil(Long id) throws Exception {
+        if (!perfilRepository.existsById(id)) {
+            throw new Exception("Perfil no encontrado con ID: " + id);
+        }
+        perfilRepository.deleteById(id);
     }
 
     private PerfilDTO convertirADTO(Perfil perfil) {

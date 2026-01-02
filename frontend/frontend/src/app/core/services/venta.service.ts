@@ -41,4 +41,12 @@ export class VentaService {
 
     return this.http.get<Venta[]>(`${this.apiUrl}/filtrar`, { params });
   }
+
+  actualizarVenta(id: number, venta: any): Observable<Venta> {
+    return this.http.put<Venta>(`${this.apiUrl}/${id}`, venta);
+  }
+
+  eliminarVenta(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

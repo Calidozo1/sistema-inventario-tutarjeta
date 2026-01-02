@@ -1,5 +1,5 @@
 export interface Venta {
-  id?: number;
+  id: number;
   nombreCliente: string;
   codigoTarjeta: string;
   nombreEmpleado: string;

@@ -8,6 +8,8 @@ import { PerfilService } from './perfil.service';
 })
 export class AuthService {
   private cedulaSubject = new BehaviorSubject<string | null>(null);
+  // Agregamos un BehaviorSubject para el perfil completo para poder actualizarlo localmente
+  private perfilSubject = new BehaviorSubject<any | null>(null);
 
   constructor(private perfilService: PerfilService) {}
 
@@ -17,6 +19,7 @@ export class AuthService {
 
   clear() {
     this.cedulaSubject.next(null);
+    this.perfilSubject.next(null);
   }
 
   getCedula(): string | null {
@@ -28,13 +31,24 @@ export class AuthService {
     return this.cedulaSubject.pipe(
       switchMap(cedula => {
         if (!cedula) {
+          this.perfilSubject.next(null);
           return of(null);
         }
+        // Si ya tenemos el perfil cargado y coincide con la cédula, podríamos retornarlo,
+        // pero por simplicidad y para asegurar datos frescos, consultamos de nuevo.
         return this.perfilService.consultarPerfilPorCedula(cedula).pipe(
           catchError(() => of(null))
         );
       })
     );
   }
-}
 
+  // Método para actualizar el perfil localmente sin recargar desde el backend
+  actualizarPerfilLocal(perfilActualizado: any) {
+    // Esto es útil si quisiéramos mantener un estado global del perfil,
+    // pero dado que perfil$() se basa en cedulaSubject y hace switchMap,
+    // la actualización local aquí es más simbólica a menos que cambiemos la estrategia.
+    // Para cumplir con el error TS, implementamos el método.
+    this.perfilSubject.next(perfilActualizado);
+  }
+}

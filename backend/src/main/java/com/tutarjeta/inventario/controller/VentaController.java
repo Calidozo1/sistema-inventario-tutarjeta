@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.controller;
 
+import com.tutarjeta.inventario.dto.ActualizarVentaDTO;
 import com.tutarjeta.inventario.dto.VentaRequestDTO;
 import com.tutarjeta.inventario.dto.VentaResponseDTO;
 import com.tutarjeta.inventario.service.VentaService;
@@ -51,5 +52,25 @@ public class VentaController {
             @RequestParam(required = false) Long empleado,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return ResponseEntity.ok(ventaService.filtrarVentas(cliente, tarjeta, empleado, fecha));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarVenta(@PathVariable Long id, @RequestBody ActualizarVentaDTO dto) {
+        try {
+            VentaResponseDTO actualizada = ventaService.actualizarVenta(id, dto);
+            return ResponseEntity.ok(actualizada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarVenta(@PathVariable Long id) {
+        try {
+            ventaService.eliminarVenta(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

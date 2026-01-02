@@ -1,6 +1,5 @@
-// ...existing code...
 export interface Empleado {
-  id?: string;
+  id: number;
   nombre: string;
   apellido: string;
   cedula: string;
@@ -20,4 +19,3 @@ export interface EmpleadoRegistro {
   correo: string;
   rol: string;
 }
-

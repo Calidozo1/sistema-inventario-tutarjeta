@@ -1,4 +1,3 @@
-// ...existing code...
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,5 +21,13 @@ export class EmpleadoService {
 
   obtenerTodos(): Observable<Empleado[]> {
     return this.http.get<Empleado[]>(`${this.apiUrl}/`);
+  }
+
+  actualizarEmpleado(id: number, empleado: any): Observable<Empleado> {
+    return this.http.put<Empleado>(`${this.apiUrl}/${id}`, empleado);
+  }
+
+  eliminarEmpleado(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

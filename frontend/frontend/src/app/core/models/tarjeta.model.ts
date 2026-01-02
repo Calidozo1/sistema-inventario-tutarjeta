@@ -1,5 +1,5 @@
 export interface Tarjeta {
-  id?: number;
+  id: number;
   codigoUnico: string;
   tipoTarjeta: string;
   estado: string;

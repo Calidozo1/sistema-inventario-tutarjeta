@@ -1,5 +1,6 @@
 package com.tutarjeta.inventario.service;
 
+import com.tutarjeta.inventario.dto.ActualizarVentaDTO;
 import com.tutarjeta.inventario.dto.VentaRequestDTO;
 import com.tutarjeta.inventario.dto.VentaResponseDTO;
 import com.tutarjeta.inventario.model.Perfil;
@@ -82,6 +83,39 @@ public class VentaService {
                 .stream()
                 .map(this::convertirAResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public VentaResponseDTO actualizarVenta(Long id, ActualizarVentaDTO dto) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+
+        if (dto.getNombreCliente() != null && !dto.getNombreCliente().isEmpty()) {
+            venta.setNombreCliente(dto.getNombreCliente());
+        }
+        if (dto.getFechaVenta() != null) {
+            venta.setFechaVenta(dto.getFechaVenta());
+        }
+
+        Venta actualizada = ventaRepository.save(venta);
+        return convertirAResponseDTO(actualizada);
+    }
+
+    @Transactional
+    public void eliminarVenta(Long id) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+
+        // Al eliminar la venta, la tarjeta debería volver a estar disponible o asignada?
+        // Asumiremos que vuelve a "Asignada" para ser vendida de nuevo, o "Disponible".
+        // Por seguridad, la pondremos en "Asignada" si estaba vendida.
+        Tarjeta tarjeta = venta.getTarjeta();
+        if ("Vendida".equalsIgnoreCase(tarjeta.getEstado())) {
+            tarjeta.setEstado("Asignada");
+            tarjetaRepository.save(tarjeta);
+        }
+
+        ventaRepository.delete(venta);
     }
 
     // Convertir entidad a DTO

@@ -31,6 +31,16 @@ export class PerfilService {
     return this.http.get<Perfil[]>(`${this.apiUrl}/`);
   }
 
+  actualizarPerfil(id: number, perfil: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, perfil)
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarPerfil(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any, caught?: any): Observable<never> {
     let errorMessage = 'Ha ocurrido un error desconocido';
     if (error.error instanceof ErrorEvent) {

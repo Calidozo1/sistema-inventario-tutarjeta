@@ -7,6 +7,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: left;
   font-family: 'Poppins', sans-serif;
+  position: relative;
 }
 
 .mi-perfil h2 {
@@ -54,9 +55,10 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 15px;
+  margin-top: 20px;
 }
 
-.actions button {
+.btn-edit, .btn-save {
   background: #3498db;
   color: white;
   border: none;
@@ -67,8 +69,24 @@
   font-size: 15px;
 }
 
-.actions button:hover {
+.btn-edit:hover, .btn-save:hover {
   background: #1d6fa5;
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+}
+
+.btn-cancel:hover {
+  background: #c0392b;
   transform: translateY(-1px);
 }
 
@@ -79,7 +97,7 @@
   background: linear-gradient(135deg, #5dade2, #2e86c1);
   color: #fff;
   border: none;
-  padding: 12px 22px;
+  padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 15px;
@@ -94,7 +112,32 @@
   box-shadow: 0 6px 14px rgba(46, 134, 193, 0.4);
 }
 
-.volver-btn .icon {
-  font-size: 18px;
+.edit-form {
+  background: #f8f9fb;
+  padding: 20px;
+  border-radius: 12px;
 }
 
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  border-color: #3498db;
+  outline: none;
+}

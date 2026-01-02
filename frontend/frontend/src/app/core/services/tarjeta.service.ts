@@ -45,4 +45,12 @@ export class TarjetaService {
     // El backend guarda el estado como "Disponible" (capital D en español)
     return this.filtrarTarjetas({ estado: 'Disponible' });
   }
+
+  actualizarTarjeta(id: number, tarjeta: any): Observable<Tarjeta> {
+    return this.http.put<Tarjeta>(`${this.apiUrl}/${id}`, tarjeta);
+  }
+
+  eliminarTarjeta(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
