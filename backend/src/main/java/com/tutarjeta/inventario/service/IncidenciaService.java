@@ -57,6 +57,10 @@ public class IncidenciaService {
         if (dto.codigoTarjeta != null && !dto.codigoTarjeta.trim().isEmpty()) {
             var tarjeta = tarjetaRepository.findByCodigoUnico(dto.codigoTarjeta.trim());
             incidencia.setTarjeta(tarjeta);
+        }        // Si se proporcionó codigoTarjeta, recuperar la tarjeta y asignarla
+        if (dto.codigoTarjeta != null && !dto.codigoTarjeta.trim().isEmpty()) {
+            var tarjeta = tarjetaRepository.findByCodigoUnico(dto.codigoTarjeta.trim());
+            incidencia.setTarjeta(tarjeta);
         }
         incidencia.setUsuarioRegistro(usuario);
         incidencia.setFechaRegistro(LocalDateTime.now());
